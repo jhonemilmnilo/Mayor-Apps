@@ -9,7 +9,7 @@ import '../providers/dashboard_provider.dart';
 import '../widgets/metric_cards_grid.dart';
 import '../widgets/territorial_gis_map_card.dart';
 import '../widgets/collections_ledger_card.dart';
-import '../widgets/service_demand_card.dart';
+import '../widgets/daily_request_card.dart';
 import '../widgets/demographic_census_card.dart';
 import '../widgets/civic_reports_card.dart';
 import '../widgets/projects_infrastructure_card.dart';
@@ -234,8 +234,11 @@ class MayorDashboardScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 14),
 
-                // 2. Service Demand & Clearances Card
-                ServiceDemandCard(transactions: data.transactions),
+                // 2. Daily Service Requests Card (100% Web Parity)
+                DailyRequestCard(
+                  transactions: data.transactions,
+                  recentTransactions: data.recentTransactions,
+                ),
                 const SizedBox(height: 14),
 
                 // 3. Demographic Census & Population Growth Card

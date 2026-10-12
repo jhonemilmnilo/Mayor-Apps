@@ -69,13 +69,38 @@ class RevenueAnalytics {
 class TransactionChartPoint {
   final String date;
   final int total;
+  final int requests;
+  final int evaluation;
+  final int processing;
+  final int released;
+  final int rejected;
+  final Map<String, int> categories;
 
-  TransactionChartPoint({required this.date, required this.total});
+  TransactionChartPoint({
+    required this.date,
+    required this.total,
+    this.requests = 0,
+    this.evaluation = 0,
+    this.processing = 0,
+    this.released = 0,
+    this.rejected = 0,
+    this.categories = const {},
+  });
 
   factory TransactionChartPoint.fromJson(Map<String, dynamic> json) {
+    final rawCats = json['categories'] as Map<String, dynamic>? ?? {};
+    final catMap = rawCats.map((k, v) => MapEntry(k, (v as num).toInt()));
+    final tot = json['total'] ?? json['requests'] ?? 0;
+
     return TransactionChartPoint(
       date: json['date'] ?? '',
-      total: json['total'] ?? 0,
+      total: tot,
+      requests: json['requests'] ?? tot,
+      evaluation: json['evaluation'] ?? 0,
+      processing: json['processing'] ?? 0,
+      released: json['released'] ?? 0,
+      rejected: json['rejected'] ?? 0,
+      categories: catMap,
     );
   }
 }
