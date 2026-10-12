@@ -1,4 +1,4 @@
-﻿import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../core/api/api_constants.dart';
@@ -17,11 +17,13 @@ final mayorDashboardProvider = FutureProvider.autoDispose<MayorDashboardData>((r
   final apiClient = ref.watch(apiClientProvider);
   final barangay = ref.watch(selectedBarangayProvider);
 
+  final queryParams = <String, dynamic>{
+    if (barangay.isNotEmpty) "barangay": barangay,
+  };
+
   final response = await apiClient.dio.get(
     AppConstants.dashboardEndpoint,
-    queryParameters: {
-      if (barangay.isNotEmpty) "barangay": barangay,
-    },
+    queryParameters: queryParams,
   );
 
   if (response.data["success"] == true) {

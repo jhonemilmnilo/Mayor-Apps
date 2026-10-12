@@ -26,13 +26,27 @@ class MetricCounts {
 class RevenueChartPoint {
   final String date;
   final double total;
+  final Map<String, double> categories;
 
-  RevenueChartPoint({required this.date, required this.total});
+  RevenueChartPoint({
+    required this.date,
+    required this.total,
+    this.categories = const {},
+  });
 
   factory RevenueChartPoint.fromJson(Map<String, dynamic> json) {
+    final rawCats = json['categories'] as Map<String, dynamic>? ?? {};
+    final parsedCats = <String, double>{};
+    rawCats.forEach((k, v) {
+      if (v is num) {
+        parsedCats[k] = v.toDouble();
+      }
+    });
+
     return RevenueChartPoint(
       date: json['date'] ?? '',
       total: (json['total'] as num?)?.toDouble() ?? 0.0,
+      categories: parsedCats,
     );
   }
 }
