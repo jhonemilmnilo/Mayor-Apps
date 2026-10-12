@@ -8,7 +8,10 @@ import '../../auth/screens/login_screen.dart';
 import '../providers/dashboard_provider.dart';
 import '../widgets/metric_cards_grid.dart';
 import '../widgets/territorial_gis_map_card.dart';
-import '../widgets/intelligence_fiscal_section.dart';
+import '../widgets/collections_ledger_card.dart';
+import '../widgets/service_demand_card.dart';
+import '../widgets/demographic_census_card.dart';
+import '../widgets/civic_reports_card.dart';
 import '../widgets/projects_infrastructure_card.dart';
 import '../widgets/community_feeds_card.dart';
 import '../widgets/barangay_search_modal.dart';
@@ -70,7 +73,7 @@ class MayorDashboardScreen extends ConsumerWidget {
                   child: Image.network(
                     logoUrl,
                     fit: BoxFit.contain,
-                    errorBuilder: (_, __, ___) => Image.network(
+                    errorBuilder: (context, error, stackTrace) => Image.network(
                       kDefaultLogoUrl,
                       fit: BoxFit.contain,
                     ),
@@ -224,16 +227,26 @@ class MayorDashboardScreen extends ConsumerWidget {
                 TerritorialGisMapCard(places: data.mapPlaces),
                 const SizedBox(height: 14),
 
-                // Strategic Intelligence & Fiscal Reports (4 Tab Segment: Treasury, Requests, Census, Reports)
-                IntelligenceFiscalSection(
+                // 1. Collections Ledger Card (100% Web Parity)
+                CollectionsLedgerCard(
                   revenue: data.revenue,
-                  transactions: data.transactions,
-                  demographics: data.demographics,
-                  reports: data.recentReports,
+                  payments: data.payments,
                 ),
                 const SizedBox(height: 14),
 
-                // LGU Projects & Infrastructure Card
+                // 2. Service Demand & Clearances Card
+                ServiceDemandCard(transactions: data.transactions),
+                const SizedBox(height: 14),
+
+                // 3. Demographic Census & Population Growth Card
+                DemographicCensusCard(demographics: data.demographics),
+                const SizedBox(height: 14),
+
+                // 4. Civic Incident Reports & Public Safety Card
+                CivicReportsCard(reports: data.recentReports),
+                const SizedBox(height: 14),
+
+                // 5. LGU Projects & Infrastructure Card
                 ProjectsInfrastructureCard(
                   projects: data.activeProjects,
                 ),
