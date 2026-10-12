@@ -305,7 +305,7 @@ class _CollectionsLedgerCardState extends ConsumerState<CollectionsLedgerCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header Row: 📈 COLLECTIONS LEDGER + [FILTER] + [LEGEND]
+          // Header Row: 📈 COLLECTIONS LEDGER + [LEGEND]
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -324,88 +324,41 @@ class _CollectionsLedgerCardState extends ConsumerState<CollectionsLedgerCard> {
                   ),
                 ],
               ),
-              Row(
-                children: [
-                  // Filter Trigger Button
-                  InkWell(
-                    onTap: () {
-                      CollectionsFilterModal.show(
-                        context,
-                        currentFilter: _filter,
-                        onApply: _handleApplyFilter,
-                      );
-                    },
+              // Clean Legend Button (No icon)
+              InkWell(
+                onTap: () => ServiceLegendsModal.show(
+                  context,
+                  payments: activePayments,
+                  totalRevenue: totalAggregated,
+                ),
+                borderRadius: BorderRadius.circular(8),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4.5),
+                  decoration: BoxDecoration(
+                    color: AppColors.surfaceElevated,
                     borderRadius: BorderRadius.circular(8),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF10B981).withValues(alpha: 0.12),
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: const Color(0xFF10B981).withValues(alpha: 0.4)),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(LucideIcons.filter, size: 11.5, color: Color(0xFF10B981)),
-                          const SizedBox(width: 4),
-                          Text(
-                            "FILTER",
-                            style: GoogleFonts.inter(
-                              fontSize: 9.5,
-                              fontWeight: FontWeight.w800,
-                              color: const Color(0xFF10B981),
-                              letterSpacing: 0.5,
-                            ),
-                          ),
-                        ],
-                      ),
+                    border: Border.all(color: AppColors.border),
+                  ),
+                  child: Text(
+                    "LEGEND",
+                    style: GoogleFonts.inter(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
+                      letterSpacing: 0.6,
                     ),
                   ),
-                  const SizedBox(width: 6),
-                  // Legend Trigger Button
-                  InkWell(
-                    onTap: () => ServiceLegendsModal.show(
-                      context,
-                      payments: activePayments,
-                      totalRevenue: totalAggregated,
-                    ),
-                    borderRadius: BorderRadius.circular(8),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: AppColors.surfaceElevated,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: AppColors.border),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(LucideIcons.tags, size: 11.5, color: AppColors.textSecondary),
-                          const SizedBox(width: 4),
-                          Text(
-                            "LEGEND",
-                            style: GoogleFonts.inter(
-                              fontSize: 9.5,
-                              fontWeight: FontWeight.w800,
-                              color: Colors.white,
-                              letterSpacing: 0.5,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ],
           ),
 
-          const SizedBox(height: 6),
+          const SizedBox(height: 5),
 
-          // Total Revenue Subtitle matching Web: "Total Revenue: ₱93,900.54"
+          // Total Revenue Subtitle matching Web (smaller compact text)
           RichText(
             text: TextSpan(
-              style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w700),
+              style: GoogleFonts.inter(fontSize: 10.5, fontWeight: FontWeight.w700),
               children: [
                 const TextSpan(
                   text: "Total Revenue: ",

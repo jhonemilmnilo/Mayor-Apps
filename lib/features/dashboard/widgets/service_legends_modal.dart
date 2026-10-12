@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../../../core/api/api_constants.dart';
 
@@ -52,19 +51,13 @@ class ServiceLegendsModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currencyFormat = NumberFormat.currency(
-      locale: 'en_PH',
-      symbol: '₱',
-      decimalDigits: 2,
-    );
-
     return Container(
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.75,
+        maxHeight: MediaQuery.of(context).size.height * 0.50,
       ),
       decoration: const BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -72,9 +65,9 @@ class ServiceLegendsModal extends StatelessWidget {
           // Drag handle
           Center(
             child: Container(
-              margin: const EdgeInsets.only(top: 12, bottom: 8),
-              width: 38,
-              height: 4,
+              margin: const EdgeInsets.only(top: 10, bottom: 6),
+              width: 34,
+              height: 3.5,
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(2),
@@ -82,50 +75,40 @@ class ServiceLegendsModal extends StatelessWidget {
             ),
           ),
 
-          // Header
+          // Compact Header
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(7),
+                      padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
                         color: const Color(0xFF10B981).withValues(alpha: 0.12),
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                      child: const Icon(LucideIcons.tags, size: 16, color: Color(0xFF10B981)),
+                      child: const Icon(LucideIcons.tags, size: 14, color: Color(0xFF10B981)),
                     ),
-                    const SizedBox(width: 9),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "SERVICE FEES & CATEGORIES",
-                          style: GoogleFonts.inter(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w900,
-                            letterSpacing: 0.8,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Text(
-                          "Chart color codes and active service classifications",
-                          style: GoogleFonts.inter(
-                            fontSize: 10,
-                            color: AppColors.textSecondary,
-                          ),
-                        ),
-                      ],
+                    const SizedBox(width: 8),
+                    Text(
+                      "SERVICE COLOR LEGENDS",
+                      style: GoogleFonts.inter(
+                        fontSize: 11.5,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 0.8,
+                        color: Colors.white,
+                      ),
                     ),
                   ],
                 ),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(LucideIcons.x, size: 18, color: AppColors.textSecondary),
+                  icon: const Icon(LucideIcons.x, size: 16, color: AppColors.textSecondary),
                   visualDensity: VisualDensity.compact,
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
                 ),
               ],
             ),
@@ -133,65 +116,58 @@ class ServiceLegendsModal extends StatelessWidget {
 
           const Divider(color: AppColors.border, height: 1),
 
-          // List of Services
+          // Ultra-Compact 2-Column Grid (Fits exactly 9 items neatly)
           Flexible(
-            child: ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+            child: GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.fromLTRB(14, 10, 14, 16),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 6,
+                mainAxisSpacing: 6,
+                mainAxisExtent: 36,
+              ),
               itemCount: kMunicipalServices.length,
-              separatorBuilder: (context, index) => const SizedBox(height: 8),
               itemBuilder: (context, index) {
                 final service = kMunicipalServices[index];
 
                 return Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
+                  padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
                   decoration: BoxDecoration(
                     color: AppColors.surfaceElevated,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(8),
                     border: Border.all(color: AppColors.border),
                   ),
                   child: Row(
                     children: [
                       // Colored Indicator Circle
                       Container(
-                        width: 12,
-                        height: 12,
+                        width: 8.5,
+                        height: 8.5,
                         decoration: BoxDecoration(
                           color: service.color,
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
                               color: service.color.withValues(alpha: 0.4),
-                              blurRadius: 6,
-                              spreadRadius: 1,
+                              blurRadius: 3,
+                              spreadRadius: 0.5,
                             ),
                           ],
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: 7),
                       Expanded(
                         child: Text(
                           service.label,
                           style: GoogleFonts.inter(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w800,
+                            fontSize: 10.5,
+                            fontWeight: FontWeight.w700,
                             color: Colors.white,
                           ),
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                        decoration: BoxDecoration(
-                          color: service.color.withValues(alpha: 0.12),
-                          borderRadius: BorderRadius.circular(6),
-                          border: Border.all(color: service.color.withValues(alpha: 0.3)),
-                        ),
-                        child: Text(
-                          service.key,
-                          style: GoogleFonts.inter(
-                            fontSize: 9.5,
-                            fontWeight: FontWeight.w800,
-                            color: service.color,
-                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],

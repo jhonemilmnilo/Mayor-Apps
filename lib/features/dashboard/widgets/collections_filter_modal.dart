@@ -343,7 +343,7 @@ class _CollectionsFilterModalState extends State<CollectionsFilterModal> {
 
                   // 3. Payment Method Filter (Matching Web 'ALL METHODS...')
                   Text(
-                    "PAYMENT TRANSACTION CHANNEL",
+                    "PAYMENT METHOD",
                     style: GoogleFonts.inter(
                       fontSize: 9.5,
                       fontWeight: FontWeight.w800,
