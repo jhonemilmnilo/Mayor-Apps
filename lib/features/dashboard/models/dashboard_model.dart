@@ -1,4 +1,6 @@
-﻿class MetricCounts {
+import 'project_item_model.dart';
+
+class MetricCounts {
   final int residents;
   final int jobs;
   final int reports;
@@ -151,7 +153,7 @@ class MayorDashboardData {
   final List<dynamic> announcements;
   final List<dynamic> news;
   final List<dynamic> upcomingEvents;
-  final List<dynamic> activeProjects;
+  final List<ProjectItemModel> activeProjects;
   final List<dynamic> payments;
   final List<dynamic> recentTransactions;
   final List<dynamic> recentReports;
@@ -183,6 +185,7 @@ class MayorDashboardData {
     final analytics = json['analytics'] as Map<String, dynamic>? ?? {};
     final recentFeeds = json['recentFeeds'] as Map<String, dynamic>? ?? {};
     final rawPlaces = json['mapPlaces'] as List? ?? [];
+    final rawProjects = recentFeeds['projects'] as List? ?? [];
 
     return MayorDashboardData(
       themeColor: json['themeColor'] ?? '#FF003C',
@@ -195,7 +198,12 @@ class MayorDashboardData {
       announcements: recentFeeds['announcements'] as List? ?? [],
       news: recentFeeds['news'] as List? ?? [],
       upcomingEvents: recentFeeds['upcomingEvents'] as List? ?? [],
-      activeProjects: recentFeeds['projects'] as List? ?? [],
+      activeProjects: rawProjects.map((p) {
+        if (p is Map<String, dynamic>) {
+          return ProjectItemModel.fromJson(p);
+        }
+        return ProjectItemModel.fromJson({});
+      }).toList(),
       payments: recentFeeds['payments'] as List? ?? [],
       recentTransactions: recentFeeds['transactions'] as List? ?? [],
       recentReports: recentFeeds['reports'] as List? ?? [],
@@ -205,3 +213,4 @@ class MayorDashboardData {
     );
   }
 }
+

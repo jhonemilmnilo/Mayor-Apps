@@ -1,8 +1,8 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 class AppConstants {
   // Use your computer's local Wi-Fi IP so physical Android/iOS devices can reach Next.js!
-  static const String defaultBaseUrl = "http://192.168.100.131:3000";
+  static const String defaultBaseUrl = "http://192.168.3.54:3000";
   static const String appKey = "agno-mobile-secret-2024";
 
   // Supabase Realtime Configuration

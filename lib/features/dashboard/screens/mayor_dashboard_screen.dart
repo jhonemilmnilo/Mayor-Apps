@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -9,6 +9,7 @@ import '../providers/dashboard_provider.dart';
 import '../widgets/metric_cards_grid.dart';
 import '../widgets/territorial_gis_map_card.dart';
 import '../widgets/intelligence_fiscal_section.dart';
+import '../widgets/projects_infrastructure_card.dart';
 import '../widgets/community_feeds_card.dart';
 import '../widgets/barangay_search_modal.dart';
 
@@ -229,6 +230,12 @@ class MayorDashboardScreen extends ConsumerWidget {
                   transactions: data.transactions,
                   demographics: data.demographics,
                   reports: data.recentReports,
+                ),
+                const SizedBox(height: 14),
+
+                // LGU Projects & Infrastructure Card
+                ProjectsInfrastructureCard(
+                  projects: data.activeProjects,
                 ),
                 const SizedBox(height: 14),
 
