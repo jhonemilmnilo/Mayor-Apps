@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../../core/api/api_constants.dart';
 
 class PaymentsLedgerModal extends StatelessWidget {
@@ -214,7 +214,7 @@ class PaymentsLedgerModal extends StatelessWidget {
                                     children: [
                                       Flexible(
                                         child: Text(
-                                          "$service • $orNumber",
+                                          "$service • $orNumber • $date",
                                           style: GoogleFonts.inter(fontSize: 10, color: AppColors.textSecondary),
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,

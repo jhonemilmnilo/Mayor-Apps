@@ -1,7 +1,7 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../../core/api/api_constants.dart';
 import '../../../../core/storage/token_storage.dart';
 import '../providers/auth_provider.dart';
@@ -197,7 +197,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             return Image.network(
                               kDefaultLogoUrl,
                               fit: BoxFit.contain,
-                              errorBuilder: (_, __, ___) => const Icon(
+                              errorBuilder: (context, error, stackTrace) => const Icon(
                                 LucideIcons.landmark,
                                 color: AppColors.primary,
                                 size: 40,
