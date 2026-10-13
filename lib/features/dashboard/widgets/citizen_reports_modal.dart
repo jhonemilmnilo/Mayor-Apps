@@ -52,7 +52,6 @@ class CitizenReportsModal extends ConsumerStatefulWidget {
 class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _searchController = TextEditingController();
-  final DateFormat _apiDateFormat = DateFormat('yyyy-MM-dd');
   final DateFormat _displayDateFormat = DateFormat('MMM d, yyyy • h:mm a');
 
   Timer? _debounceTimer;
@@ -70,10 +69,7 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
 
   // Active filters
   late String _activeStatus;
-  late DateTime _startDate;
-  late DateTime _endDate;
   late String _activeCategory;
-  late String? _activePreset;
   String _searchQuery = "";
 
   // Data
@@ -95,10 +91,7 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
     super.initState();
     final rawStatus = widget.initialFilter.status.toUpperCase();
     _activeStatus = rawStatus.isEmpty ? 'ALL' : rawStatus;
-    _startDate = widget.initialFilter.startDate;
-    _endDate = widget.initialFilter.endDate;
     _activeCategory = widget.initialFilter.category;
-    _activePreset = widget.initialFilter.activePreset;
 
     _scrollController.addListener(_onScroll);
     _loadInitialPage();
@@ -171,11 +164,6 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
         'page': page,
         'limit': _pageSize,
       };
-
-      if (_activePreset != 'ALL') {
-        queryParams['from'] = _apiDateFormat.format(_startDate);
-        queryParams['to'] = _apiDateFormat.format(_endDate);
-      }
 
       if (_activeStatus != 'ALL') {
         queryParams['status'] = _activeStatus;
@@ -299,19 +287,13 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
     CitizenReportFilterModal.show(
       context,
       currentFilter: CitizenReportFilterCriteria(
-        startDate: _startDate,
-        endDate: _endDate,
         status: _activeStatus,
         category: _activeCategory,
-        activePreset: _activePreset,
       ),
       onApply: (newFilter) {
         setState(() {
-          _startDate = newFilter.startDate;
-          _endDate = newFilter.endDate;
           _activeStatus = newFilter.status;
           _activeCategory = newFilter.category;
-          _activePreset = newFilter.activePreset;
         });
         _resetAndReload();
       },
@@ -429,9 +411,7 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                       size: 19,
                       color: Color(0xFFF59E0B),
                     ),
-                    if (_activeStatus != 'ALL' ||
-                        _activeCategory != 'ALL' ||
-                        _activePreset != 'ALL')
+                    if (_activeStatus != 'ALL' || _activeCategory != 'ALL')
                       Positioned(
                         right: 0,
                         top: 0,
@@ -671,9 +651,9 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
     final bgy = widget.selectedBarangay.isEmpty
         ? "Municipality-Wide"
         : widget.selectedBarangay;
-    final dateRangeStr = _activePreset == 'ALL'
-        ? "All Time Historical"
-        : "${DateFormat('MMM d').format(_startDate)} - ${DateFormat('MMM d').format(_endDate)}";
+    final categoryStr = _activeCategory == 'ALL'
+        ? "All Categories"
+        : _activeCategory.toUpperCase();
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -709,13 +689,13 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
             Row(
               children: [
                 const Icon(
-                  LucideIcons.calendar,
+                  LucideIcons.tag,
                   size: 11,
                   color: AppColors.textSecondary,
                 ),
                 const SizedBox(width: 5),
                 Text(
-                  dateRangeStr,
+                  categoryStr,
                   style: GoogleFonts.inter(
                     fontSize: 10,
                     fontWeight: FontWeight.w600,

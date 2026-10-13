@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../../core/api/api_constants.dart';
 import '../../auth/providers/auth_provider.dart';
@@ -27,9 +26,7 @@ class ProjectsInfrastructureCard extends ConsumerStatefulWidget {
 
 class _ProjectsInfrastructureCardState
     extends ConsumerState<ProjectsInfrastructureCard> {
-  late ProjectFilterCriteria _filter;
-  final DateFormat _displayDateFormat = DateFormat('MM/dd/yyyy');
-  final DateFormat _apiDateFormat = DateFormat('yyyy-MM-dd');
+  ProjectFilterCriteria _filter = const ProjectFilterCriteria();
   bool _isLoading = false;
 
   List<ProjectItemModel>? _filteredProjects;
@@ -38,14 +35,6 @@ class _ProjectsInfrastructureCardState
   @override
   void initState() {
     super.initState();
-    final now = DateTime.now();
-    _filter = ProjectFilterCriteria(
-      startDate: now.subtract(const Duration(days: 30)),
-      endDate: now,
-      status: 'ALL',
-      category: 'ALL',
-      activePreset: 'ALL',
-    );
   }
 
   Future<void> _handleApplyFilter(ProjectFilterCriteria newFilter) async {
@@ -62,11 +51,6 @@ class _ProjectsInfrastructureCardState
         'page': 1,
         'limit': 3,
       };
-
-      if (!newFilter.isAllTime) {
-        queryParams['from'] = _apiDateFormat.format(newFilter.startDate);
-        queryParams['to'] = _apiDateFormat.format(newFilter.endDate);
-      }
 
       if (newFilter.status != 'ALL') {
         queryParams['status'] = newFilter.status;
@@ -197,59 +181,69 @@ class _ProjectsInfrastructureCardState
 
           const SizedBox(height: 10),
 
-          // Active Date Range Filter Bar (Exact Match with Collections Ledger & Citizen Reports)
-          InkWell(
+          // Active Filter Pill Bar (strictly Status & Sector, NO date range)
+          GestureDetector(
             onTap: _openFilterModal,
-            borderRadius: BorderRadius.circular(8),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               decoration: BoxDecoration(
-                color: AppColors.surfaceElevated,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: AppColors.border),
+                color: _filter.isFiltered
+                    ? const Color(0xFF8B5CF6).withValues(alpha: 0.12)
+                    : AppColors.surfaceElevated.withValues(alpha: 0.5),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: _filter.isFiltered
+                      ? const Color(0xFF8B5CF6).withValues(alpha: 0.6)
+                      : AppColors.border,
+                ),
               ),
               child: Row(
                 children: [
-                  const Icon(
-                    LucideIcons.calendar,
-                    size: 12,
-                    color: Color(0xFF8B5CF6),
+                  Icon(
+                    LucideIcons.slidersHorizontal,
+                    size: 13,
+                    color: _filter.isFiltered ? const Color(0xFF8B5CF6) : AppColors.textSecondary,
                   ),
-                  const SizedBox(width: 6),
-                  Text(
-                    _filter.isAllTime
-                        ? "ALL TIME HISTORICAL"
-                        : "${_displayDateFormat.format(_filter.startDate)} to ${_displayDateFormat.format(_filter.endDate)}",
-                    style: GoogleFonts.inter(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Container(width: 1, height: 12, color: AppColors.border),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      _filter.category != 'ALL'
-                          ? _filter.category.toUpperCase()
-                          : (_filter.status != 'ALL'
-                              ? _filter.status.toUpperCase()
-                              : "ALL CATEGORIES & STATUSES..."),
+                      _filter.isFiltered
+                          ? "${_filter.category != 'ALL' ? _filter.category.toUpperCase() : 'ALL SECTORS'} • ${_filter.status != 'ALL' ? _filter.status.toUpperCase() : 'ALL STATUSES'}"
+                          : "ALL STATUSES • ALL SECTORS",
                       style: GoogleFonts.inter(
-                        fontSize: 9.5,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.textSecondary,
+                        fontSize: 10,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 0.5,
+                        color: _filter.isFiltered ? const Color(0xFF8B5CF6) : AppColors.textSecondary,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  const Icon(
-                    LucideIcons.chevronDown,
-                    size: 12,
-                    color: AppColors.textSecondary,
-                  ),
+                  if (_filter.isFiltered)
+                    GestureDetector(
+                      onTap: () {
+                        _handleApplyFilter(const ProjectFilterCriteria());
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF8B5CF6).withValues(alpha: 0.2),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.close_rounded,
+                          size: 13,
+                          color: Color(0xFF8B5CF6),
+                        ),
+                      ),
+                    )
+                  else
+                    const Icon(
+                      LucideIcons.chevronDown,
+                      color: AppColors.textSecondary,
+                      size: 14,
+                    ),
                 ],
               ),
             ),
