@@ -8,6 +8,7 @@ import '../../../../core/api/api_constants.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../models/dashboard_model.dart';
 import '../providers/dashboard_provider.dart';
+import 'daily_requests_report_modal.dart';
 import 'request_filter_modal.dart';
 
 /// Clean and isolated Daily Requests Analytics Card matching Web dashboard parity 100%.
@@ -501,9 +502,13 @@ class _DailyRequestCardState extends ConsumerState<DailyRequestCard> {
 
           // Bottom Action Button: VIEW DETAILED REPORT (100% Matches Payments Ledger style)
           InkWell(
-            onTap: () {
-              // Detailed requests report modal hook
-            },
+            onTap: () => DailyRequestsReportModal.show(
+              context,
+              initialFilter: _filter,
+              selectedBarangay: ref.read(selectedBarangayProvider),
+              initialTotalCount: computedTotal,
+              fallbackTransactions: widget.recentTransactions,
+            ),
             borderRadius: BorderRadius.circular(10),
             child: Container(
               width: double.infinity,
