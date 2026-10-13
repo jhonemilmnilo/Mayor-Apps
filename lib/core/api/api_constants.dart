@@ -17,6 +17,7 @@ class AppConstants {
   static const String settingsEndpoint = "/api/mobile/public/settings";
   static const String paymentsEndpoint = "/api/mobile/mayor/payments";
   static const String requestsEndpoint = "/api/mobile/mayor/requests";
+  static const String residentsEndpoint = "/api/mobile/mayor/residents";
 }
 
 class AppColors {
