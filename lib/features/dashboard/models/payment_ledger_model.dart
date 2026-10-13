@@ -29,32 +29,22 @@ class PaymentLedgerItem {
   final double amount;
   final String method;
   final String status;
-  final String? reference;
   final String? orNumber;
   final String createdAt;
-  final String? transactionId;
   final String serviceType;
   final String serviceCategory;
   final String payerName;
-  final Map<String, dynamic>? user;
-  final dynamic residentSnapshot;
-  final dynamic additionalData;
 
   PaymentLedgerItem({
     required this.id,
     required this.amount,
     required this.method,
     required this.status,
-    this.reference,
     this.orNumber,
     required this.createdAt,
-    this.transactionId,
     required this.serviceType,
     required this.serviceCategory,
     required this.payerName,
-    this.user,
-    this.residentSnapshot,
-    this.additionalData,
   });
 
   factory PaymentLedgerItem.fromJson(Map<String, dynamic> json) {
@@ -63,16 +53,11 @@ class PaymentLedgerItem {
       amount: (json['amount'] as num?)?.toDouble() ?? 0.0,
       method: (json['method'] ?? 'CASH').toString().toUpperCase(),
       status: (json['status'] ?? 'PAID').toString().toUpperCase(),
-      reference: json['reference'],
       orNumber: json['orNumber'],
       createdAt: json['createdAt'] ?? '',
-      transactionId: json['transactionId'],
       serviceType: json['serviceType'] ?? 'Municipal Fee',
       serviceCategory: json['serviceCategory'] ?? 'GENERAL',
       payerName: json['payerName'] ?? 'Walk-in Resident',
-      user: json['user'] as Map<String, dynamic>?,
-      residentSnapshot: json['residentSnapshot'],
-      additionalData: json['additionalData'],
     );
   }
 }

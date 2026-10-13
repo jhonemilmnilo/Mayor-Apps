@@ -70,6 +70,9 @@ class _PaymentsLedgerModalState extends ConsumerState<PaymentsLedgerModal> {
   bool _hasMore = true;
   String? _errorMessage;
 
+  // Cancellation token for live search/filter
+  CancelToken? _cancelToken;
+
   // Active filters (inherited from parent card)
   late String _activeMethod;
   late DateTime _startDate;
@@ -94,6 +97,7 @@ class _PaymentsLedgerModalState extends ConsumerState<PaymentsLedgerModal> {
 
   @override
   void dispose() {
+    _cancelToken?.cancel("Modal closed");
     _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     _searchController.dispose();
@@ -149,6 +153,11 @@ class _PaymentsLedgerModalState extends ConsumerState<PaymentsLedgerModal> {
     try {
       final apiClient = ref.read(apiClientProvider);
 
+      if (page == 1) {
+        _cancelToken?.cancel("New search or filter request");
+        _cancelToken = CancelToken();
+      }
+
       final queryParams = {
         'page': page,
         'limit': _pageSize,
@@ -174,6 +183,7 @@ class _PaymentsLedgerModalState extends ConsumerState<PaymentsLedgerModal> {
       final response = await apiClient.dio.get(
         AppConstants.paymentsEndpoint,
         queryParameters: queryParams,
+        cancelToken: _cancelToken,
       );
 
       if (response.data != null && response.data['success'] == true) {
@@ -200,6 +210,7 @@ class _PaymentsLedgerModalState extends ConsumerState<PaymentsLedgerModal> {
         );
       }
     } on DioException catch (e) {
+      if (CancelToken.isCancel(e)) return;
       if (!mounted) return;
       // Fallback gracefully to passed payments if offline or initial server error
       if (page == 1 &&
@@ -241,7 +252,6 @@ class _PaymentsLedgerModalState extends ConsumerState<PaymentsLedgerModal> {
         method: (map['method'] ?? 'CASH').toString().toUpperCase(),
         status: (map['status'] ?? 'PAID').toString().toUpperCase(),
         orNumber: map['orNumber']?.toString(),
-        reference: map['reference']?.toString(),
         createdAt: map['createdAt']?.toString() ?? DateTime.now().toString(),
         serviceType: map['serviceType']?.toString() ?? 'Municipal Fee',
         serviceCategory: map['category']?.toString() ?? 'GENERAL',
@@ -530,8 +540,6 @@ class _PaymentsLedgerModalState extends ConsumerState<PaymentsLedgerModal> {
                 _buildMethodChip("CASH", "Cash"),
                 const SizedBox(width: 6),
                 _buildMethodChip("ONLINE", "Online / E-Pay"),
-                const SizedBox(width: 6),
-                _buildMethodChip("GCASH", "GCash"),
               ],
             ),
           ),
