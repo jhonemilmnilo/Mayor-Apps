@@ -14,6 +14,7 @@ import '../widgets/demographic_census_card.dart';
 import '../widgets/civic_reports_card.dart';
 import '../widgets/projects_infrastructure_card.dart';
 import '../widgets/recent_announcements_card.dart';
+import '../widgets/latest_news_card.dart';
 import '../widgets/barangay_search_modal.dart';
 
 class MayorDashboardScreen extends ConsumerWidget {
@@ -258,6 +259,12 @@ class MayorDashboardScreen extends ConsumerWidget {
                 // 6. Recent Announcements Card (100% Web Parity)
                 RecentAnnouncementsCard(
                   announcements: data.announcements,
+                ),
+                const SizedBox(height: 14),
+
+                // 7. Latest News Card (100% Web Parity)
+                LatestNewsCard(
+                  news: data.news,
                 ),
                 const SizedBox(height: 24),
               ],
