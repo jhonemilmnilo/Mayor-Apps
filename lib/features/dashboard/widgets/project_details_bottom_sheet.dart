@@ -20,36 +20,85 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
   }
 
   Color _getStatusColor(String status) {
-    switch (status) {
-      case 'COMPLETED':
-        return AppColors.accentGreen;
-      case 'IN_PROGRESS':
-        return AppColors.accentBlue;
-      case 'DELAYED':
-      case 'ON_HOLD':
-        return AppColors.accentAmber;
-      case 'PLANNED':
-        return AppColors.accentPurple;
-      default:
-        return AppColors.primary;
+    final st = status.toLowerCase();
+    if (st.contains('completed')) return const Color(0xFF10B981);
+    if (st.contains('ongoing') || st.contains('progress')) return const Color(0xFF3B82F6);
+    if (st.contains('planned') || st.contains('planning')) return const Color(0xFFF59E0B);
+    if (st.contains('hold') || st.contains('suspended')) return const Color(0xFFEF4444);
+    return const Color(0xFF8B5CF6);
+  }
+
+  String _formatDate(String? raw) {
+    if (raw == null || raw.isEmpty) return "N/A";
+    try {
+      final dt = DateTime.parse(raw).toLocal();
+      return DateFormat('MMM d, yyyy').format(dt);
+    } catch (_) {
+      return raw;
     }
+  }
+
+  void _showFullImageViewer(BuildContext context, String imageUrl) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          insetPadding: const EdgeInsets.all(12),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              InteractiveViewer(
+                minScale: 0.8,
+                maxScale: 4.0,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Image.network(
+                    imageUrl,
+                    fit: BoxFit.contain,
+                    errorBuilder: (ctx, error, stackTrace) => Container(
+                      padding: const EdgeInsets.all(24),
+                      color: AppColors.surface,
+                      child: const Text(
+                        "Unable to load full resolution photograph",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 10,
+                right: 10,
+                child: IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.6),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(LucideIcons.x, size: 18, color: Colors.white),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final statusColor = _getStatusColor(project.status);
-    final currencyFormat = NumberFormat.currency(
-      locale: 'en_PH',
-      symbol: '₱',
-      decimalDigits: 0,
-    );
 
     return Container(
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.85,
+        maxHeight: MediaQuery.of(context).size.height * 0.88,
       ),
       decoration: const BoxDecoration(
-        color: AppColors.surface,
+        color: AppColors.background,
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
@@ -79,10 +128,13 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(7),
                       decoration: BoxDecoration(
-                        color: statusColor.withValues(alpha: 0.12),
+                        color: const Color(0xFF8B5CF6).withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: const Color(0xFF8B5CF6).withValues(alpha: 0.3),
+                        ),
                       ),
-                      child: Icon(LucideIcons.hardHat, size: 16, color: statusColor),
+                      child: const Icon(LucideIcons.hardHat, size: 16, color: Color(0xFF8B5CF6)),
                     ),
                     const SizedBox(width: 8),
                     Text(
@@ -91,7 +143,7 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                         fontSize: 11,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 1.0,
-                        color: AppColors.textSecondary,
+                        color: Colors.white,
                       ),
                     ),
                   ],
@@ -115,40 +167,38 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Status badge and Category
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 6,
-                    crossAxisAlignment: WrapCrossAlignment.center,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                         decoration: BoxDecoration(
-                          color: statusColor.withValues(alpha: 0.15),
+                          color: const Color(0xFF8B5CF6).withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: statusColor.withValues(alpha: 0.4)),
+                          border: Border.all(color: const Color(0xFF8B5CF6).withValues(alpha: 0.3)),
                         ),
                         child: Text(
-                          project.status.replaceAll('_', ' '),
+                          project.category.toUpperCase(),
                           style: GoogleFonts.inter(
-                            fontSize: 10.5,
+                            fontSize: 10,
                             fontWeight: FontWeight.w800,
-                            color: statusColor,
+                            color: const Color(0xFF8B5CF6),
                           ),
                         ),
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                         decoration: BoxDecoration(
-                          color: AppColors.surfaceElevated,
+                          color: statusColor.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: AppColors.border),
+                          border: Border.all(color: statusColor.withValues(alpha: 0.3)),
                         ),
                         child: Text(
-                          project.category.toUpperCase(),
+                          project.status,
                           style: GoogleFonts.inter(
-                            fontSize: 10.5,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.textSecondary,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w900,
+                            color: statusColor,
                           ),
                         ),
                       ),
@@ -160,7 +210,7 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                   Text(
                     project.title,
                     style: GoogleFonts.inter(
-                      fontSize: 17,
+                      fontSize: 16,
                       fontWeight: FontWeight.w900,
                       color: Colors.white,
                       height: 1.3,
@@ -168,11 +218,11 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                   ),
                   const SizedBox(height: 14),
 
-                  // Location and Timeline Row
+                  // Location and Timeline Card
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: AppColors.surfaceElevated,
+                      color: AppColors.surface,
                       borderRadius: BorderRadius.circular(14),
                       border: Border.all(color: AppColors.border),
                     ),
@@ -180,7 +230,7 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            const Icon(LucideIcons.mapPin, size: 14, color: AppColors.primary),
+                            const Icon(LucideIcons.mapPin, size: 14, color: Color(0xFF8B5CF6)),
                             const SizedBox(width: 8),
                             Text(
                               "Location: ",
@@ -188,7 +238,7 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                             ),
                             Expanded(
                               child: Text(
-                                project.barangay.isEmpty ? "Municipality-Wide" : "Brgy. ${project.barangay}",
+                                project.location.isNotEmpty ? project.location : "Brgy. ${project.barangay}",
                                 style: GoogleFonts.inter(
                                   fontSize: 11.5,
                                   fontWeight: FontWeight.w700,
@@ -200,11 +250,11 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                             ),
                           ],
                         ),
-                        if (project.timeline.isNotEmpty) ...[
+                        if (project.startDate != null || project.endDate != null) ...[
                           const SizedBox(height: 8),
                           Row(
                             children: [
-                              const Icon(LucideIcons.calendar, size: 14, color: AppColors.accentAmber),
+                              const Icon(LucideIcons.calendar, size: 14, color: Color(0xFFF59E0B)),
                               const SizedBox(width: 8),
                               Text(
                                 "Timeline: ",
@@ -212,7 +262,7 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                               ),
                               Expanded(
                                 child: Text(
-                                  project.timeline,
+                                  "${_formatDate(project.startDate)} — ${_formatDate(project.endDate)}",
                                   style: GoogleFonts.inter(
                                     fontSize: 11.5,
                                     fontWeight: FontWeight.w700,
@@ -229,7 +279,7 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                           const SizedBox(height: 8),
                           Row(
                             children: [
-                              const Icon(LucideIcons.briefcase, size: 14, color: AppColors.accentBlue),
+                              const Icon(LucideIcons.briefcase, size: 14, color: Color(0xFF3B82F6)),
                               const SizedBox(width: 8),
                               Text(
                                 "Contractor: ",
@@ -283,7 +333,7 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8),
                     child: SizedBox(
-                      height: 10,
+                      height: 8,
                       child: LinearProgressIndicator(
                         value: (project.progress / 100).clamp(0.0, 1.0),
                         backgroundColor: AppColors.surfaceElevated,
@@ -292,88 +342,46 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 18),
+                  const SizedBox(height: 16),
 
                   // Financial Metric Box
                   Container(
+                    width: double.infinity,
                     padding: const EdgeInsets.all(14),
                     decoration: BoxDecoration(
-                      color: AppColors.surfaceElevated,
+                      color: AppColors.surface,
                       borderRadius: BorderRadius.circular(14),
                       border: Border.all(color: AppColors.border),
                     ),
-                    child: Row(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "ALLOCATED BUDGET",
-                                style: GoogleFonts.inter(
-                                  fontSize: 9.5,
-                                  fontWeight: FontWeight.w800,
-                                  letterSpacing: 0.5,
-                                  color: AppColors.textSecondary,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              FittedBox(
-                                fit: BoxFit.scaleDown,
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  project.budget > 0
-                                      ? currencyFormat.format(project.budget)
-                                      : "LGU Budgeted",
-                                  style: GoogleFonts.inter(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w900,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ],
+                        Text(
+                          "ALLOCATED CAPITAL BUDGET",
+                          style: GoogleFonts.inter(
+                            fontSize: 9.5,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 0.5,
+                            color: AppColors.textSecondary,
                           ),
                         ),
-                        if (project.spent > 0) ...[
-                          Container(width: 1, height: 36, color: AppColors.border),
-                          const SizedBox(width: 14),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "DISBURSED / SPENT",
-                                  style: GoogleFonts.inter(
-                                    fontSize: 9.5,
-                                    fontWeight: FontWeight.w800,
-                                    letterSpacing: 0.5,
-                                    color: AppColors.textSecondary,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                FittedBox(
-                                  fit: BoxFit.scaleDown,
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    currencyFormat.format(project.spent),
-                                    style: GoogleFonts.inter(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w900,
-                                      color: AppColors.accentGreen,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                        const SizedBox(height: 4),
+                        Text(
+                          project.budget != null && project.budget!.isNotEmpty
+                              ? (project.budget!.startsWith("₱") ? project.budget! : "₱${project.budget}")
+                              : "LGU Funded Project",
+                          style: GoogleFonts.inter(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w900,
+                            color: const Color(0xFF10B981),
                           ),
-                        ],
+                        ),
                       ],
                     ),
                   ),
 
                   if (project.description.isNotEmpty) ...[
-                    const SizedBox(height: 18),
+                    const SizedBox(height: 16),
                     Text(
                       "PROJECT SCOPE & OBJECTIVE",
                       style: GoogleFonts.inter(
@@ -384,12 +392,86 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 6),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: AppColors.surfaceElevated,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: AppColors.border),
+                      ),
+                      child: Text(
+                        project.description,
+                        style: GoogleFonts.inter(
+                          fontSize: 12,
+                          color: Colors.white,
+                          height: 1.4,
+                        ),
+                      ),
+                    ),
+                  ],
+
+                  if (project.imageUrl != null && project.imageUrl!.isNotEmpty) ...[
+                    const SizedBox(height: 16),
                     Text(
-                      project.description,
+                      "PROJECT PHOTOGRAPH",
                       style: GoogleFonts.inter(
-                        fontSize: 12.5,
+                        fontSize: 10,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 0.8,
                         color: AppColors.textSecondary,
-                        height: 1.5,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    InkWell(
+                      onTap: () => _showFullImageViewer(context, project.imageUrl!),
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        height: 160,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: AppColors.surface,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: AppColors.border),
+                        ),
+                        clipBehavior: Clip.antiAlias,
+                        child: Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            Image.network(
+                              project.imageUrl!,
+                              fit: BoxFit.cover,
+                              errorBuilder: (ctx, error, stackTrace) => Container(
+                                color: AppColors.surfaceElevated,
+                                child: const Center(
+                                  child: Icon(LucideIcons.imageOff, size: 24, color: AppColors.textSecondary),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 8,
+                              right: 8,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withValues(alpha: 0.7),
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Icon(LucideIcons.zoomIn, size: 12, color: Colors.white),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      "Tap to Zoom",
+                                      style: GoogleFonts.inter(fontSize: 9.5, color: Colors.white, fontWeight: FontWeight.w700),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],
