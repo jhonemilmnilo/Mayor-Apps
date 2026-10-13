@@ -215,34 +215,20 @@ class _DailyRequestCardState extends ConsumerState<DailyRequestCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header Row: 📈 DAILY REQUEST (100% Web Parity)
+          // Header Row: 📈 DAILY REQUEST
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  Icon(LucideIcons.trendingUp, size: 18, color: themeColor),
-                  const SizedBox(width: 8),
-                  Text(
-                    "DAILY REQUEST",
-                    style: GoogleFonts.inter(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w900,
-                      fontStyle: FontStyle.italic,
-                      letterSpacing: 0.5,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  color: AppColors.surfaceElevated,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: AppColors.border),
+              Icon(LucideIcons.trendingUp, size: 18, color: themeColor),
+              const SizedBox(width: 8),
+              Text(
+                "DAILY REQUEST",
+                style: GoogleFonts.inter(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w900,
+                  fontStyle: FontStyle.italic,
+                  letterSpacing: 0.5,
+                  color: Colors.white,
                 ),
-                child: const Icon(LucideIcons.layoutGrid, size: 14, color: AppColors.textSecondary),
               ),
             ],
           ),
@@ -513,48 +499,43 @@ class _DailyRequestCardState extends ConsumerState<DailyRequestCard> {
 
           const SizedBox(height: 14),
 
-          // Bottom Action: [ 📄 VIEW DETAILED REPORT ] (100% Web Parity)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              InkWell(
-                onTap: () {
-                  // Ledger modal hook
-                },
-                borderRadius: BorderRadius.circular(14),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: themeColor,
-                    borderRadius: BorderRadius.circular(14),
-                    boxShadow: [
-                      BoxShadow(
-                        color: themeColor.withValues(alpha: 0.35),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
+          // Bottom Action Button: VIEW DETAILED REPORT (100% Matches Payments Ledger style)
+          InkWell(
+            onTap: () {
+              // Detailed requests report modal hook
+            },
+            borderRadius: BorderRadius.circular(10),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              decoration: BoxDecoration(
+                color: themeColor,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: themeColor.withValues(alpha: 0.25),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(LucideIcons.fileText, size: 13, color: Colors.white),
-                      const SizedBox(width: 6),
-                      Text(
-                        "VIEW DETAILED REPORT",
-                        style: GoogleFonts.inter(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w900,
-                          fontStyle: FontStyle.italic,
-                          letterSpacing: 0.5,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                ],
               ),
-            ],
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(LucideIcons.fileText, size: 14, color: Colors.white),
+                  const SizedBox(width: 8),
+                  Text(
+                    "VIEW DETAILED REPORT",
+                    style: GoogleFonts.inter(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 0.8,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
