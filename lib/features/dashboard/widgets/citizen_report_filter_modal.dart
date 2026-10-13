@@ -139,23 +139,23 @@ class _CitizenReportFilterModalState extends State<CitizenReportFilterModal> {
     });
   }
 
-  Future<void> _pickDate({required bool isStart}) async {
-    final initial = isStart ? _startDate : _endDate;
-    final first = DateTime(2020);
-    final last = DateTime.now().add(const Duration(days: 365));
-
-    final picked = await showDatePicker(
+  Future<void> _pickDateRange() async {
+    final picked = await showDateRangePicker(
       context: context,
-      initialDate: initial,
-      firstDate: first,
-      lastDate: last,
+      firstDate: DateTime(2020),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
+      initialDateRange: DateTimeRange(start: _startDate, end: _endDate),
       builder: (context, child) {
         return Theme(
-          data: Theme.of(context).copyWith(
+          data: ThemeData.dark().copyWith(
             colorScheme: const ColorScheme.dark(
               primary: Color(0xFFF59E0B),
-              surface: Color(0xFF151B2B),
+              onPrimary: Colors.white,
+              surface: AppColors.surfaceElevated,
               onSurface: Colors.white,
+            ),
+            dialogTheme: const DialogThemeData(
+              backgroundColor: AppColors.surface,
             ),
           ),
           child: child!,
@@ -166,17 +166,8 @@ class _CitizenReportFilterModalState extends State<CitizenReportFilterModal> {
     if (picked != null) {
       setState(() {
         _preset = 'CUSTOM';
-        if (isStart) {
-          _startDate = picked;
-          if (_endDate.isBefore(_startDate)) {
-            _endDate = _startDate;
-          }
-        } else {
-          _endDate = picked;
-          if (_startDate.isAfter(_endDate)) {
-            _startDate = _endDate;
-          }
-        }
+        _startDate = picked.start;
+        _endDate = picked.end;
       });
     }
   }
@@ -310,121 +301,117 @@ class _CitizenReportFilterModalState extends State<CitizenReportFilterModal> {
 
                   const SizedBox(height: 18),
 
-                  // Section 2: Date Picker Display
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "FROM DATE",
-                              style: GoogleFonts.inter(
-                                fontSize: 9.5,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.textSecondary,
-                              ),
-                            ),
-                            const SizedBox(height: 6),
-                            InkWell(
-                              onTap: () => _pickDate(isStart: true),
-                              borderRadius: BorderRadius.circular(10),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                  vertical: 10,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: AppColors.surface,
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color: _preset == 'CUSTOM'
-                                        ? const Color(0xFFF59E0B)
-                                        : AppColors.border,
-                                  ),
-                                ),
-                                child: Row(
+                  // Section 2: Date Range Filter (Unified showDateRangePicker matching Collections Ledger)
+                  Text(
+                    "DATE RANGE FILTER",
+                    style: GoogleFonts.inter(
+                      fontSize: 9.5,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 0.8,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+
+                  InkWell(
+                    onTap: _pickDateRange,
+                    borderRadius: BorderRadius.circular(14),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                      decoration: BoxDecoration(
+                        color: AppColors.surfaceElevated,
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(
+                          color: _preset == 'CUSTOM'
+                              ? const Color(0xFFF59E0B)
+                              : AppColors.border,
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
                                   children: [
                                     const Icon(
                                       LucideIcons.calendar,
-                                      size: 13,
+                                      size: 12,
                                       color: Color(0xFFF59E0B),
                                     ),
-                                    const SizedBox(width: 8),
+                                    const SizedBox(width: 5),
                                     Text(
-                                      _preset == 'ALL'
-                                          ? "All Time"
-                                          : _dateFormat.format(_startDate),
+                                      "START DATE",
                                       style: GoogleFonts.inter(
-                                        fontSize: 11.5,
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.white,
+                                        fontSize: 8.5,
+                                        fontWeight: FontWeight.w800,
+                                        color: AppColors.textSecondary,
                                       ),
                                     ),
                                   ],
                                 ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "TO DATE",
-                              style: GoogleFonts.inter(
-                                fontSize: 9.5,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.textSecondary,
-                              ),
-                            ),
-                            const SizedBox(height: 6),
-                            InkWell(
-                              onTap: () => _pickDate(isStart: false),
-                              borderRadius: BorderRadius.circular(10),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                  vertical: 10,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: AppColors.surface,
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color: _preset == 'CUSTOM'
-                                        ? const Color(0xFFF59E0B)
-                                        : AppColors.border,
+                                const SizedBox(height: 4),
+                                Text(
+                                  _preset == 'ALL'
+                                      ? "All Time"
+                                      : _dateFormat.format(_startDate),
+                                  style: GoogleFonts.inter(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w800,
+                                    color: Colors.white,
                                   ),
                                 ),
-                                child: Row(
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: const Icon(
+                              LucideIcons.arrowRight,
+                              size: 14,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
                                   children: [
                                     const Icon(
                                       LucideIcons.calendar,
-                                      size: 13,
+                                      size: 12,
                                       color: Color(0xFFF59E0B),
                                     ),
-                                    const SizedBox(width: 8),
+                                    const SizedBox(width: 5),
                                     Text(
-                                      _preset == 'ALL'
-                                          ? "Today"
-                                          : _dateFormat.format(_endDate),
+                                      "END DATE",
                                       style: GoogleFonts.inter(
-                                        fontSize: 11.5,
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.white,
+                                        fontSize: 8.5,
+                                        fontWeight: FontWeight.w800,
+                                        color: AppColors.textSecondary,
                                       ),
                                     ),
                                   ],
                                 ),
-                              ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  _preset == 'ALL'
+                                      ? "Today"
+                                      : _dateFormat.format(_endDate),
+                                  style: GoogleFonts.inter(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w800,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
 
                   const SizedBox(height: 22),

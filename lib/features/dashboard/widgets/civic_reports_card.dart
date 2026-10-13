@@ -10,8 +10,9 @@ import 'citizen_report_filter_modal.dart';
 import 'citizen_reports_modal.dart';
 
 /// Interactive Citizen Reports Overview Card matching Web ReportsOverviewCard.tsx 100%.
-/// Displays top 5 recent community incident reports, status pills, barangay indicators,
-/// dynamic timeline filters, and full-width "VIEW ALL CITIZEN REPORTS" button in vivid Amber.
+/// Displays top 5 recent community incident reports with a compact, ultra-clean layout,
+/// Collections-Ledger style date range filter bar with modal trigger, and full-width
+/// "VIEW ALL CITIZEN REPORTS" action button in vivid Amber.
 class CivicReportsCard extends ConsumerStatefulWidget {
   final List<dynamic> reports;
 
@@ -23,6 +24,7 @@ class CivicReportsCard extends ConsumerStatefulWidget {
 
 class _CivicReportsCardState extends ConsumerState<CivicReportsCard> {
   late CitizenReportFilterCriteria _filter;
+  final DateFormat _displayDateFormat = DateFormat('MM/dd/yyyy');
   final DateFormat _apiDateFormat = DateFormat('yyyy-MM-dd');
   bool _isLoading = false;
 
@@ -54,7 +56,7 @@ class _CivicReportsCardState extends ConsumerState<CivicReportsCard> {
 
       final queryParams = <String, dynamic>{
         'page': 1,
-        'limit': 5,
+        'limit': 3,
       };
 
       if (!newFilter.isAllTime) {
@@ -155,14 +157,14 @@ class _CivicReportsCardState extends ConsumerState<CivicReportsCard> {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(20),
         border: Border.all(color: AppColors.border),
       ),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header Row
+          // Header Row: Left Icon + Title + Subtitle (Right icon removed)
           Row(
             children: [
               Container(
@@ -195,73 +197,77 @@ class _CivicReportsCardState extends ConsumerState<CivicReportsCard> {
                         letterSpacing: 0.5,
                       ),
                     ),
-                    RichText(
-                      text: TextSpan(
-                        style: GoogleFonts.inter(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.textSecondary,
-                        ),
-                        children: [
-                          const TextSpan(text: "5 most recent community reports — "),
-                          TextSpan(
-                            text: "Live",
-                            style: GoogleFonts.inter(
-                              fontWeight: FontWeight.w800,
-                              color: const Color(0xFFF59E0B),
-                            ),
-                          ),
-                        ],
+                    Text(
+                      "3 most recent community reports",
+                      style: GoogleFonts.inter(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.textSecondary,
                       ),
                     ),
                   ],
                 ),
               ),
-
-              // Filter Trigger Icon
-              InkWell(
-                onTap: _openFilterModal,
-                borderRadius: BorderRadius.circular(8),
-                child: Container(
-                  padding: const EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                    color: _filter.status != 'ALL' || _filter.category != 'ALL'
-                        ? const Color(0xFFF59E0B).withValues(alpha: 0.2)
-                        : Colors.white.withValues(alpha: 0.05),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                      color: _filter.status != 'ALL' || _filter.category != 'ALL'
-                          ? const Color(0xFFF59E0B)
-                          : AppColors.border,
-                    ),
-                  ),
-                  child: const Icon(
-                    LucideIcons.slidersHorizontal,
-                    size: 14,
-                    color: Color(0xFFF59E0B),
-                  ),
-                ),
-              ),
             ],
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: 10),
 
-          // Timeline Filter Toolbar
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                _buildPresetChip("ALL", "ALL TIME"),
-                const SizedBox(width: 6),
-                _buildPresetChip("TODAY", "TODAY"),
-                const SizedBox(width: 6),
-                _buildPresetChip("7D", "7 DAYS"),
-                const SizedBox(width: 6),
-                _buildPresetChip("30D", "30 DAYS"),
-                const SizedBox(width: 6),
-                _buildPresetChip("MONTH", "THIS MONTH"),
-              ],
+          // Active Date Range Filter Bar (Exact Match with Collections Ledger section)
+          InkWell(
+            onTap: _openFilterModal,
+            borderRadius: BorderRadius.circular(8),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              decoration: BoxDecoration(
+                color: AppColors.surfaceElevated,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: AppColors.border),
+              ),
+              child: Row(
+                children: [
+                  const Icon(
+                    LucideIcons.calendar,
+                    size: 12,
+                    color: Color(0xFFF59E0B),
+                  ),
+                  const SizedBox(width: 6),
+                  Text(
+                    _filter.isAllTime
+                        ? "ALL TIME HISTORICAL"
+                        : "${_displayDateFormat.format(_filter.startDate)} to ${_displayDateFormat.format(_filter.endDate)}",
+                    style: GoogleFonts.inter(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Container(width: 1, height: 12, color: AppColors.border),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      _filter.category != 'ALL'
+                          ? _filter.category.toUpperCase()
+                          : (_filter.status != 'ALL'
+                              ? _filter.status.toUpperCase()
+                              : "ALL STATUSES & CATEGORIES..."),
+                      style: GoogleFonts.inter(
+                        fontSize: 9.5,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.textSecondary,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  const Icon(
+                    LucideIcons.chevronDown,
+                    size: 12,
+                    color: AppColors.textSecondary,
+                  ),
+                ],
+              ),
             ),
           ),
 
@@ -271,7 +277,7 @@ class _CivicReportsCardState extends ConsumerState<CivicReportsCard> {
           if (_isLoading)
             const Center(
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 24),
+                padding: EdgeInsets.symmetric(vertical: 20),
                 child: SizedBox(
                   width: 20,
                   height: 20,
@@ -285,13 +291,13 @@ class _CivicReportsCardState extends ConsumerState<CivicReportsCard> {
           else if (activeReports.isEmpty)
             Center(
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 24),
+                padding: const EdgeInsets.symmetric(vertical: 20),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const Icon(
                       LucideIcons.checkCircle2,
-                      size: 28,
+                      size: 26,
                       color: Color(0xFF10B981),
                     ),
                     const SizedBox(height: 6),
@@ -308,8 +314,7 @@ class _CivicReportsCardState extends ConsumerState<CivicReportsCard> {
               ),
             )
           else
-            ...activeReports.take(5).map((r) {
-              final id = (r is Map ? r['id'] : null)?.toString() ?? '';
+            ...activeReports.take(3).map((r) {
               final category = (r is Map ? r['category'] : null)?.toString() ?? "General Grievance";
               final reporter = (r is Map
                       ? (r['reporterName'] ?? r['user']?['name'])
@@ -323,37 +328,49 @@ class _CivicReportsCardState extends ConsumerState<CivicReportsCard> {
                       ? (r['barangayName'] ?? r['barangay']?['name'])
                       : null)?.toString() ??
                   "Mapandan";
-              final images = (r is Map && r['images'] is List)
-                  ? (r['images'] as List)
-                  : [];
 
               final statusColor = _getStatusColor(status);
 
               return Container(
                 margin: const EdgeInsets.only(bottom: 8),
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 9),
                 decoration: BoxDecoration(
                   color: AppColors.surfaceElevated,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(11),
                   border: Border.all(color: AppColors.border),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Top: Reporter Name, Category badge, Status
+                    // Top: Reporter Name + Date beside it + Status badge on the right
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Flexible(
-                          child: Text(
-                            reporter,
-                            style: GoogleFonts.inter(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w800,
-                              color: Colors.white,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  reporter,
+                                  style: GoogleFonts.inter(
+                                    fontSize: 11.5,
+                                    fontWeight: FontWeight.w800,
+                                    color: Colors.white,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              const SizedBox(width: 5),
+                              Text(
+                                "• $dateStr",
+                                style: GoogleFonts.inter(
+                                  fontSize: 9.5,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.textSecondary,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         const SizedBox(width: 6),
@@ -381,9 +398,9 @@ class _CivicReportsCardState extends ConsumerState<CivicReportsCard> {
                       ],
                     ),
 
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 5),
 
-                    // Category Pill & Barangay
+                    // Category Pill & Barangay (NO image icon or image count)
                     Row(
                       children: [
                         Container(
@@ -430,28 +447,6 @@ class _CivicReportsCardState extends ConsumerState<CivicReportsCard> {
                             ],
                           ),
                         ),
-                        if (images.isNotEmpty) ...[
-                          const SizedBox(width: 6),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(
-                                LucideIcons.image,
-                                size: 10,
-                                color: Color(0xFF60A5FA),
-                              ),
-                              const SizedBox(width: 2),
-                              Text(
-                                "${images.length}",
-                                style: GoogleFonts.inter(
-                                  fontSize: 8.5,
-                                  fontWeight: FontWeight.w700,
-                                  color: const Color(0xFF60A5FA),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
                       ],
                     ),
 
@@ -468,41 +463,14 @@ class _CivicReportsCardState extends ConsumerState<CivicReportsCard> {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ],
-
-                    const SizedBox(height: 6),
-
-                    // Timestamp
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          id.isNotEmpty
-                              ? "Ref: ${id.substring(0, id.length > 8 ? 8 : id.length)}"
-                              : "Community Incident",
-                          style: GoogleFonts.inter(
-                            fontSize: 9,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.textSecondary.withValues(alpha: 0.6),
-                          ),
-                        ),
-                        Text(
-                          dateStr,
-                          style: GoogleFonts.inter(
-                            fontSize: 9,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.textSecondary.withValues(alpha: 0.7),
-                          ),
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               );
             }),
 
-          const SizedBox(height: 10),
+          const SizedBox(height: 6),
 
-          // Bottom Action Button: VIEW ALL CITIZEN REPORTS (100% Matches Web & Other Cards)
+          // Bottom Action Button: VIEW ALL CITIZEN REPORTS
           InkWell(
             onTap: () => CitizenReportsModal.show(
               context,
@@ -549,67 +517,6 @@ class _CivicReportsCardState extends ConsumerState<CivicReportsCard> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildPresetChip(String key, String label) {
-    final isSelected = _filter.activePreset == key;
-    return InkWell(
-      onTap: () {
-        final now = DateTime.now();
-        DateTime start = now;
-        DateTime end = now;
-
-        if (key == 'ALL') {
-          start = DateTime(2020, 1, 1);
-          end = now;
-        } else if (key == 'TODAY') {
-          start = DateTime(now.year, now.month, now.day);
-          end = DateTime(now.year, now.month, now.day, 23, 59, 59);
-        } else if (key == '7D') {
-          start = now.subtract(const Duration(days: 6));
-          end = now;
-        } else if (key == '30D') {
-          start = now.subtract(const Duration(days: 29));
-          end = now;
-        } else if (key == 'MONTH') {
-          start = DateTime(now.year, now.month, 1);
-          end = now;
-        }
-
-        _handleApplyFilter(
-          _filter.copyWith(
-            startDate: start,
-            endDate: end,
-            activePreset: key,
-          ),
-        );
-      },
-      borderRadius: BorderRadius.circular(8),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 180),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? const Color(0xFFF59E0B).withValues(alpha: 0.2)
-              : AppColors.surfaceElevated,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-            color: isSelected
-                ? const Color(0xFFF59E0B)
-                : AppColors.border,
-            width: isSelected ? 1.5 : 1,
-          ),
-        ),
-        child: Text(
-          label,
-          style: GoogleFonts.inter(
-            fontSize: 9.5,
-            fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-            color: isSelected ? Colors.white : AppColors.textSecondary,
-          ),
-        ),
       ),
     );
   }

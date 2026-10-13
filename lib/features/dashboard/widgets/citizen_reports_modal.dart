@@ -922,20 +922,35 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Top Row: Reporter & Status
+                  // Top Row: Reporter & Date & Status
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Flexible(
-                        child: Text(
-                          item.reporterName,
-                          style: GoogleFonts.inter(
-                            fontSize: 12.5,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.white,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Flexible(
+                              child: Text(
+                                item.reporterName,
+                                style: GoogleFonts.inter(
+                                  fontSize: 12.5,
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.white,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            const SizedBox(width: 6),
+                            Text(
+                              "• $dateStr",
+                              style: GoogleFonts.inter(
+                                fontSize: 9.5,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.textSecondary,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       const SizedBox(width: 6),
@@ -1008,31 +1023,6 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                           ),
                         ),
                       ),
-                      if (item.images.isNotEmpty) ...[
-                        const SizedBox(width: 6),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF3B82F6).withValues(alpha: 0.15),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(LucideIcons.image, size: 9, color: Color(0xFF60A5FA)),
-                              const SizedBox(width: 3),
-                              Text(
-                                "${item.images.length}",
-                                style: GoogleFonts.inter(
-                                  fontSize: 8.5,
-                                  fontWeight: FontWeight.w800,
-                                  color: const Color(0xFF60A5FA),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
                     ],
                   ),
 
@@ -1049,30 +1039,6 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
-
-                  const SizedBox(height: 6),
-
-                  // Timestamp
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "ID: ${item.id.substring(0, item.id.length > 8 ? 8 : item.id.length)}",
-                        style: GoogleFonts.inter(
-                          fontSize: 9.5,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.textSecondary.withValues(alpha: 0.7),
-                        ),
-                      ),
-                      Text(
-                        dateStr,
-                        style: GoogleFonts.inter(
-                          fontSize: 9.5,
-                          color: AppColors.textSecondary.withValues(alpha: 0.7),
-                        ),
-                      ),
-                    ],
-                  ),
                 ],
               ),
             ),
