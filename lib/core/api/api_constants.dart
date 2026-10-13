@@ -20,6 +20,7 @@ class AppConstants {
   static const String residentsEndpoint = "/api/mobile/mayor/residents";
   static const String reportsEndpoint = "/api/mobile/mayor/reports";
   static const String projectsEndpoint = "/api/mobile/mayor/projects";
+  static const String announcementsEndpoint = "/api/mobile/mayor/announcements";
 }
 
 class AppColors {

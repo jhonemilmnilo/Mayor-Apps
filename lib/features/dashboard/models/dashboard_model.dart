@@ -1,4 +1,5 @@
 import 'project_item_model.dart';
+import 'announcement_item_model.dart';
 
 class MetricCounts {
   final int residents;
@@ -189,7 +190,7 @@ class MayorDashboardData {
   final TransactionAnalytics transactions;
   final DemographicAnalytics demographics;
   final int residentsRegistered;
-  final List<dynamic> announcements;
+  final List<AnnouncementItemModel> announcements;
   final List<dynamic> news;
   final List<dynamic> upcomingEvents;
   final List<ProjectItemModel> activeProjects;
@@ -234,7 +235,12 @@ class MayorDashboardData {
       transactions: TransactionAnalytics.fromJson(analytics['transactions'] ?? {}),
       demographics: DemographicAnalytics.fromJson(analytics['demographics'] ?? {}),
       residentsRegistered: analytics['residentsRegistered'] ?? 0,
-      announcements: recentFeeds['announcements'] as List? ?? [],
+      announcements: (recentFeeds['announcements'] as List? ?? []).map((a) {
+        if (a is Map<String, dynamic>) {
+          return AnnouncementItemModel.fromJson(a);
+        }
+        return AnnouncementItemModel.fromJson({});
+      }).toList(),
       news: recentFeeds['news'] as List? ?? [],
       upcomingEvents: recentFeeds['upcomingEvents'] as List? ?? [],
       activeProjects: rawProjects.map((p) {
