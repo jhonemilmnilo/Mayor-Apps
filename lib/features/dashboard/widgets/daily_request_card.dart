@@ -36,9 +36,19 @@ class _DailyRequestCardState extends ConsumerState<DailyRequestCard> {
 
   TransactionAnalytics? _filteredTransactions;
 
-  // Status visual configs matching web TransactionDashboardView
+  // Status visual configs matching web TransactionDashboardView (9 canonical statuses)
   final Map<String, Map<String, dynamic>> _statusConfigs = {
+    'ALL': {'label': 'All Statuses', 'color': Color(0xFF8B5CF6)},
     'requests': {'label': 'All Requests', 'color': Color(0xFF8B5CF6)},
+    'FOR_REQUESTING': {'label': 'FOR REQUESTING', 'color': Color(0xFFF59E0B)},
+    'FOR_INSPECTION': {'label': 'FOR INSPECTION', 'color': Color(0xFFF59E0B)},
+    'FOR_REVISION': {'label': 'FOR REVISION', 'color': Color(0xFFF59E0B)},
+    'FOR_PROCESSING': {'label': 'FOR PROCESSING', 'color': Color(0xFF0EA5E9)},
+    'FOR_PAYMENT': {'label': 'FOR PAYMENT', 'color': Color(0xFF0EA5E9)},
+    'FOR_COMPLIANCE': {'label': 'FOR COMPLIANCE', 'color': Color(0xFF0EA5E9)},
+    'RELEASED': {'label': 'RELEASED', 'color': Color(0xFF10B981)},
+    'REJECTED': {'label': 'REJECTED', 'color': Color(0xFFF43F5E)},
+    // Backward-compatible aliases
     'evaluation': {'label': 'For Evaluation', 'color': Color(0xFFF59E0B)},
     'processing': {'label': 'In Processing', 'color': Color(0xFF0EA5E9)},
     'released': {'label': 'Released', 'color': Color(0xFF10B981)},
@@ -52,7 +62,7 @@ class _DailyRequestCardState extends ConsumerState<DailyRequestCard> {
     _filter = RequestFilterCriteria(
       startDate: now.subtract(const Duration(days: 30)),
       endDate: now,
-      status: 'requests',
+      status: 'ALL',
       category: 'ALL',
       activePreset: '30D',
     );
@@ -140,7 +150,9 @@ class _DailyRequestCardState extends ConsumerState<DailyRequestCard> {
   @override
   Widget build(BuildContext context) {
     final activeTransactions = _filteredTransactions ?? widget.transactions;
-    final statusConfig = _statusConfigs[_filter.status] ?? _statusConfigs['requests']!;
+    final statusConfig = _statusConfigs[_filter.status] ??
+        _statusConfigs['ALL'] ??
+        _statusConfigs['requests']!;
     final themeColor = statusConfig['color'] as Color;
 
     final startNormalized = DateTime(_filter.startDate.year, _filter.startDate.month, _filter.startDate.day);
@@ -166,18 +178,27 @@ class _DailyRequestCardState extends ConsumerState<DailyRequestCard> {
             (parsed.isBefore(endNormalized.add(const Duration(days: 1))))) {
           int count = 0;
           switch (_filter.status) {
+            case 'FOR_REQUESTING':
+            case 'FOR_INSPECTION':
+            case 'FOR_REVISION':
             case 'evaluation':
               count = p.evaluation;
               break;
+            case 'FOR_PROCESSING':
+            case 'FOR_PAYMENT':
+            case 'FOR_COMPLIANCE':
             case 'processing':
               count = p.processing;
               break;
+            case 'RELEASED':
             case 'released':
               count = p.released;
               break;
+            case 'REJECTED':
             case 'rejected':
               count = p.rejected;
               break;
+            case 'ALL':
             case 'requests':
             default:
               count = p.requests > 0 ? p.requests : p.total;
@@ -189,7 +210,9 @@ class _DailyRequestCardState extends ConsumerState<DailyRequestCard> {
       }
     }
 
-    if (computedTotal == 0 && _filter.status == 'requests' && activeTransactions.totalCount > 0) {
+    if (computedTotal == 0 &&
+        (_filter.status == 'requests' || _filter.status == 'ALL') &&
+        activeTransactions.totalCount > 0) {
       computedTotal = activeTransactions.totalCount;
     }
 

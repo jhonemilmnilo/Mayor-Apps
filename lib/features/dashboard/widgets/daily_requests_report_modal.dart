@@ -86,15 +86,24 @@ class _DailyRequestsReportModalState
   DailyRequestReportStats? _stats;
   int _totalCount = 0;
 
+  static const List<Map<String, dynamic>> kDailyRequestStatuses = [
+    {'key': 'ALL', 'label': 'All Statuses', 'color': Color(0xFF8B5CF6)},
+    {'key': 'FOR_REQUESTING', 'label': 'FOR REQUESTING', 'color': Color(0xFFF59E0B)},
+    {'key': 'FOR_INSPECTION', 'label': 'FOR INSPECTION', 'color': Color(0xFFF59E0B)},
+    {'key': 'FOR_REVISION', 'label': 'FOR REVISION', 'color': Color(0xFFF59E0B)},
+    {'key': 'FOR_PROCESSING', 'label': 'FOR PROCESSING', 'color': Color(0xFF0EA5E9)},
+    {'key': 'FOR_PAYMENT', 'label': 'FOR PAYMENT', 'color': Color(0xFF0EA5E9)},
+    {'key': 'FOR_COMPLIANCE', 'label': 'FOR COMPLIANCE', 'color': Color(0xFF0EA5E9)},
+    {'key': 'RELEASED', 'label': 'RELEASED', 'color': Color(0xFF10B981)},
+    {'key': 'REJECTED', 'label': 'REJECTED', 'color': Color(0xFFF43F5E)},
+  ];
+
   @override
   void initState() {
     super.initState();
-    // Map status from card filter if needed
     final rawStatus = widget.initialFilter.status.toUpperCase();
-    if (rawStatus == 'REQUESTS' || rawStatus == 'ALL') {
+    if (rawStatus == 'REQUESTS' || rawStatus.isEmpty) {
       _activeStatus = 'ALL';
-    } else if (rawStatus == 'EVALUATION' || rawStatus == 'PROCESSING') {
-      _activeStatus = 'PENDING';
     } else {
       _activeStatus = rawStatus;
     }
@@ -552,19 +561,20 @@ class _DailyRequestsReportModalState
           ),
           const SizedBox(height: 8),
 
-          // Status Filter Chips
+          // Status Filter Chips (100% Web Parity: 9 canonical statuses)
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              children: [
-                _buildStatusChip("ALL", "All Logs", const Color(0xFF3B82F6)),
-                const SizedBox(width: 6),
-                _buildStatusChip("PENDING", "Pending", const Color(0xFFF59E0B)),
-                const SizedBox(width: 6),
-                _buildStatusChip("RELEASED", "Released", const Color(0xFF10B981)),
-                const SizedBox(width: 6),
-                _buildStatusChip("REJECTED", "Rejected", const Color(0xFFF43F5E)),
-              ],
+              children: kDailyRequestStatuses.map((opt) {
+                return Padding(
+                  padding: const EdgeInsets.only(right: 6),
+                  child: _buildStatusChip(
+                    opt['key'] as String,
+                    opt['label'] as String,
+                    opt['color'] as Color,
+                  ),
+                );
+              }).toList(),
             ),
           ),
         ],

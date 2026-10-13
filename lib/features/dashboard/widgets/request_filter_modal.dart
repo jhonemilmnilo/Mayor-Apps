@@ -7,14 +7,14 @@ import '../../../../core/api/api_constants.dart';
 class RequestFilterCriteria {
   final DateTime startDate;
   final DateTime endDate;
-  final String status; // 'requests', 'evaluation', 'processing', 'released', 'rejected'
+  final String status; // 'ALL', 'FOR_REQUESTING', 'FOR_INSPECTION', 'FOR_REVISION', 'FOR_PROCESSING', 'FOR_PAYMENT', 'FOR_COMPLIANCE', 'RELEASED', 'REJECTED'
   final String category; // 'ALL' or specific category
   final String? activePreset; // 'TODAY', '7D', '30D', 'MONTH', 'CUSTOM'
 
   const RequestFilterCriteria({
     required this.startDate,
     required this.endDate,
-    this.status = 'requests',
+    this.status = 'ALL',
     this.category = 'ALL',
     this.activePreset = '30D',
   });
@@ -76,11 +76,15 @@ class _RequestFilterModalState extends State<RequestFilterModal> {
   final DateFormat _dateFormat = DateFormat('MM/dd/yyyy');
 
   final List<Map<String, dynamic>> _statusOptions = [
-    {'key': 'requests', 'label': 'All Requests', 'color': Color(0xFF8B5CF6)},
-    {'key': 'evaluation', 'label': 'For Evaluation', 'color': Color(0xFFF59E0B)},
-    {'key': 'processing', 'label': 'In Processing', 'color': Color(0xFF0EA5E9)},
-    {'key': 'released', 'label': 'Released', 'color': Color(0xFF10B981)},
-    {'key': 'rejected', 'label': 'Rejected', 'color': Color(0xFFF43F5E)},
+    {'key': 'ALL', 'label': 'All Statuses', 'color': Color(0xFF8B5CF6)},
+    {'key': 'FOR_REQUESTING', 'label': 'FOR REQUESTING', 'color': Color(0xFFF59E0B)},
+    {'key': 'FOR_INSPECTION', 'label': 'FOR INSPECTION', 'color': Color(0xFFF59E0B)},
+    {'key': 'FOR_REVISION', 'label': 'FOR REVISION', 'color': Color(0xFFF59E0B)},
+    {'key': 'FOR_PROCESSING', 'label': 'FOR PROCESSING', 'color': Color(0xFF0EA5E9)},
+    {'key': 'FOR_PAYMENT', 'label': 'FOR PAYMENT', 'color': Color(0xFF0EA5E9)},
+    {'key': 'FOR_COMPLIANCE', 'label': 'FOR COMPLIANCE', 'color': Color(0xFF0EA5E9)},
+    {'key': 'RELEASED', 'label': 'RELEASED', 'color': Color(0xFF10B981)},
+    {'key': 'REJECTED', 'label': 'REJECTED', 'color': Color(0xFFF43F5E)},
   ];
 
   @override
@@ -88,7 +92,8 @@ class _RequestFilterModalState extends State<RequestFilterModal> {
     super.initState();
     _startDate = widget.initialFilter.startDate;
     _endDate = widget.initialFilter.endDate;
-    _status = widget.initialFilter.status;
+    final initS = widget.initialFilter.status;
+    _status = (initS.toLowerCase() == 'requests' || initS.isEmpty) ? 'ALL' : initS;
     _category = widget.initialFilter.category;
     _preset = widget.initialFilter.activePreset;
   }
@@ -338,7 +343,7 @@ class _RequestFilterModalState extends State<RequestFilterModal> {
                     setState(() {
                       _startDate = now.subtract(const Duration(days: 29));
                       _endDate = now;
-                      _status = 'requests';
+                      _status = 'ALL';
                       _category = 'ALL';
                       _preset = '30D';
                     });
