@@ -569,8 +569,10 @@ class _CollectionsLedgerCardState extends ConsumerState<CollectionsLedgerCard> {
           InkWell(
             onTap: () => PaymentsLedgerModal.show(
               context,
-              payments: activePayments,
-              totalRevenue: totalAggregated,
+              initialFilter: _filter,
+              selectedBarangay: ref.read(selectedBarangayProvider),
+              initialTotalRevenue: totalAggregated,
+              fallbackPayments: activePayments,
             ),
             borderRadius: BorderRadius.circular(10),
             child: Container(
