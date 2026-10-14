@@ -5,6 +5,7 @@ import 'event_item_model.dart';
 import 'admin_service_model.dart';
 import 'activity_log_model.dart';
 import 'staff_audit_log_model.dart';
+import 'department_compliance_model.dart';
 
 class MetricCounts {
   final int residents;
@@ -206,6 +207,7 @@ class MayorDashboardData {
   final List<dynamic> recentReports;
   final List<StaffAuditLogModel> staffLogs;
   final List<ActivityLogItemModel> activityLogs;
+  final List<DepartmentComplianceModel> departmentLeaderboard;
   final List<MapPlaceItem> mapPlaces;
   final List<String> barangays;
 
@@ -228,6 +230,7 @@ class MayorDashboardData {
     required this.recentReports,
     required this.staffLogs,
     this.activityLogs = const [],
+    this.departmentLeaderboard = const [],
     required this.mapPlaces,
     required this.barangays,
   });
@@ -292,6 +295,12 @@ class MayorDashboardData {
           return ActivityLogItemModel.fromJson(l);
         }
         return ActivityLogItemModel.fromJson({});
+      }).toList(),
+      departmentLeaderboard: (json['departmentLeaderboard'] as List? ?? []).map((d) {
+        if (d is Map<String, dynamic>) {
+          return DepartmentComplianceModel.fromJson(d);
+        }
+        return DepartmentComplianceModel.fromJson({});
       }).toList(),
       mapPlaces: rawPlaces.map((p) => MapPlaceItem.fromJson(p as Map<String, dynamic>)).toList(),
       barangays: (json['barangays'] as List? ?? []).map((e) => e.toString()).toList(),
