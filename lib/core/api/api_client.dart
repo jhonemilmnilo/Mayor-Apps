@@ -1,4 +1,4 @@
-﻿import 'package:dio/dio.dart';
+import 'package:dio/dio.dart';
 import '../storage/token_storage.dart';
 import 'api_constants.dart';
 
@@ -9,8 +9,8 @@ class ApiClient {
     dio = Dio(
       BaseOptions(
         baseUrl: baseUrl ?? AppConstants.defaultBaseUrl,
-        connectTimeout: const Duration(seconds: 15),
-        receiveTimeout: const Duration(seconds: 15),
+        connectTimeout: const Duration(seconds: 45),
+        receiveTimeout: const Duration(seconds: 45),
         headers: {
           "Content-Type": "application/json",
           "x-app-key": AppConstants.appKey,

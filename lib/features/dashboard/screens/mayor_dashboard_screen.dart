@@ -17,6 +17,7 @@ import '../widgets/recent_announcements_card.dart';
 import '../widgets/latest_news_card.dart';
 import '../widgets/recent_events_card.dart';
 import '../widgets/administrative_services_card.dart';
+import '../widgets/activity_logs_card.dart';
 import '../widgets/barangay_search_modal.dart';
 
 class MayorDashboardScreen extends ConsumerWidget {
@@ -226,6 +227,20 @@ class MayorDashboardScreen extends ConsumerWidget {
                 MetricCardsGrid(counts: data.counts),
                 const SizedBox(height: 14),
 
+                // Administrative Services Card (ARTA, Dining, Tourism, Accommodations)
+                AdministrativeServicesCard(
+                  adminServices: data.adminServices,
+                  selectedBarangay: selectedBarangay,
+                ),
+                const SizedBox(height: 14),
+
+                // Real-Time Activity Logs Card (Resident Analytics Stream)
+                ActivityLogsCard(
+                  activityLogs: data.activityLogs,
+                  selectedBarangay: selectedBarangay,
+                ),
+                const SizedBox(height: 14),
+
                 // Territorial Landmarks & GIS Satellite Map
                 TerritorialGisMapCard(places: data.mapPlaces),
                 const SizedBox(height: 14),
@@ -274,13 +289,6 @@ class MayorDashboardScreen extends ConsumerWidget {
                 RecentEventsCard(
                   upcomingEvents: data.upcomingEvents,
                   pastEvents: data.pastEvents,
-                ),
-                const SizedBox(height: 14),
-
-                // 9. Administrative Services Card (100% Web Parity)
-                AdministrativeServicesCard(
-                  adminServices: data.adminServices,
-                  selectedBarangay: selectedBarangay,
                 ),
                 const SizedBox(height: 24),
               ],

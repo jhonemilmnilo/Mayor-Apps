@@ -3,6 +3,7 @@ import 'announcement_item_model.dart';
 import 'news_item_model.dart';
 import 'event_item_model.dart';
 import 'admin_service_model.dart';
+import 'activity_log_model.dart';
 
 class MetricCounts {
   final int residents;
@@ -203,6 +204,7 @@ class MayorDashboardData {
   final List<dynamic> recentTransactions;
   final List<dynamic> recentReports;
   final List<dynamic> staffLogs;
+  final List<ActivityLogItemModel> activityLogs;
   final List<MapPlaceItem> mapPlaces;
   final List<String> barangays;
 
@@ -224,6 +226,7 @@ class MayorDashboardData {
     required this.recentTransactions,
     required this.recentReports,
     required this.staffLogs,
+    this.activityLogs = const [],
     required this.mapPlaces,
     required this.barangays,
   });
@@ -233,6 +236,7 @@ class MayorDashboardData {
     final recentFeeds = json['recentFeeds'] as Map<String, dynamic>? ?? {};
     final rawPlaces = json['mapPlaces'] as List? ?? [];
     final rawProjects = recentFeeds['projects'] as List? ?? [];
+    final rawActivityLogs = recentFeeds['activityLogs'] as List? ?? [];
 
     return MayorDashboardData(
       themeColor: json['themeColor'] ?? '#FF003C',
@@ -277,6 +281,12 @@ class MayorDashboardData {
       recentTransactions: recentFeeds['transactions'] as List? ?? [],
       recentReports: recentFeeds['reports'] as List? ?? [],
       staffLogs: recentFeeds['staffLogs'] as List? ?? [],
+      activityLogs: rawActivityLogs.map((l) {
+        if (l is Map<String, dynamic>) {
+          return ActivityLogItemModel.fromJson(l);
+        }
+        return ActivityLogItemModel.fromJson({});
+      }).toList(),
       mapPlaces: rawPlaces.map((p) => MapPlaceItem.fromJson(p as Map<String, dynamic>)).toList(),
       barangays: (json['barangays'] as List? ?? []).map((e) => e.toString()).toList(),
     );
