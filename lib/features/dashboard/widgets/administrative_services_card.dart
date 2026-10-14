@@ -86,8 +86,6 @@ class AdministrativeServicesCard extends StatelessWidget {
             iconColor: const Color(0xFF3B82F6),
             title: "ARTA Compliance",
             subtitle: "RA 11032 Citizen Charter SLA statutory audit",
-            badgeText: "${adminServices.artaComplianceRate.toStringAsFixed(1)}% SLA",
-            badgeColor: const Color(0xFF10B981),
             onTap: () => ArtaComplianceModal.show(
               context,
               summaryCounts: adminServices,
@@ -102,8 +100,6 @@ class AdministrativeServicesCard extends StatelessWidget {
             iconColor: const Color(0xFFF59E0B),
             title: "Kainan Hub Directory",
             subtitle: "Municipal dining, cafes & culinary spots",
-            badgeText: "${adminServices.kainan} spots",
-            badgeColor: const Color(0xFFF59E0B),
             onTap: () => KainanDirectoryModal.show(context),
           ),
           const SizedBox(height: 10),
@@ -115,8 +111,6 @@ class AdministrativeServicesCard extends StatelessWidget {
             iconColor: const Color(0xFF8B5CF6),
             title: "Tuluyan Lodging Hub",
             subtitle: "Accommodations, resorts & staycation venues",
-            badgeText: "${adminServices.tuluyan} lodgings",
-            badgeColor: const Color(0xFF8B5CF6),
             onTap: () => TuluyanDirectoryModal.show(context),
           ),
           const SizedBox(height: 10),
@@ -128,8 +122,6 @@ class AdministrativeServicesCard extends StatelessWidget {
             iconColor: const Color(0xFF10B981),
             title: "Tourism Gallery",
             subtitle: "Heritage spots, municipal parks & landmarks",
-            badgeText: "${adminServices.tourism} spots",
-            badgeColor: const Color(0xFF10B981),
             onTap: () => TourismDirectoryModal.show(context),
           ),
           const SizedBox(height: 10),
@@ -141,8 +133,6 @@ class AdministrativeServicesCard extends StatelessWidget {
             iconColor: const Color(0xFFEC4899),
             title: "Incident Reports",
             subtitle: "Citizen public safety reports & civic tracking",
-            badgeText: "${adminServices.reports} reports",
-            badgeColor: const Color(0xFFEC4899),
             onTap: () => CitizenReportsModal.show(
               context,
               initialFilter: const CitizenReportFilterCriteria(),
@@ -159,8 +149,6 @@ class AdministrativeServicesCard extends StatelessWidget {
             iconColor: const Color(0xFFEF4444),
             title: "Emergency Hotlines",
             subtitle: "PNP, BFP, RHU, MDRRMO quick response",
-            badgeText: "${adminServices.hotlines} on duty",
-            badgeColor: const Color(0xFFEF4444),
             onTap: () => HotlinesDirectoryModal.show(context),
           ),
         ],
@@ -174,8 +162,6 @@ class AdministrativeServicesCard extends StatelessWidget {
     required Color iconColor,
     required String title,
     required String subtitle,
-    required String badgeText,
-    required Color badgeColor,
     required VoidCallback onTap,
   }) {
     return Container(
@@ -208,42 +194,20 @@ class AdministrativeServicesCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 12),
 
-                // Title, Subtitle, Badge
+                // Title and Subtitle
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Flexible(
-                            child: Text(
-                              title,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: GoogleFonts.inter(
-                                fontSize: 13.5,
-                                fontWeight: FontWeight.w800,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 6),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                            decoration: BoxDecoration(
-                              color: badgeColor.withValues(alpha: 0.15),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: Text(
-                              badgeText,
-                              style: GoogleFonts.inter(
-                                fontSize: 9.5,
-                                fontWeight: FontWeight.w800,
-                                color: badgeColor,
-                              ),
-                            ),
-                          ),
-                        ],
+                      Text(
+                        title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.inter(
+                          fontSize: 13.5,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.white,
+                        ),
                       ),
                       const SizedBox(height: 3),
                       Text(

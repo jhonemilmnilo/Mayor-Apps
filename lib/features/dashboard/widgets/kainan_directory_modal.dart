@@ -421,37 +421,15 @@ class _KainanDirectoryModalState extends ConsumerState<KainanDirectoryModal> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Flexible(
-                            child: Text(
-                              item.name,
-                              style: GoogleFonts.inter(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w800,
-                                color: Colors.white,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          const SizedBox(width: 6),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFF59E0B).withValues(alpha: 0.15),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: Text(
-                              item.cuisineType.toUpperCase(),
-                              style: GoogleFonts.inter(
-                                fontSize: 8.5,
-                                fontWeight: FontWeight.w900,
-                                color: const Color(0xFFF59E0B),
-                              ),
-                            ),
-                          ),
-                        ],
+                      Text(
+                        item.name,
+                        style: GoogleFonts.inter(
+                          fontSize: 13.5,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.white,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 3),
                       Text(
@@ -529,9 +507,53 @@ class _KainanDetailSheet extends StatelessWidget {
               child: Image.network(item.imageUrl!, height: 180, width: double.infinity, fit: BoxFit.cover),
             ),
           const SizedBox(height: 16),
-          Text(item.name, style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.w900, color: Colors.white)),
-          const SizedBox(height: 4),
-          Text("${item.cuisineType} • ${item.barangay}", style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFFF59E0B), fontWeight: FontWeight.w700)),
+          Text(item.name, style: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.w900, color: Colors.white)),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            runSpacing: 6,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF59E0B).withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: const Color(0xFFF59E0B).withValues(alpha: 0.3)),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.restaurant_menu_rounded, size: 14, color: Color(0xFFF59E0B)),
+                    const SizedBox(width: 6),
+                    Text(
+                      item.cuisineType,
+                      style: GoogleFonts.inter(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w800,
+                        color: const Color(0xFFF59E0B),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceElevated,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.white12),
+                ),
+                child: Text(
+                  "Brgy. ${item.barangay}",
+                  style: GoogleFonts.inter(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white70,
+                  ),
+                ),
+              ),
+            ],
+          ),
           const SizedBox(height: 12),
           Text(item.description.isNotEmpty ? item.description : "Premier local dining spot in Mapandan.", style: GoogleFonts.inter(fontSize: 12, color: Colors.white70)),
           const SizedBox(height: 16),
