@@ -231,6 +231,10 @@ class MayorDashboardScreen extends ConsumerWidget {
                 MetricCardsGrid(counts: data.counts),
                 const SizedBox(height: 14),
 
+                // Territorial Landmarks & GIS Satellite Map
+                TerritorialGisMapCard(places: data.mapPlaces),
+                const SizedBox(height: 14),
+
                 // Administrative Services Card (ARTA, Dining, Tourism, Accommodations)
                 AdministrativeServicesCard(
                   adminServices: data.adminServices,
@@ -268,10 +272,6 @@ class MayorDashboardScreen extends ConsumerWidget {
                   staffLogs: data.staffLogs,
                   selectedBarangay: selectedBarangay,
                 ),
-                const SizedBox(height: 14),
-
-                // Territorial Landmarks & GIS Satellite Map
-                TerritorialGisMapCard(places: data.mapPlaces),
                 const SizedBox(height: 14),
 
                 // 1. Collections Ledger Card (100% Web Parity)

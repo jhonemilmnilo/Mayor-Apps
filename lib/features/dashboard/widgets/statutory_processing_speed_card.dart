@@ -119,60 +119,6 @@ class StatutoryProcessingSpeedCard extends StatelessWidget {
             tier: processingSpeed.highlyTechnical,
             themeColor: const Color(0xFF6366F1),
           ),
-
-          const SizedBox(height: 16),
-          const Divider(height: 1, color: AppColors.border),
-          const SizedBox(height: 10),
-
-          // Footnote Area matching web system
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Statutory Day 0: ",
-                      style: GoogleFonts.inter(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w800,
-                        color: AppColors.textSecondary,
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        "Clock rolls over after 5:00 PM or weekends",
-                        style: GoogleFonts.inter(
-                          fontSize: 10,
-                          color: AppColors.textSecondary.withValues(alpha: 0.8),
-                          fontStyle: FontStyle.italic,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 8),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                decoration: BoxDecoration(
-                  color: accentColor.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(6),
-                  border: Border.all(color: accentColor.withValues(alpha: 0.25), width: 0.8),
-                ),
-                child: Text(
-                  "PST Working Days",
-                  style: GoogleFonts.inter(
-                    fontSize: 9.5,
-                    fontWeight: FontWeight.w800,
-                    color: accentColor,
-                  ),
-                ),
-              ),
-            ],
-          ),
         ],
       ),
     );
