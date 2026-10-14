@@ -197,6 +197,7 @@ class TourismSpotItemModel {
   final double? longitude;
   final String? googleMapsUrl;
   final String barangay;
+  final bool isPublished;
 
   const TourismSpotItemModel({
     required this.id,
@@ -212,6 +213,7 @@ class TourismSpotItemModel {
     this.longitude,
     this.googleMapsUrl,
     this.barangay = 'Mapandan',
+    this.isPublished = true,
   });
 
   factory TourismSpotItemModel.fromJson(Map<String, dynamic> json) {
@@ -229,6 +231,11 @@ class TourismSpotItemModel {
       longitude: (json['longitude'] as num?)?.toDouble(),
       googleMapsUrl: json['googleMapsUrl']?.toString(),
       barangay: json['barangay']?.toString() ?? 'Mapandan',
+      isPublished: json['isPublished'] is bool
+          ? (json['isPublished'] as bool)
+          : (json['isPublished'] != false &&
+              json['isPublished'] != 'false' &&
+              json['isPublished'] != 0),
     );
   }
 }

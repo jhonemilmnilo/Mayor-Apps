@@ -37,6 +37,7 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
   int _currentPage = 1;
   int _totalCount = 0;
   String? _errorMessage;
+  String _selectedStatus = 'ALL'; // 'ALL', 'PUBLISHED', 'DRAFT'
 
   @override
   void initState() {
@@ -78,6 +79,17 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
     });
   }
 
+  void _onStatusFilterChanged(String status) {
+    if (_selectedStatus == status) return;
+    setState(() {
+      _selectedStatus = status;
+      _currentPage = 1;
+      _hasMore = true;
+      _spots.clear();
+    });
+    _fetchSpots(page: 1);
+  }
+
   Future<void> _loadNextPage() async {
     setState(() => _isLoadingMore = true);
     await _fetchSpots(page: _currentPage + 1);
@@ -101,6 +113,10 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
         'limit': 15,
       };
 
+      if (_selectedStatus != 'ALL') {
+        queryParams['status'] = _selectedStatus;
+      }
+
       final search = _searchController.text.trim();
       if (search.isNotEmpty) {
         queryParams['search'] = search;
@@ -113,7 +129,7 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
       );
 
       if (res.data != null && res.data['success'] == true) {
-        final rawList = res.data['spots'] as List? ?? [];
+        final rawList = (res.data['tourismSpots'] ?? res.data['spots']) as List? ?? [];
         final totalCount = (res.data['totalCount'] as num?)?.toInt() ?? 0;
         final hasMore = res.data['hasMore'] == true;
 
@@ -302,6 +318,45 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
             ),
           ),
 
+          const SizedBox(height: 10),
+
+          // Status Filter Tabs
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  _buildStatusFilterChip(
+                    label: "ALL SPOTS",
+                    count: _selectedStatus == 'ALL' ? _totalCount : null,
+                    isSelected: _selectedStatus == 'ALL',
+                    chipColor: accentColor,
+                    onTap: () => _onStatusFilterChanged('ALL'),
+                  ),
+                  const SizedBox(width: 8),
+                  _buildStatusFilterChip(
+                    label: "PUBLISHED",
+                    icon: Icons.check_circle_rounded,
+                    count: _selectedStatus == 'PUBLISHED' ? _totalCount : null,
+                    isSelected: _selectedStatus == 'PUBLISHED',
+                    chipColor: const Color(0xFF10B981),
+                    onTap: () => _onStatusFilterChanged('PUBLISHED'),
+                  ),
+                  const SizedBox(width: 8),
+                  _buildStatusFilterChip(
+                    label: "DRAFT / UNPUBLISHED",
+                    icon: Icons.edit_note_rounded,
+                    count: _selectedStatus == 'DRAFT' ? _totalCount : null,
+                    isSelected: _selectedStatus == 'DRAFT',
+                    chipColor: Colors.amber,
+                    onTap: () => _onStatusFilterChanged('DRAFT'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
           const SizedBox(height: 12),
           const Divider(height: 1, color: AppColors.border),
 
@@ -435,12 +490,86 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
     );
   }
 
+  Widget _buildStatusFilterChip({
+    required String label,
+    required bool isSelected,
+    required Color chipColor,
+    required VoidCallback onTap,
+    IconData? icon,
+    int? count,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(8),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        decoration: BoxDecoration(
+          color: isSelected
+              ? chipColor.withValues(alpha: 0.16)
+              : AppColors.surface,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: isSelected
+                ? chipColor.withValues(alpha: 0.6)
+                : AppColors.border,
+            width: isSelected ? 1.2 : 1,
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (icon != null) ...[
+              Icon(
+                icon,
+                size: 13,
+                color: isSelected ? chipColor : AppColors.textSecondary,
+              ),
+              const SizedBox(width: 5),
+            ],
+            Text(
+              label,
+              style: GoogleFonts.inter(
+                fontSize: 11,
+                fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
+                color: isSelected ? chipColor : AppColors.textSecondary,
+                letterSpacing: 0.2,
+              ),
+            ),
+            if (count != null) ...[
+              const SizedBox(width: 6),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                decoration: BoxDecoration(
+                  color: isSelected ? chipColor : Colors.white10,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Text(
+                  "$count",
+                  style: GoogleFonts.inter(
+                    fontSize: 9.5,
+                    fontWeight: FontWeight.w900,
+                    color: isSelected ? Colors.black : Colors.white70,
+                  ),
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildSpotCard(TourismSpotItemModel spot, Color accentColor) {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(
+          color: !spot.isPublished
+              ? Colors.amber.withValues(alpha: 0.35)
+              : AppColors.border,
+        ),
       ),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
@@ -448,36 +577,48 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Image Banner if available
-            if (spot.imageUrl != null && spot.imageUrl!.isNotEmpty)
-              SizedBox(
-                height: 130,
-                width: double.infinity,
-                child: Image.network(
-                  spot.imageUrl!,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => _buildImagePlaceholder(spot, accentColor),
-                  loadingBuilder: (context, child, progress) {
-                    if (progress == null) return child;
-                    return Container(
-                      height: 130,
-                      color: AppColors.surfaceElevated,
-                      child: const Center(
-                        child: SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Color(0xFF10B981),
+            // Image Banner with Floating Status Badge
+            Stack(
+              children: [
+                if (spot.imageUrl != null && spot.imageUrl!.isNotEmpty)
+                  SizedBox(
+                    height: 130,
+                    width: double.infinity,
+                    child: Image.network(
+                      spot.imageUrl!,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) =>
+                          _buildImagePlaceholder(spot, accentColor),
+                      loadingBuilder: (context, child, progress) {
+                        if (progress == null) return child;
+                        return Container(
+                          height: 130,
+                          color: AppColors.surfaceElevated,
+                          child: const Center(
+                            child: SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Color(0xFF10B981),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    );
-                  },
+                        );
+                      },
+                    ),
+                  )
+                else
+                  _buildImagePlaceholder(spot, accentColor),
+
+                // Top-right floating status indicator pill
+                Positioned(
+                  top: 9,
+                  right: 9,
+                  child: _buildCardStatusBadge(spot.isPublished),
                 ),
-              )
-            else
-              _buildImagePlaceholder(spot, accentColor),
+              ],
+            ),
 
             // Card Body
             Padding(
@@ -503,6 +644,33 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
                           ),
                         ),
                       ),
+                      if (!spot.isPublished) ...[
+                        const SizedBox(width: 6),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2.5),
+                          decoration: BoxDecoration(
+                            color: Colors.amber.withValues(alpha: 0.15),
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(color: Colors.amber.withValues(alpha: 0.35)),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(Icons.edit_note_rounded, size: 12, color: Colors.amber),
+                              const SizedBox(width: 3),
+                              Text(
+                                "DRAFT",
+                                style: GoogleFonts.inter(
+                                  fontSize: 9,
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.amber,
+                                  letterSpacing: 0.3,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                       const Spacer(),
                       if (spot.entranceFee != null && spot.entranceFee!.isNotEmpty)
                         Container(
@@ -597,6 +765,67 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
         ),
       ),
     );
+  }
+
+  Widget _buildCardStatusBadge(bool isPublished) {
+    if (isPublished) {
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+        decoration: BoxDecoration(
+          color: const Color(0xFF0F172A).withValues(alpha: 0.85),
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(color: const Color(0xFF10B981).withValues(alpha: 0.45)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 5,
+              height: 5,
+              decoration: const BoxDecoration(
+                color: Color(0xFF10B981),
+                shape: BoxShape.circle,
+              ),
+            ),
+            const SizedBox(width: 4),
+            Text(
+              "PUBLISHED",
+              style: GoogleFonts.inter(
+                fontSize: 9,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 0.3,
+                color: const Color(0xFF10B981),
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+        decoration: BoxDecoration(
+          color: const Color(0xFF0F172A).withValues(alpha: 0.90),
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(color: Colors.amber.withValues(alpha: 0.55)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.edit_note_rounded, size: 12, color: Colors.amber),
+            const SizedBox(width: 3),
+            Text(
+              "DRAFT",
+              style: GoogleFonts.inter(
+                fontSize: 9,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 0.3,
+                color: Colors.amber,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   Widget _buildImagePlaceholder(TourismSpotItemModel spot, Color accentColor) {
@@ -694,7 +923,9 @@ class _TourismDetailSheet extends StatelessWidget {
                           borderRadius: BorderRadius.circular(6),
                         ),
                         child: Text(
-                          "Brgy. ${spot.barangay}",
+                          spot.barangay.isNotEmpty && spot.barangay != 'Mapandan'
+                              ? "Brgy. ${spot.barangay}"
+                              : "Mapandan",
                           style: GoogleFonts.inter(
                             fontSize: 10.5,
                             fontWeight: FontWeight.w600,
@@ -702,8 +933,76 @@ class _TourismDetailSheet extends StatelessWidget {
                           ),
                         ),
                       ),
+                      const Spacer(),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: spot.isPublished
+                              ? const Color(0xFF10B981).withValues(alpha: 0.15)
+                              : Colors.amber.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(6),
+                          border: Border.all(
+                            color: spot.isPublished
+                                ? const Color(0xFF10B981).withValues(alpha: 0.4)
+                                : Colors.amber.withValues(alpha: 0.45),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              spot.isPublished
+                                  ? Icons.check_circle_rounded
+                                  : Icons.edit_note_rounded,
+                              size: 13,
+                              color: spot.isPublished
+                                  ? const Color(0xFF10B981)
+                                  : Colors.amber,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              spot.isPublished ? "PUBLISHED" : "DRAFT",
+                              style: GoogleFonts.inter(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w800,
+                                color: spot.isPublished
+                                  ? const Color(0xFF10B981)
+                                  : Colors.amber,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
+
+                  if (!spot.isPublished) ...[
+                    const SizedBox(height: 12),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.amber.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.amber.withValues(alpha: 0.35)),
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.info_outline_rounded, color: Colors.amber, size: 16),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              "Executive Note: This spot is currently saved as DRAFT and is not yet published to the public citizen portal.",
+                              style: GoogleFonts.inter(
+                                fontSize: 11,
+                                color: Colors.amber.shade200,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                   const SizedBox(height: 10),
 
                   Text(
@@ -729,10 +1028,13 @@ class _TourismDetailSheet extends StatelessWidget {
                     const SizedBox(height: 18),
                   ],
 
-                  // Info items
-                  _buildInfoTile(
+                  const Divider(height: 1, color: AppColors.border),
+                  const SizedBox(height: 14),
+
+                  // Compact Plain Text Info Rows (no cards)
+                  _buildInfoRow(
                     icon: Icons.location_on_outlined,
-                    label: "Location / Address",
+                    label: "Location",
                     value: spot.address,
                     onCopy: () {
                       Clipboard.setData(ClipboardData(text: spot.address));
@@ -746,17 +1048,17 @@ class _TourismDetailSheet extends StatelessWidget {
                   ),
 
                   if (spot.entranceFee != null && spot.entranceFee!.isNotEmpty) ...[
-                    const SizedBox(height: 10),
-                    _buildInfoTile(
+                    const SizedBox(height: 6),
+                    _buildInfoRow(
                       icon: Icons.confirmation_number_outlined,
-                      label: "Entrance / Admission Fee",
+                      label: "Entrance Fee",
                       value: spot.entranceFee!,
                     ),
                   ],
 
                   if (spot.bestTimeToVisit != null && spot.bestTimeToVisit!.isNotEmpty) ...[
-                    const SizedBox(height: 10),
-                    _buildInfoTile(
+                    const SizedBox(height: 6),
+                    _buildInfoRow(
                       icon: Icons.access_time_rounded,
                       label: "Best Time to Visit",
                       value: spot.bestTimeToVisit!,
@@ -764,8 +1066,8 @@ class _TourismDetailSheet extends StatelessWidget {
                   ],
 
                   if (spot.contactNumber != null && spot.contactNumber!.isNotEmpty) ...[
-                    const SizedBox(height: 10),
-                    _buildInfoTile(
+                    const SizedBox(height: 6),
+                    _buildInfoRow(
                       icon: Icons.phone_outlined,
                       label: "Contact Inquiry",
                       value: spot.contactNumber!,
@@ -819,55 +1121,60 @@ class _TourismDetailSheet extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoTile({
+  Widget _buildInfoRow({
     required IconData icon,
     required String label,
     required String value,
     VoidCallback? onCopy,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border),
-      ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 18, color: const Color(0xFF10B981)),
-          const SizedBox(width: 10),
+          Padding(
+            padding: const EdgeInsets.only(top: 2),
+            child: Icon(icon, size: 14, color: const Color(0xFF10B981)),
+          ),
+          const SizedBox(width: 8),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  label,
-                  style: GoogleFonts.inter(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.textSecondary,
+            child: RichText(
+              text: TextSpan(
+                style: GoogleFonts.inter(fontSize: 12.5, height: 1.4),
+                children: [
+                  TextSpan(
+                    text: "$label: ",
+                    style: const TextStyle(
+                      color: AppColors.textSecondary,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 3),
-                Text(
-                  value,
-                  style: GoogleFonts.inter(
-                    fontSize: 12.5,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
+                  TextSpan(
+                    text: value,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-          if (onCopy != null)
-            IconButton(
-              icon: const Icon(Icons.copy_rounded, size: 16, color: AppColors.textSecondary),
-              onPressed: onCopy,
-              constraints: const BoxConstraints(),
-              padding: EdgeInsets.zero,
+          if (onCopy != null) ...[
+            const SizedBox(width: 8),
+            InkWell(
+              onTap: onCopy,
+              borderRadius: BorderRadius.circular(4),
+              child: const Padding(
+                padding: EdgeInsets.all(3),
+                child: Icon(
+                  Icons.copy_rounded,
+                  size: 13,
+                  color: AppColors.textSecondary,
+                ),
+              ),
             ),
+          ],
         ],
       ),
     );
