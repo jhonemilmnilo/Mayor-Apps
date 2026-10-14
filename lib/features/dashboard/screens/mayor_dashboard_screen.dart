@@ -18,6 +18,7 @@ import '../widgets/latest_news_card.dart';
 import '../widgets/recent_events_card.dart';
 import '../widgets/administrative_services_card.dart';
 import '../widgets/department_compliance_leaderboard_card.dart';
+import '../widgets/statutory_processing_speed_card.dart';
 import '../widgets/activity_logs_card.dart';
 import '../widgets/staff_audit_logs_card.dart';
 import '../widgets/barangay_search_modal.dart';
@@ -239,6 +240,12 @@ class MayorDashboardScreen extends ConsumerWidget {
                 // Department Compliance Leaderboard (RA 11032 Anti-Red Tape SLA)
                 DepartmentComplianceLeaderboardCard(
                   leaderboard: data.departmentLeaderboard,
+                ),
+                const SizedBox(height: 14),
+
+                // Statutory Processing Speed (Average Working Days vs RA 11032 Ceilings)
+                StatutoryProcessingSpeedCard(
+                  processingSpeed: data.processingSpeed,
                 ),
                 const SizedBox(height: 14),
 

@@ -6,6 +6,7 @@ import 'admin_service_model.dart';
 import 'activity_log_model.dart';
 import 'staff_audit_log_model.dart';
 import 'department_compliance_model.dart';
+import 'processing_speed_model.dart';
 
 class MetricCounts {
   final int residents;
@@ -208,6 +209,7 @@ class MayorDashboardData {
   final List<StaffAuditLogModel> staffLogs;
   final List<ActivityLogItemModel> activityLogs;
   final List<DepartmentComplianceModel> departmentLeaderboard;
+  final StatutoryProcessingSpeedModel processingSpeed;
   final List<MapPlaceItem> mapPlaces;
   final List<String> barangays;
 
@@ -231,6 +233,7 @@ class MayorDashboardData {
     required this.staffLogs,
     this.activityLogs = const [],
     this.departmentLeaderboard = const [],
+    required this.processingSpeed,
     required this.mapPlaces,
     required this.barangays,
   });
@@ -302,6 +305,9 @@ class MayorDashboardData {
         }
         return DepartmentComplianceModel.fromJson({});
       }).toList(),
+      processingSpeed: json['processingSpeed'] != null
+          ? StatutoryProcessingSpeedModel.fromJson(json['processingSpeed'] as Map<String, dynamic>)
+          : StatutoryProcessingSpeedModel.fallback(),
       mapPlaces: rawPlaces.map((p) => MapPlaceItem.fromJson(p as Map<String, dynamic>)).toList(),
       barangays: (json['barangays'] as List? ?? []).map((e) => e.toString()).toList(),
     );
