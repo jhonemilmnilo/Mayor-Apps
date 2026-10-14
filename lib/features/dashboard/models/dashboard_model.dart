@@ -1,6 +1,7 @@
 import 'project_item_model.dart';
 import 'announcement_item_model.dart';
 import 'news_item_model.dart';
+import 'event_item_model.dart';
 
 class MetricCounts {
   final int residents;
@@ -193,7 +194,8 @@ class MayorDashboardData {
   final int residentsRegistered;
   final List<AnnouncementItemModel> announcements;
   final List<NewsItemModel> news;
-  final List<dynamic> upcomingEvents;
+  final List<EventItemModel> upcomingEvents;
+  final List<EventItemModel> pastEvents;
   final List<ProjectItemModel> activeProjects;
   final List<dynamic> payments;
   final List<dynamic> recentTransactions;
@@ -213,6 +215,7 @@ class MayorDashboardData {
     required this.announcements,
     required this.news,
     required this.upcomingEvents,
+    required this.pastEvents,
     required this.activeProjects,
     required this.payments,
     required this.recentTransactions,
@@ -248,7 +251,18 @@ class MayorDashboardData {
         }
         return NewsItemModel.fromJson({});
       }).toList(),
-      upcomingEvents: recentFeeds['upcomingEvents'] as List? ?? [],
+      upcomingEvents: (recentFeeds['upcomingEvents'] as List? ?? []).map((e) {
+        if (e is Map<String, dynamic>) {
+          return EventItemModel.fromJson(e);
+        }
+        return EventItemModel.fromJson({});
+      }).toList(),
+      pastEvents: (recentFeeds['pastEvents'] as List? ?? []).map((e) {
+        if (e is Map<String, dynamic>) {
+          return EventItemModel.fromJson(e);
+        }
+        return EventItemModel.fromJson({});
+      }).toList(),
       activeProjects: rawProjects.map((p) {
         if (p is Map<String, dynamic>) {
           return ProjectItemModel.fromJson(p);
