@@ -24,9 +24,10 @@ class ActivityLogsCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: AppColors.getSurface(context),
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppColors.border, width: 1.2),
+        border: Border.all(color: AppColors.getBorder(context), width: 1.2),
+        boxShadow: AppColors.getCardShadow(context),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,7 +60,7 @@ class ActivityLogsCard extends StatelessWidget {
                         fontWeight: FontWeight.w900,
                         fontStyle: FontStyle.italic,
                         letterSpacing: -0.2,
-                        color: Colors.white,
+                        color: AppColors.getTextPrimary(context),
                       ),
                     ),
                     const SizedBox(height: 2),
@@ -185,9 +186,9 @@ class ActivityLogsCard extends StatelessWidget {
                                       children: [
                                         TextSpan(
                                           text: "${log.maskedUser} ",
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                             fontWeight: FontWeight.w800,
-                                            color: Colors.white,
+                                            color: AppColors.getTextPrimary(context),
                                           ),
                                         ),
                                         TextSpan(

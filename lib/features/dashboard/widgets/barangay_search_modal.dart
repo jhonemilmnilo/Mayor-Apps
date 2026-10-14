@@ -54,9 +54,9 @@ class _BarangaySearchModalState extends State<BarangaySearchModal> {
     return Container(
       height: MediaQuery.of(context).size.height * 0.72,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-      decoration: const BoxDecoration(
-        color: AppColors.background,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      decoration: BoxDecoration(
+        color: AppColors.getBackground(context),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,7 +67,7 @@ class _BarangaySearchModalState extends State<BarangaySearchModal> {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.white24,
+                color: (AppColors.isDark(context) ? Colors.white : Colors.black).withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -82,11 +82,11 @@ class _BarangaySearchModalState extends State<BarangaySearchModal> {
                   fontSize: 11,
                   fontWeight: FontWeight.w900,
                   letterSpacing: 1.5,
-                  color: AppColors.textSecondary,
+                  color: AppColors.getTextSecondary(context),
                 ),
               ),
               IconButton(
-                icon: const Icon(LucideIcons.x, size: 20, color: AppColors.textSecondary),
+                icon: Icon(LucideIcons.x, size: 20, color: AppColors.getTextSecondary(context)),
                 onPressed: () => Navigator.pop(context),
               ),
             ],
@@ -96,21 +96,21 @@ class _BarangaySearchModalState extends State<BarangaySearchModal> {
           // Search Field
           TextField(
             controller: _searchController,
-            style: const TextStyle(color: Colors.white, fontSize: 14),
+            style: TextStyle(color: AppColors.getTextPrimary(context), fontSize: 14),
             decoration: InputDecoration(
-              prefixIcon: const Icon(LucideIcons.search, size: 18, color: AppColors.textSecondary),
+              prefixIcon: Icon(LucideIcons.search, size: 18, color: AppColors.getTextSecondary(context)),
               hintText: "Search barangay name...",
-              hintStyle: const TextStyle(color: Colors.white30, fontSize: 14),
+              hintStyle: TextStyle(color: AppColors.getTextSecondary(context).withValues(alpha: 0.5), fontSize: 14),
               filled: true,
-              fillColor: AppColors.surface,
+              fillColor: AppColors.getSurface(context),
               contentPadding: const EdgeInsets.symmetric(vertical: 14),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16),
-                borderSide: const BorderSide(color: AppColors.border),
+                borderSide: BorderSide(color: AppColors.getBorder(context)),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16),
-                borderSide: const BorderSide(color: AppColors.border),
+                borderSide: BorderSide(color: AppColors.getBorder(context)),
               ),
             ),
           ),
@@ -126,7 +126,7 @@ class _BarangaySearchModalState extends State<BarangaySearchModal> {
                   value: "",
                   isSelected: widget.selectedBarangay.isEmpty,
                 ),
-                const Divider(color: AppColors.border, height: 16),
+                Divider(color: AppColors.getBorder(context), height: 16),
                 // Barangay List
                 ..._filteredBarangays.map((b) {
                   return _buildBarangayTile(
@@ -170,7 +170,7 @@ class _BarangaySearchModalState extends State<BarangaySearchModal> {
               style: GoogleFonts.inter(
                 fontSize: 14,
                 fontWeight: isSelected ? FontWeight.w800 : FontWeight.w500,
-                color: isSelected ? Colors.white : AppColors.textSecondary,
+                color: isSelected ? AppColors.getTextPrimary(context) : AppColors.getTextSecondary(context),
               ),
             ),
             if (isSelected)

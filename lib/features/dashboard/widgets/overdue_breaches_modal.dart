@@ -86,9 +86,9 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.90,
       ),
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      decoration: BoxDecoration(
+        color: AppColors.getSurface(context),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
         children: [
@@ -99,7 +99,7 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
               width: 38,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
+                color: (AppColors.isDark(context) ? Colors.white : Colors.black).withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -136,14 +136,14 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
                             fontWeight: FontWeight.w900,
                             fontStyle: FontStyle.italic,
                             letterSpacing: -0.2,
-                            color: Colors.white,
+                            color: AppColors.getTextPrimary(context),
                           ),
                         ),
                         Text(
                           "${widget.overdueRequests.length} citizen requests exceeded RA 11032 SLA",
                           style: GoogleFonts.inter(
                             fontSize: 10.5,
-                            color: AppColors.textSecondary,
+                            color: AppColors.getTextSecondary(context),
                           ),
                         ),
                       ],
@@ -152,14 +152,14 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
                 ),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(LucideIcons.x, size: 20, color: AppColors.textSecondary),
+                  icon: Icon(LucideIcons.x, size: 20, color: AppColors.getTextSecondary(context)),
                   visualDensity: VisualDensity.compact,
                 ),
               ],
             ),
           ),
 
-          const Divider(color: AppColors.border, height: 1),
+          Divider(color: AppColors.getBorder(context), height: 1),
 
           // 3 Metric Summary Cards (Total Breaches, Max Overdue, Affected Offices)
           Padding(
@@ -168,6 +168,7 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
               children: [
                 Expanded(
                   child: _buildMetricPillar(
+                    context,
                     title: "TOTAL BREACHES",
                     value: "${widget.overdueRequests.length}",
                     valueColor: _alertRose,
@@ -176,6 +177,7 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: _buildMetricPillar(
+                    context,
                     title: "MAX OVERDUE",
                     value: "+$maxDays days",
                     valueColor: _alertRose,
@@ -184,9 +186,10 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: _buildMetricPillar(
+                    context,
                     title: "AFFECTED OFFICES",
                     value: "${distinctOffices.length}",
-                    valueColor: Colors.white,
+                    valueColor: AppColors.getTextPrimary(context),
                   ),
                 ),
               ],
@@ -203,14 +206,14 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
                   _searchQuery = val;
                 });
               },
-              style: GoogleFonts.inter(fontSize: 12, color: Colors.white),
+              style: GoogleFonts.inter(fontSize: 12, color: AppColors.getTextPrimary(context)),
               decoration: InputDecoration(
                 hintText: "Search reference, service, or handler...",
-                hintStyle: GoogleFonts.inter(fontSize: 12, color: AppColors.textSecondary),
-                prefixIcon: const Icon(LucideIcons.search, size: 14, color: AppColors.textSecondary),
+                hintStyle: GoogleFonts.inter(fontSize: 12, color: AppColors.getTextSecondary(context)),
+                prefixIcon: Icon(LucideIcons.search, size: 14, color: AppColors.getTextSecondary(context)),
                 suffixIcon: _searchQuery.isNotEmpty
                     ? IconButton(
-                        icon: const Icon(LucideIcons.x, size: 14, color: AppColors.textSecondary),
+                        icon: Icon(LucideIcons.x, size: 14, color: AppColors.getTextSecondary(context)),
                         onPressed: () {
                           _searchController.clear();
                           setState(() {
@@ -220,15 +223,15 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
                       )
                     : null,
                 filled: true,
-                fillColor: AppColors.surfaceElevated.withValues(alpha: 0.6),
+                fillColor: AppColors.getSurfaceElevated(context).withValues(alpha: 0.6),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(color: AppColors.border),
+                  borderSide: BorderSide(color: AppColors.getBorder(context)),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(color: AppColors.border),
+                  borderSide: BorderSide(color: AppColors.getBorder(context)),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -245,7 +248,7 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
               padding: const EdgeInsets.fromLTRB(16, 2, 16, 10),
               child: Row(
                 children: [
-                  _buildOfficeChip("ALL", "All (${widget.overdueRequests.length})"),
+                  _buildOfficeChip(context, "ALL", "All (${widget.overdueRequests.length})"),
                   const SizedBox(width: 6),
                   ...distinctOffices.map((code) {
                     final count = widget.overdueRequests
@@ -253,14 +256,14 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
                         .length;
                     return Padding(
                       padding: const EdgeInsets.only(right: 6),
-                      child: _buildOfficeChip(code, "$code ($count)"),
+                      child: _buildOfficeChip(context, code, "$code ($count)"),
                     );
                   }),
                 ],
               ),
             ),
 
-          const Divider(color: AppColors.border, height: 1),
+          Divider(color: AppColors.getBorder(context), height: 1),
 
           // Scrollable Overdue Items List
           Expanded(
@@ -282,7 +285,7 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
                           style: GoogleFonts.inter(
                             fontSize: 12.5,
                             fontWeight: FontWeight.w600,
-                            color: Colors.white,
+                            color: AppColors.getTextPrimary(context),
                           ),
                         ),
                       ],
@@ -298,7 +301,7 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
                       return Container(
                         padding: const EdgeInsets.all(13),
                         decoration: BoxDecoration(
-                          color: AppColors.surfaceElevated.withValues(alpha: 0.5),
+                          color: AppColors.getSurfaceElevated(context).withValues(alpha: 0.5),
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
                             color: _alertRose.withValues(alpha: 0.25),
@@ -318,17 +321,17 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 6, vertical: 2),
                                       decoration: BoxDecoration(
-                                        color: Colors.white.withValues(alpha: 0.08),
+                                        color: (AppColors.isDark(context) ? Colors.white : Colors.black).withValues(alpha: 0.08),
                                         borderRadius: BorderRadius.circular(5),
                                         border: Border.all(
-                                            color: Colors.white12, width: 0.8),
+                                            color: (AppColors.isDark(context) ? Colors.white12 : Colors.black12), width: 0.8),
                                       ),
                                       child: Text(
                                         item.referenceNo,
                                         style: GoogleFonts.jetBrainsMono(
                                           fontSize: 10.5,
                                           fontWeight: FontWeight.w800,
-                                          color: Colors.white,
+                                          color: AppColors.getTextPrimary(context),
                                         ),
                                       ),
                                     ),
@@ -388,7 +391,7 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
                               style: GoogleFonts.inter(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w800,
-                                color: Colors.white,
+                                color: AppColors.getTextPrimary(context),
                               ),
                             ),
 
@@ -400,14 +403,14 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
                               children: [
                                 Row(
                                   children: [
-                                    const Icon(LucideIcons.user,
-                                        size: 11, color: AppColors.textSecondary),
+                                    Icon(LucideIcons.user,
+                                        size: 11, color: AppColors.getTextSecondary(context)),
                                     const SizedBox(width: 4),
                                     Text(
                                       "Handler: ${item.handlerName}",
                                       style: GoogleFonts.inter(
                                         fontSize: 10.5,
-                                        color: AppColors.textSecondary,
+                                        color: AppColors.getTextSecondary(context),
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
@@ -416,14 +419,14 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
                                 if (item.deadlineAt != null)
                                   Row(
                                     children: [
-                                      const Icon(LucideIcons.clock,
-                                          size: 11, color: AppColors.textSecondary),
+                                      Icon(LucideIcons.clock,
+                                          size: 11, color: AppColors.getTextSecondary(context)),
                                       const SizedBox(width: 4),
                                       Text(
                                         _dateFormat.format(item.deadlineAt!),
                                         style: GoogleFonts.inter(
                                           fontSize: 10,
-                                          color: AppColors.textSecondary,
+                                          color: AppColors.getTextSecondary(context),
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
@@ -442,7 +445,8 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
     );
   }
 
-  Widget _buildMetricPillar({
+  Widget _buildMetricPillar(
+    BuildContext context, {
     required String title,
     required String value,
     required Color valueColor,
@@ -450,7 +454,7 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 8),
       decoration: BoxDecoration(
-        color: AppColors.surfaceElevated.withValues(alpha: 0.6),
+        color: AppColors.getSurfaceElevated(context).withValues(alpha: 0.6),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: _alertRose.withValues(alpha: 0.2),
@@ -465,7 +469,7 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
               fontSize: 8.5,
               fontWeight: FontWeight.w900,
               letterSpacing: 0.6,
-              color: AppColors.textSecondary,
+              color: AppColors.getTextSecondary(context),
             ),
           ),
           const SizedBox(height: 3),
@@ -482,7 +486,7 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
     );
   }
 
-  Widget _buildOfficeChip(String code, String label) {
+  Widget _buildOfficeChip(BuildContext context, String code, String label) {
     final isSelected = _selectedOffice == code;
 
     return InkWell(
@@ -498,10 +502,10 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
         decoration: BoxDecoration(
           color: isSelected
               ? _alertRose.withValues(alpha: 0.2)
-              : AppColors.surfaceElevated,
+              : AppColors.getSurfaceElevated(context),
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
-            color: isSelected ? _alertRose : AppColors.border,
+            color: isSelected ? _alertRose : AppColors.getBorder(context),
             width: isSelected ? 1.2 : 0.8,
           ),
         ),
@@ -510,7 +514,7 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
           style: GoogleFonts.inter(
             fontSize: 10.5,
             fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-            color: isSelected ? _alertRose : AppColors.textSecondary,
+            color: isSelected ? _alertRose : AppColors.getTextSecondary(context),
           ),
         ),
       ),

@@ -27,7 +27,7 @@ class UrgentAttentionCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: AppColors.getSurface(context),
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
           color: hasBreaches
@@ -35,6 +35,7 @@ class UrgentAttentionCard extends StatelessWidget {
               : calmEmerald.withValues(alpha: 0.3),
           width: 1.2,
         ),
+        boxShadow: AppColors.getCardShadow(context),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,7 +73,7 @@ class UrgentAttentionCard extends StatelessWidget {
                         fontWeight: FontWeight.w900,
                         fontStyle: FontStyle.italic,
                         letterSpacing: -0.2,
-                        color: hasBreaches ? alertRose : Colors.white,
+                        color: hasBreaches ? alertRose : AppColors.getTextPrimary(context),
                       ),
                     ),
                     const SizedBox(height: 2),
@@ -94,7 +95,7 @@ class UrgentAttentionCard extends StatelessWidget {
                                 : "All citizen requests comply with statutory SLA",
                             style: GoogleFonts.inter(
                               fontSize: 11,
-                              color: AppColors.textSecondary,
+                              color: AppColors.getTextSecondary(context),
                               fontWeight: FontWeight.w500,
                             ),
                             overflow: TextOverflow.ellipsis,
@@ -109,7 +110,7 @@ class UrgentAttentionCard extends StatelessWidget {
           ),
 
           const SizedBox(height: 16),
-          const Divider(height: 1, color: AppColors.border),
+          Divider(height: 1, color: AppColors.getBorder(context)),
           const SizedBox(height: 12),
 
           // Body: Either calm green message OR top overdue preview cards
@@ -130,7 +131,7 @@ class UrgentAttentionCard extends StatelessWidget {
                       style: GoogleFonts.inter(
                         fontSize: 12.5,
                         fontWeight: FontWeight.w700,
-                        color: Colors.white,
+                        color: AppColors.getTextPrimary(context),
                       ),
                     ),
                     const SizedBox(height: 2),
@@ -138,7 +139,7 @@ class UrgentAttentionCard extends StatelessWidget {
                       "No delayed transactions across municipal offices",
                       style: GoogleFonts.inter(
                         fontSize: 11,
-                        color: AppColors.textSecondary,
+                        color: AppColors.getTextSecondary(context),
                       ),
                     ),
                   ],
@@ -165,7 +166,7 @@ class UrgentAttentionCard extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: AppColors.surfaceElevated.withValues(alpha: 0.5),
+                      color: AppColors.getSurfaceElevated(context).withValues(alpha: 0.5),
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
                         color: alertRose.withValues(alpha: 0.25),
@@ -186,7 +187,7 @@ class UrgentAttentionCard extends StatelessWidget {
                                   style: GoogleFonts.jetBrainsMono(
                                     fontSize: 10.5,
                                     fontWeight: FontWeight.w800,
-                                    color: Colors.white,
+                                    color: AppColors.getTextPrimary(context),
                                   ),
                                 ),
                                 const SizedBox(width: 6),
@@ -244,7 +245,7 @@ class UrgentAttentionCard extends StatelessWidget {
                           style: GoogleFonts.inter(
                             fontSize: 12.5,
                             fontWeight: FontWeight.w800,
-                            color: Colors.white,
+                            color: AppColors.getTextPrimary(context),
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,

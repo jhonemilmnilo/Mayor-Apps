@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../../core/api/api_constants.dart';
+import 'package:mayor_apps/core/api/api_constants.dart';
 import '../models/event_item_model.dart';
 import 'event_detail_bottom_sheet.dart';
 import 'event_filter_modal.dart';
@@ -94,12 +94,15 @@ class _RecentEventsCardState extends State<RecentEventsCard> {
       subtitleText = "No active municipal events scheduled";
     }
 
+    final isDark = AppColors.isDark(context);
+
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: AppColors.getSurface(context),
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppColors.border, width: 1.2),
+        border: Border.all(color: AppColors.getBorder(context), width: 1.2),
+        boxShadow: AppColors.getCardShadow(context),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,7 +135,7 @@ class _RecentEventsCardState extends State<RecentEventsCard> {
                         fontWeight: FontWeight.w900,
                         fontStyle: FontStyle.italic,
                         letterSpacing: -0.2,
-                        color: Colors.white,
+                        color: AppColors.getTextPrimary(context),
                       ),
                     ),
                     const SizedBox(height: 2),
@@ -140,7 +143,7 @@ class _RecentEventsCardState extends State<RecentEventsCard> {
                       subtitleText,
                       style: GoogleFonts.inter(
                         fontSize: 11,
-                        color: AppColors.textSecondary,
+                        color: AppColors.getTextSecondary(context),
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -160,12 +163,12 @@ class _RecentEventsCardState extends State<RecentEventsCard> {
               decoration: BoxDecoration(
                 color: isFiltered
                     ? const Color(0xFF8B5CF6).withValues(alpha: 0.12)
-                    : AppColors.surfaceElevated.withValues(alpha: 0.5),
+                    : (isDark ? AppColors.surfaceElevated.withValues(alpha: 0.5) : const Color(0xFFF1F5F9)),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
                   color: isFiltered
                       ? const Color(0xFF8B5CF6).withValues(alpha: 0.6)
-                      : AppColors.border,
+                      : AppColors.getBorder(context),
                 ),
               ),
               child: Row(
@@ -173,7 +176,7 @@ class _RecentEventsCardState extends State<RecentEventsCard> {
                   Icon(
                     Icons.tune_rounded,
                     size: 14,
-                    color: isFiltered ? const Color(0xFF8B5CF6) : AppColors.textSecondary,
+                    color: isFiltered ? const Color(0xFF8B5CF6) : AppColors.getTextSecondary(context),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
@@ -185,7 +188,7 @@ class _RecentEventsCardState extends State<RecentEventsCard> {
                         fontSize: 10.5,
                         fontWeight: FontWeight.w800,
                         letterSpacing: 0.5,
-                        color: isFiltered ? const Color(0xFF8B5CF6) : AppColors.textSecondary,
+                        color: isFiltered ? const Color(0xFF8B5CF6) : AppColors.getTextSecondary(context),
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -208,9 +211,9 @@ class _RecentEventsCardState extends State<RecentEventsCard> {
                       ),
                     )
                   else
-                    const Icon(
+                    Icon(
                       Icons.arrow_drop_down_rounded,
-                      color: AppColors.textSecondary,
+                      color: AppColors.getTextSecondary(context),
                       size: 20,
                     ),
                 ],
@@ -226,9 +229,9 @@ class _RecentEventsCardState extends State<RecentEventsCard> {
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
               decoration: BoxDecoration(
-                color: AppColors.surfaceElevated.withValues(alpha: 0.4),
+                color: AppColors.getSurfaceElevated(context).withValues(alpha: 0.4),
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppColors.border),
+                border: Border.all(color: AppColors.getBorder(context)),
               ),
               child: Column(
                 children: [
@@ -250,7 +253,7 @@ class _RecentEventsCardState extends State<RecentEventsCard> {
                     style: GoogleFonts.inter(
                       fontSize: 12.5,
                       fontWeight: FontWeight.w700,
-                      color: Colors.white,
+                      color: AppColors.getTextPrimary(context),
                     ),
                   ),
                   const SizedBox(height: 3),
@@ -258,7 +261,7 @@ class _RecentEventsCardState extends State<RecentEventsCard> {
                     "Upcoming festivals, sports and municipal activities will appear here.",
                     style: GoogleFonts.inter(
                       fontSize: 10.5,
-                      color: AppColors.textSecondary,
+                      color: AppColors.getTextSecondary(context),
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -324,9 +327,9 @@ class _RecentEventsCardState extends State<RecentEventsCard> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
-          color: AppColors.surfaceElevated.withValues(alpha: 0.6),
+          color: AppColors.getSurfaceElevated(context),
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AppColors.border),
+          border: Border.all(color: AppColors.getBorder(context)),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -337,7 +340,7 @@ class _RecentEventsCardState extends State<RecentEventsCard> {
               child: Container(
                 width: 44,
                 height: 44,
-                color: AppColors.surfaceElevated,
+                color: AppColors.getSurfaceElevated(context),
                 child: (item.imageUrl != null && item.imageUrl!.trim().isNotEmpty)
                     ? Image.network(
                         item.imageUrl!,
@@ -371,7 +374,7 @@ class _RecentEventsCardState extends State<RecentEventsCard> {
                     style: GoogleFonts.inter(
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
-                      color: Colors.white,
+                      color: AppColors.getTextPrimary(context),
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -383,7 +386,7 @@ class _RecentEventsCardState extends State<RecentEventsCard> {
                       fontSize: 9.5,
                       fontWeight: FontWeight.w500,
                       fontStyle: FontStyle.italic,
-                      color: AppColors.textSecondary,
+                      color: AppColors.getTextSecondary(context),
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -438,7 +441,7 @@ class _RecentEventsCardState extends State<RecentEventsCard> {
                   style: GoogleFonts.inter(
                     fontSize: 9,
                     fontWeight: FontWeight.w700,
-                    color: item.isUpcoming ? const Color(0xFF8B5CF6) : AppColors.textSecondary,
+                    color: item.isUpcoming ? const Color(0xFF8B5CF6) : AppColors.getTextSecondary(context),
                   ),
                 ),
               ),

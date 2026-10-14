@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import '../../../../core/api/api_constants.dart';
+import 'package:mayor_apps/core/api/api_constants.dart';
+import 'package:mayor_apps/core/theme/theme_provider.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../auth/screens/login_screen.dart';
 import '../providers/dashboard_provider.dart';
@@ -61,7 +62,7 @@ class MayorDashboardScreen extends ConsumerWidget {
     final logoUrl = settingsAsync.value?["siteLogo"] ?? kDefaultLogoUrl;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.getBackground(context),
       appBar: AppBar(
         titleSpacing: 16,
         toolbarHeight: 52,
@@ -72,8 +73,8 @@ class MayorDashboardScreen extends ConsumerWidget {
               height: 32,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.surface,
-                border: Border.all(color: AppColors.border, width: 1.2),
+                color: AppColors.getSurface(context),
+                border: Border.all(color: AppColors.getBorder(context), width: 1.2),
               ),
               child: ClipOval(
                 child: Padding(
@@ -93,17 +94,33 @@ class MayorDashboardScreen extends ConsumerWidget {
             RichText(
               text: TextSpan(
                 style: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w900),
-                children: const [
-                  TextSpan(text: "E", style: TextStyle(color: Colors.white)),
-                  TextSpan(text: "Mapandan", style: TextStyle(color: AppColors.primary)),
+                children: [
+                  TextSpan(
+                    text: "E",
+                    style: TextStyle(
+                      color: AppColors.getTextPrimary(context),
+                    ),
+                  ),
+                  const TextSpan(text: "Mapandan", style: TextStyle(color: AppColors.primary)),
                 ],
               ),
             ),
           ],
         ),
         actions: [
+          // Light / Dark Mode Toggle
           IconButton(
-            icon: const Icon(LucideIcons.logOut, color: AppColors.textSecondary, size: 18),
+            tooltip: AppColors.isDark(context) ? "Switch to Light Mode" : "Switch to Dark Mode",
+            icon: Icon(
+              AppColors.isDark(context) ? LucideIcons.sunMedium : LucideIcons.moon,
+              color: AppColors.getTextSecondary(context),
+              size: 19,
+            ),
+            onPressed: () => ref.read(themeProvider.notifier).toggleTheme(),
+          ),
+          IconButton(
+            tooltip: "Logout",
+            icon: Icon(LucideIcons.logOut, color: AppColors.getTextSecondary(context), size: 18),
             onPressed: () => ref.read(authProvider.notifier).logout(),
           ),
         ],
@@ -170,7 +187,7 @@ class MayorDashboardScreen extends ConsumerWidget {
                           style: GoogleFonts.inter(
                             fontSize: 18,
                             fontWeight: FontWeight.w900,
-                            color: Colors.white,
+                            color: AppColors.getTextPrimary(context),
                           ),
                         ),
                       ],
@@ -191,9 +208,10 @@ class MayorDashboardScreen extends ConsumerWidget {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                     decoration: BoxDecoration(
-                      color: AppColors.surface,
+                      color: AppColors.getSurface(context),
                       borderRadius: BorderRadius.circular(14),
-                      border: Border.all(color: AppColors.border),
+                      border: Border.all(color: AppColors.getBorder(context)),
+                      boxShadow: AppColors.getCardShadow(context),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -207,7 +225,7 @@ class MayorDashboardScreen extends ConsumerWidget {
                                 fontSize: 8.5,
                                 fontWeight: FontWeight.w900,
                                 letterSpacing: 1.0,
-                                color: AppColors.textSecondary,
+                                color: AppColors.getTextSecondary(context),
                               ),
                             ),
                             Text(
@@ -215,12 +233,12 @@ class MayorDashboardScreen extends ConsumerWidget {
                               style: GoogleFonts.inter(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w800,
-                                color: Colors.white,
+                                color: AppColors.getTextPrimary(context),
                               ),
                             ),
                           ],
                         ),
-                        const Icon(LucideIcons.chevronDown, size: 16, color: AppColors.textSecondary),
+                        Icon(LucideIcons.chevronDown, size: 16, color: AppColors.getTextSecondary(context)),
                       ],
                     ),
                   ),

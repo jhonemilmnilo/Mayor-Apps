@@ -134,9 +134,10 @@ class _DepartmentComplianceLeaderboardCardState
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: AppColors.getSurface(context),
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppColors.border, width: 1.2),
+        border: Border.all(color: AppColors.getBorder(context), width: 1.2),
+        boxShadow: AppColors.getCardShadow(context),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,7 +170,7 @@ class _DepartmentComplianceLeaderboardCardState
                         fontWeight: FontWeight.w900,
                         fontStyle: FontStyle.italic,
                         letterSpacing: -0.2,
-                        color: Colors.white,
+                        color: AppColors.getTextPrimary(context),
                       ),
                     ),
                     const SizedBox(height: 2),
@@ -188,7 +189,7 @@ class _DepartmentComplianceLeaderboardCardState
                           "RA 11032 Anti-Red Tape Authority (ARTA) SLA",
                           style: GoogleFonts.inter(
                             fontSize: 11,
-                            color: AppColors.textSecondary,
+                            color: AppColors.getTextSecondary(context),
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -209,7 +210,7 @@ class _DepartmentComplianceLeaderboardCardState
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
-                color: AppColors.surfaceElevated.withValues(alpha: 0.6),
+                color: AppColors.getSurfaceElevated(context).withValues(alpha: 0.6),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: accentTeal.withValues(alpha: 0.25), width: 1),
               ),
@@ -225,7 +226,7 @@ class _DepartmentComplianceLeaderboardCardState
                       style: GoogleFonts.inter(
                         fontSize: 11.5,
                         fontWeight: FontWeight.w700,
-                        color: Colors.white,
+                        color: AppColors.getTextPrimary(context),
                       ),
                     ),
                   ),
@@ -247,10 +248,10 @@ class _DepartmentComplianceLeaderboardCardState
                     ),
                     const SizedBox(width: 6),
                   ],
-                  const Icon(
+                  Icon(
                     LucideIcons.chevronDown,
                     size: 14,
-                    color: AppColors.textSecondary,
+                    color: AppColors.getTextSecondary(context),
                   ),
                 ],
               ),
@@ -258,7 +259,7 @@ class _DepartmentComplianceLeaderboardCardState
           ),
 
           const SizedBox(height: 14),
-          const Divider(height: 1, color: AppColors.border),
+          Divider(height: 1, color: AppColors.getBorder(context)),
           const SizedBox(height: 12),
 
           // Leaderboard List or Loading
@@ -281,14 +282,14 @@ class _DepartmentComplianceLeaderboardCardState
                     Icon(
                       Icons.fact_check_outlined,
                       size: 32,
-                      color: AppColors.textSecondary.withValues(alpha: 0.5),
+                      color: AppColors.getTextSecondary(context).withValues(alpha: 0.5),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       "No departmental compliance data recorded yet",
                       style: GoogleFonts.inter(
                         fontSize: 12,
-                        color: AppColors.textSecondary,
+                        color: AppColors.getTextSecondary(context),
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -313,22 +314,22 @@ class _DepartmentComplianceLeaderboardCardState
                   rankTextColor = const Color(0xFFF59E0B);
                 } else if (rank == 2) {
                   rankBadgeBg = const Color(0xFF94A3B8).withValues(alpha: 0.2);
-                  rankTextColor = const Color(0xFFE2E8F0);
+                  rankTextColor = AppColors.isDark(context) ? const Color(0xFFE2E8F0) : const Color(0xFF475569);
                 } else if (rank == 3) {
                   rankBadgeBg = const Color(0xFFB45309).withValues(alpha: 0.2);
                   rankTextColor = const Color(0xFFD97706);
                 } else {
-                  rankBadgeBg = Colors.white.withValues(alpha: 0.05);
-                  rankTextColor = AppColors.textSecondary;
+                  rankBadgeBg = (AppColors.isDark(context) ? Colors.white : Colors.black).withValues(alpha: 0.05);
+                  rankTextColor = AppColors.getTextSecondary(context);
                 }
 
                 return Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: AppColors.surfaceElevated.withValues(alpha: 0.5),
+                    color: AppColors.getSurfaceElevated(context).withValues(alpha: 0.5),
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
-                      color: AppColors.border.withValues(alpha: 0.8),
+                      color: AppColors.getBorder(context).withValues(alpha: 0.8),
                       width: 1,
                     ),
                   ),
@@ -368,7 +369,7 @@ class _DepartmentComplianceLeaderboardCardState
                                     style: GoogleFonts.inter(
                                       fontSize: 12.5,
                                       fontWeight: FontWeight.w800,
-                                      color: Colors.white,
+                                      color: AppColors.getTextPrimary(context),
                                     ),
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -377,16 +378,19 @@ class _DepartmentComplianceLeaderboardCardState
                                 Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
                                   decoration: BoxDecoration(
-                                    color: Colors.white.withValues(alpha: 0.06),
+                                    color: (AppColors.isDark(context) ? Colors.white : Colors.black).withValues(alpha: 0.06),
                                     borderRadius: BorderRadius.circular(4),
-                                    border: Border.all(color: Colors.white12, width: 0.6),
+                                    border: Border.all(
+                                      color: (AppColors.isDark(context) ? Colors.white12 : Colors.black12),
+                                      width: 0.6,
+                                    ),
                                   ),
                                   child: Text(
                                     dept.officeCode,
                                     style: GoogleFonts.inter(
                                       fontSize: 8.5,
                                       fontWeight: FontWeight.w900,
-                                      color: AppColors.textSecondary,
+                                      color: AppColors.getTextSecondary(context),
                                     ),
                                   ),
                                 ),
@@ -400,7 +404,7 @@ class _DepartmentComplianceLeaderboardCardState
                                   style: GoogleFonts.inter(
                                     fontSize: 10,
                                     fontWeight: FontWeight.w600,
-                                    color: AppColors.textSecondary,
+                                    color: AppColors.getTextSecondary(context),
                                   ),
                                 ),
                                 const SizedBox(width: 8),
@@ -409,7 +413,7 @@ class _DepartmentComplianceLeaderboardCardState
                                   style: GoogleFonts.inter(
                                     fontSize: 10,
                                     fontWeight: FontWeight.w600,
-                                    color: AppColors.textSecondary,
+                                    color: AppColors.getTextSecondary(context),
                                   ),
                                 ),
                                 if (dept.overdue > 0) ...[
@@ -440,7 +444,7 @@ class _DepartmentComplianceLeaderboardCardState
                               fontSize: 14,
                               fontWeight: FontWeight.w900,
                               fontStyle: FontStyle.italic,
-                              color: Colors.white,
+                              color: AppColors.getTextPrimary(context),
                             ),
                           ),
                           const SizedBox(height: 2),

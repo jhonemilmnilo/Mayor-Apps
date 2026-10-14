@@ -297,9 +297,10 @@ class _CollectionsLedgerCardState extends ConsumerState<CollectionsLedgerCard> {
 
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: AppColors.getSurface(context),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: AppColors.getBorder(context)),
+        boxShadow: AppColors.getCardShadow(context),
       ),
       padding: const EdgeInsets.all(15),
       child: Column(
@@ -319,7 +320,7 @@ class _CollectionsLedgerCardState extends ConsumerState<CollectionsLedgerCard> {
                       fontSize: 13,
                       fontWeight: FontWeight.w900,
                       letterSpacing: 0.8,
-                      color: Colors.white,
+                      color: AppColors.getTextPrimary(context),
                     ),
                   ),
                 ],
@@ -335,16 +336,16 @@ class _CollectionsLedgerCardState extends ConsumerState<CollectionsLedgerCard> {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4.5),
                   decoration: BoxDecoration(
-                    color: AppColors.surfaceElevated,
+                    color: AppColors.getSurfaceElevated(context),
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: AppColors.border),
+                    border: Border.all(color: AppColors.getBorder(context)),
                   ),
                   child: Text(
                     "LEGEND",
                     style: GoogleFonts.inter(
                       fontSize: 10,
                       fontWeight: FontWeight.w800,
-                      color: Colors.white,
+                      color: AppColors.getTextPrimary(context),
                       letterSpacing: 0.6,
                     ),
                   ),
@@ -360,9 +361,9 @@ class _CollectionsLedgerCardState extends ConsumerState<CollectionsLedgerCard> {
             text: TextSpan(
               style: GoogleFonts.inter(fontSize: 10.5, fontWeight: FontWeight.w700),
               children: [
-                const TextSpan(
+                TextSpan(
                   text: "Total Revenue: ",
-                  style: TextStyle(color: AppColors.textSecondary, fontStyle: FontStyle.italic),
+                  style: TextStyle(color: AppColors.getTextSecondary(context), fontStyle: FontStyle.italic),
                 ),
                 TextSpan(
                   text: _isLoading ? "Calculating..." : currencyFormat.format(totalAggregated),
@@ -391,9 +392,9 @@ class _CollectionsLedgerCardState extends ConsumerState<CollectionsLedgerCard> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(
-                color: AppColors.surfaceElevated,
+                color: AppColors.getSurfaceElevated(context),
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: AppColors.border),
+                border: Border.all(color: AppColors.getBorder(context)),
               ),
               child: Row(
                 children: [

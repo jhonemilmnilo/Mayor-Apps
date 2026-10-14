@@ -222,9 +222,10 @@ class _TerritorialGisMapCardState extends State<TerritorialGisMapCard> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: AppColors.getSurface(context),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: AppColors.getBorder(context)),
+        boxShadow: AppColors.getCardShadow(context),
       ),
       clipBehavior: Clip.antiAlias,
       child: Column(
@@ -254,7 +255,7 @@ class _TerritorialGisMapCardState extends State<TerritorialGisMapCard> {
                         style: GoogleFonts.inter(
                           fontSize: 12,
                           fontWeight: FontWeight.w900,
-                          color: Colors.white,
+                          color: AppColors.getTextPrimary(context),
                           letterSpacing: 0.5,
                         ),
                       ),
@@ -263,7 +264,7 @@ class _TerritorialGisMapCardState extends State<TerritorialGisMapCard> {
                         style: GoogleFonts.inter(
                           fontSize: 10,
                           fontWeight: FontWeight.w500,
-                          color: AppColors.textSecondary,
+                          color: AppColors.getTextSecondary(context),
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import '../../../../core/api/api_constants.dart';
+import 'package:mayor_apps/core/api/api_constants.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../models/project_item_model.dart';
 import '../providers/dashboard_provider.dart';
@@ -122,11 +122,14 @@ class _ProjectsInfrastructureCardState
     final activeProjects = _filteredProjects ?? widget.projects;
     final totalTracked = _totalCount ?? activeProjects.length;
 
+    final isDark = AppColors.isDark(context);
+
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: AppColors.getSurface(context),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: AppColors.getBorder(context)),
+        boxShadow: AppColors.getCardShadow(context),
       ),
       padding: const EdgeInsets.all(15),
       child: Column(
@@ -161,7 +164,7 @@ class _ProjectsInfrastructureCardState
                         fontSize: 13,
                         fontWeight: FontWeight.w900,
                         fontStyle: FontStyle.italic,
-                        color: Colors.white,
+                        color: AppColors.getTextPrimary(context),
                         letterSpacing: 0.5,
                       ),
                     ),
@@ -170,7 +173,7 @@ class _ProjectsInfrastructureCardState
                       style: GoogleFonts.inter(
                         fontSize: 10,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.textSecondary,
+                        color: AppColors.getTextSecondary(context),
                       ),
                     ),
                   ],
@@ -189,12 +192,12 @@ class _ProjectsInfrastructureCardState
               decoration: BoxDecoration(
                 color: _filter.isFiltered
                     ? const Color(0xFF8B5CF6).withValues(alpha: 0.12)
-                    : AppColors.surfaceElevated.withValues(alpha: 0.5),
+                    : (isDark ? AppColors.surfaceElevated.withValues(alpha: 0.5) : const Color(0xFFF1F5F9)),
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
                   color: _filter.isFiltered
                       ? const Color(0xFF8B5CF6).withValues(alpha: 0.6)
-                      : AppColors.border,
+                      : AppColors.getBorder(context),
                 ),
               ),
               child: Row(
@@ -202,7 +205,7 @@ class _ProjectsInfrastructureCardState
                   Icon(
                     LucideIcons.slidersHorizontal,
                     size: 13,
-                    color: _filter.isFiltered ? const Color(0xFF8B5CF6) : AppColors.textSecondary,
+                    color: _filter.isFiltered ? const Color(0xFF8B5CF6) : AppColors.getTextSecondary(context),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
@@ -214,7 +217,7 @@ class _ProjectsInfrastructureCardState
                         fontSize: 10,
                         fontWeight: FontWeight.w800,
                         letterSpacing: 0.5,
-                        color: _filter.isFiltered ? const Color(0xFF8B5CF6) : AppColors.textSecondary,
+                        color: _filter.isFiltered ? const Color(0xFF8B5CF6) : AppColors.getTextSecondary(context),
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -239,9 +242,9 @@ class _ProjectsInfrastructureCardState
                       ),
                     )
                   else
-                    const Icon(
+                    Icon(
                       LucideIcons.chevronDown,
-                      color: AppColors.textSecondary,
+                      color: AppColors.getTextSecondary(context),
                       size: 14,
                     ),
                 ],
@@ -284,7 +287,7 @@ class _ProjectsInfrastructureCardState
                       style: GoogleFonts.inter(
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.textSecondary,
+                        color: AppColors.getTextSecondary(context),
                       ),
                     ),
                   ],
@@ -303,9 +306,9 @@ class _ProjectsInfrastructureCardState
                   margin: const EdgeInsets.only(bottom: 8),
                   padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 9),
                   decoration: BoxDecoration(
-                    color: AppColors.surfaceElevated,
+                    color: AppColors.getSurfaceElevated(context),
                     borderRadius: BorderRadius.circular(11),
-                    border: Border.all(color: AppColors.border),
+                    border: Border.all(color: AppColors.getBorder(context)),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -320,7 +323,7 @@ class _ProjectsInfrastructureCardState
                               style: GoogleFonts.inter(
                                 fontSize: 11.5,
                                 fontWeight: FontWeight.w800,
-                                color: Colors.white,
+                                color: AppColors.getTextPrimary(context),
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -351,10 +354,10 @@ class _ProjectsInfrastructureCardState
                       // Second Row: Location & Category with MapPin
                       Row(
                         children: [
-                          const Icon(
+                          Icon(
                             LucideIcons.mapPin,
                             size: 10,
-                            color: AppColors.textSecondary,
+                            color: AppColors.getTextSecondary(context),
                           ),
                           const SizedBox(width: 3),
                           Flexible(
@@ -363,7 +366,7 @@ class _ProjectsInfrastructureCardState
                               style: GoogleFonts.inter(
                                 fontSize: 9,
                                 fontWeight: FontWeight.w600,
-                                color: AppColors.textSecondary,
+                                color: AppColors.getTextSecondary(context),
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -382,7 +385,9 @@ class _ProjectsInfrastructureCardState
                               borderRadius: BorderRadius.circular(4),
                               child: Container(
                                 height: 4.5,
-                                color: Colors.white.withValues(alpha: 0.08),
+                                color: isDark
+                                    ? Colors.white.withValues(alpha: 0.08)
+                                    : const Color(0xFFE2E8F0),
                                 child: FractionallySizedBox(
                                   alignment: Alignment.centerLeft,
                                   widthFactor: (item.progress / 100).clamp(0.0, 1.0),

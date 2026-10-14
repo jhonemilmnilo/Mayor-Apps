@@ -141,9 +141,10 @@ class _CivicReportsCardState extends ConsumerState<CivicReportsCard> {
 
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: AppColors.getSurface(context),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: AppColors.getBorder(context)),
+        boxShadow: AppColors.getCardShadow(context),
       ),
       padding: const EdgeInsets.all(15),
       child: Column(
@@ -178,7 +179,7 @@ class _CivicReportsCardState extends ConsumerState<CivicReportsCard> {
                         fontSize: 13,
                         fontWeight: FontWeight.w900,
                         fontStyle: FontStyle.italic,
-                        color: Colors.white,
+                        color: AppColors.getTextPrimary(context),
                         letterSpacing: 0.5,
                       ),
                     ),
@@ -330,9 +331,9 @@ class _CivicReportsCardState extends ConsumerState<CivicReportsCard> {
                 margin: const EdgeInsets.only(bottom: 8),
                 padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 9),
                 decoration: BoxDecoration(
-                  color: AppColors.surfaceElevated,
+                  color: AppColors.getSurfaceElevated(context),
                   borderRadius: BorderRadius.circular(11),
-                  border: Border.all(color: AppColors.border),
+                  border: Border.all(color: AppColors.getBorder(context)),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -350,7 +351,7 @@ class _CivicReportsCardState extends ConsumerState<CivicReportsCard> {
                                   style: GoogleFonts.inter(
                                     fontSize: 11.5,
                                     fontWeight: FontWeight.w800,
-                                    color: Colors.white,
+                                    color: AppColors.getTextPrimary(context),
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,

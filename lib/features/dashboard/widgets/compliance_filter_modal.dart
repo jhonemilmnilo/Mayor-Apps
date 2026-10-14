@@ -153,9 +153,9 @@ class _ComplianceFilterModalState extends State<ComplianceFilterModal> {
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.85,
       ),
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      decoration: BoxDecoration(
+        color: AppColors.getSurface(context),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -167,7 +167,7 @@ class _ComplianceFilterModalState extends State<ComplianceFilterModal> {
               width: 38,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
+                color: (AppColors.isDark(context) ? Colors.white : Colors.black).withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -199,12 +199,12 @@ class _ComplianceFilterModalState extends State<ComplianceFilterModal> {
                             fontSize: 12.5,
                             fontWeight: FontWeight.w900,
                             letterSpacing: 0.8,
-                            color: Colors.white,
+                            color: AppColors.getTextPrimary(context),
                           ),
                         ),
                         Text(
                           "Filter statutory SLA compliance by date range",
-                          style: GoogleFonts.inter(fontSize: 10, color: AppColors.textSecondary),
+                          style: GoogleFonts.inter(fontSize: 10, color: AppColors.getTextSecondary(context)),
                         ),
                       ],
                     ),
@@ -212,14 +212,14 @@ class _ComplianceFilterModalState extends State<ComplianceFilterModal> {
                 ),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(LucideIcons.x, size: 18, color: AppColors.textSecondary),
+                  icon: Icon(LucideIcons.x, size: 18, color: AppColors.getTextSecondary(context)),
                   visualDensity: VisualDensity.compact,
                 ),
               ],
             ),
           ),
 
-          const Divider(color: AppColors.border, height: 1),
+          Divider(color: AppColors.getBorder(context), height: 1),
 
           Flexible(
             child: SingleChildScrollView(
@@ -234,7 +234,7 @@ class _ComplianceFilterModalState extends State<ComplianceFilterModal> {
                       fontSize: 9.5,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 0.8,
-                      color: AppColors.textSecondary,
+                      color: AppColors.getTextSecondary(context),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -242,11 +242,11 @@ class _ComplianceFilterModalState extends State<ComplianceFilterModal> {
                     spacing: 8,
                     runSpacing: 8,
                     children: [
-                      _buildPresetChip("ALL", "All Time"),
-                      _buildPresetChip("TODAY", "Today"),
-                      _buildPresetChip("7D", "Last 7 Days"),
-                      _buildPresetChip("30D", "Last 30 Days"),
-                      _buildPresetChip("MONTH", "This Month"),
+                      _buildPresetChip(context, "ALL", "All Time"),
+                      _buildPresetChip(context, "TODAY", "Today"),
+                      _buildPresetChip(context, "7D", "Last 7 Days"),
+                      _buildPresetChip(context, "30D", "Last 30 Days"),
+                      _buildPresetChip(context, "MONTH", "This Month"),
                     ],
                   ),
 
@@ -259,7 +259,7 @@ class _ComplianceFilterModalState extends State<ComplianceFilterModal> {
                       fontSize: 9.5,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 0.8,
-                      color: AppColors.textSecondary,
+                      color: AppColors.getTextSecondary(context),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -270,9 +270,9 @@ class _ComplianceFilterModalState extends State<ComplianceFilterModal> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                       decoration: BoxDecoration(
-                        color: AppColors.surfaceElevated,
+                        color: AppColors.getSurfaceElevated(context),
                         borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: AppColors.border),
+                        border: Border.all(color: AppColors.getBorder(context)),
                       ),
                       child: Row(
                         children: [
@@ -289,7 +289,7 @@ class _ComplianceFilterModalState extends State<ComplianceFilterModal> {
                                       style: GoogleFonts.inter(
                                         fontSize: 8.5,
                                         fontWeight: FontWeight.w800,
-                                        color: AppColors.textSecondary,
+                                        color: AppColors.getTextSecondary(context),
                                       ),
                                     ),
                                   ],
@@ -300,7 +300,7 @@ class _ComplianceFilterModalState extends State<ComplianceFilterModal> {
                                   style: GoogleFonts.inter(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w800,
-                                    color: Colors.white,
+                                    color: AppColors.getTextPrimary(context),
                                   ),
                                 ),
                               ],
@@ -308,7 +308,7 @@ class _ComplianceFilterModalState extends State<ComplianceFilterModal> {
                           ),
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: const Icon(LucideIcons.arrowRight, size: 14, color: AppColors.textSecondary),
+                            child: Icon(LucideIcons.arrowRight, size: 14, color: AppColors.getTextSecondary(context)),
                           ),
                           Expanded(
                             child: Column(
@@ -323,7 +323,7 @@ class _ComplianceFilterModalState extends State<ComplianceFilterModal> {
                                       style: GoogleFonts.inter(
                                         fontSize: 8.5,
                                         fontWeight: FontWeight.w800,
-                                        color: AppColors.textSecondary,
+                                        color: AppColors.getTextSecondary(context),
                                       ),
                                     ),
                                   ],
@@ -334,7 +334,7 @@ class _ComplianceFilterModalState extends State<ComplianceFilterModal> {
                                   style: GoogleFonts.inter(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w800,
-                                    color: Colors.white,
+                                    color: AppColors.getTextPrimary(context),
                                   ),
                                 ),
                               ],
@@ -370,7 +370,7 @@ class _ComplianceFilterModalState extends State<ComplianceFilterModal> {
                             });
                           },
                           style: OutlinedButton.styleFrom(
-                            side: const BorderSide(color: AppColors.border),
+                            side: BorderSide(color: AppColors.getBorder(context)),
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                             padding: const EdgeInsets.symmetric(vertical: 13),
                           ),
@@ -379,7 +379,7 @@ class _ComplianceFilterModalState extends State<ComplianceFilterModal> {
                             style: GoogleFonts.inter(
                               fontSize: 11.5,
                               fontWeight: FontWeight.w800,
-                              color: AppColors.textSecondary,
+                              color: AppColors.getTextSecondary(context),
                             ),
                           ),
                         ),
@@ -426,7 +426,7 @@ class _ComplianceFilterModalState extends State<ComplianceFilterModal> {
     );
   }
 
-  Widget _buildPresetChip(String key, String label) {
+  Widget _buildPresetChip(BuildContext context, String key, String label) {
     final isSelected = _preset == key;
     return InkWell(
       onTap: () => _applyPreset(key),
@@ -435,10 +435,10 @@ class _ComplianceFilterModalState extends State<ComplianceFilterModal> {
         duration: const Duration(milliseconds: 180),
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
         decoration: BoxDecoration(
-          color: isSelected ? _accentTeal.withValues(alpha: 0.2) : AppColors.surfaceElevated,
+          color: isSelected ? _accentTeal.withValues(alpha: 0.2) : AppColors.getSurfaceElevated(context),
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: isSelected ? _accentTeal : AppColors.border,
+            color: isSelected ? _accentTeal : AppColors.getBorder(context),
             width: isSelected ? 1.4 : 1.0,
           ),
         ),
@@ -447,7 +447,7 @@ class _ComplianceFilterModalState extends State<ComplianceFilterModal> {
           style: GoogleFonts.inter(
             fontSize: 11,
             fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-            color: isSelected ? _accentTeal : AppColors.textSecondary,
+            color: isSelected ? _accentTeal : AppColors.getTextSecondary(context),
           ),
         ),
       ),

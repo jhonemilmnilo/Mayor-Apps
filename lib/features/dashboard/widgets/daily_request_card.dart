@@ -231,9 +231,10 @@ class _DailyRequestCardState extends ConsumerState<DailyRequestCard> {
 
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: AppColors.getSurface(context),
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: AppColors.getBorder(context)),
+        boxShadow: AppColors.getCardShadow(context),
       ),
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -251,7 +252,7 @@ class _DailyRequestCardState extends ConsumerState<DailyRequestCard> {
                   fontWeight: FontWeight.w900,
                   fontStyle: FontStyle.italic,
                   letterSpacing: 0.5,
-                  color: Colors.white,
+                  color: AppColors.getTextPrimary(context),
                 ),
               ),
             ],

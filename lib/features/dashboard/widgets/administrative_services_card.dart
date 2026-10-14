@@ -25,9 +25,10 @@ class AdministrativeServicesCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: AppColors.getSurface(context),
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppColors.border, width: 1.2),
+        border: Border.all(color: AppColors.getBorder(context), width: 1.2),
+        boxShadow: AppColors.getCardShadow(context),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,14 +61,14 @@ class AdministrativeServicesCard extends StatelessWidget {
                         fontWeight: FontWeight.w900,
                         fontStyle: FontStyle.italic,
                         letterSpacing: -0.2,
-                        color: Colors.white,
+                        color: AppColors.getTextPrimary(context),
                       ),
                     ),
                     Text(
                       "Centralized municipal operations, directories & hotlines",
                       style: GoogleFonts.inter(
                         fontSize: 11,
-                        color: AppColors.textSecondary,
+                        color: AppColors.getTextSecondary(context),
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -166,9 +167,9 @@ class AdministrativeServicesCard extends StatelessWidget {
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surfaceElevated.withValues(alpha: 0.5),
+        color: AppColors.getSurfaceElevated(context).withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: AppColors.getBorder(context)),
       ),
       child: Material(
         color: Colors.transparent,
@@ -206,7 +207,7 @@ class AdministrativeServicesCard extends StatelessWidget {
                         style: GoogleFonts.inter(
                           fontSize: 13.5,
                           fontWeight: FontWeight.w800,
-                          color: Colors.white,
+                          color: AppColors.getTextPrimary(context),
                         ),
                       ),
                       const SizedBox(height: 3),
@@ -216,7 +217,7 @@ class AdministrativeServicesCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.inter(
                           fontSize: 11,
-                          color: AppColors.textSecondary,
+                          color: AppColors.getTextSecondary(context),
                           fontWeight: FontWeight.w500,
                         ),
                       ),

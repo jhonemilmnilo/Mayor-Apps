@@ -32,14 +32,74 @@ class AppConstants {
 
 class AppColors {
   static const Color primary = Color(0xFFFF003C); // Official EMapandan Red
+
+  // Dark Palette (Default)
   static const Color background = Color(0xFF090D1A); // Deep Executive Dark
   static const Color surface = Color(0xFF111827); // Dark Slate Card
   static const Color surfaceElevated = Color(0xFF1E293B);
   static const Color border = Color(0xFF1F293D);
   static const Color textPrimary = Colors.white;
   static const Color textSecondary = Color(0xFF94A3B8);
+
+  // Light Palette (Executive Light)
+  static const Color lightBackground = Color(0xFFF8FAFC); // Slate 50
+  static const Color lightSurface = Colors.white; // Pure White Card
+  static const Color lightSurfaceElevated = Color(0xFFF1F5F9); // Slate 100
+  static const Color lightBorder = Color(0xFFE2E8F0); // Slate 200
+  static const Color lightTextPrimary = Color(0xFF0F172A); // Slate 900
+  static const Color lightTextSecondary = Color(0xFF64748B); // Slate 500
+
+  // Shared Accents
   static const Color accentGreen = Color(0xFF10B981);
   static const Color accentAmber = Color(0xFFF59E0B);
   static const Color accentBlue = Color(0xFF3B82F6);
   static const Color accentPurple = Color(0xFF8B5CF6);
+
+  // Dynamic Theme Helpers
+  static bool isDark(BuildContext context) =>
+      Theme.of(context).brightness == Brightness.dark;
+
+  static Color getBackground(BuildContext context) =>
+      isDark(context) ? background : lightBackground;
+
+  static Color getSurface(BuildContext context) =>
+      isDark(context) ? surface : lightSurface;
+
+  static Color getSurfaceElevated(BuildContext context) =>
+      isDark(context) ? surfaceElevated : lightSurfaceElevated;
+
+  static Color getBorder(BuildContext context) =>
+      isDark(context) ? border : lightBorder;
+
+  static Color getTextPrimary(BuildContext context) =>
+      isDark(context) ? textPrimary : lightTextPrimary;
+
+  static Color getTextSecondary(BuildContext context) =>
+      isDark(context) ? textSecondary : lightTextSecondary;
+
+  static List<BoxShadow> getCardShadow(BuildContext context) {
+    if (isDark(context)) {
+      return [
+        BoxShadow(
+          color: Colors.black.withValues(alpha: 0.25),
+          blurRadius: 10,
+          offset: const Offset(0, 4),
+        ),
+      ];
+    } else {
+      return [
+        BoxShadow(
+          color: const Color(0xFF0F172A).withValues(alpha: 0.05),
+          blurRadius: 12,
+          offset: const Offset(0, 3),
+        ),
+        BoxShadow(
+          color: const Color(0xFF0F172A).withValues(alpha: 0.02),
+          blurRadius: 3,
+          offset: const Offset(0, 1),
+        ),
+      ];
+    }
+  }
 }
+

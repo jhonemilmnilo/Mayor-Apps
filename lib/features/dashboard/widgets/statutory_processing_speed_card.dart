@@ -19,9 +19,10 @@ class StatutoryProcessingSpeedCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: AppColors.getSurface(context),
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppColors.border, width: 1.2),
+        border: Border.all(color: AppColors.getBorder(context), width: 1.2),
+        boxShadow: AppColors.getCardShadow(context),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,7 +55,7 @@ class StatutoryProcessingSpeedCard extends StatelessWidget {
                         fontWeight: FontWeight.w900,
                         fontStyle: FontStyle.italic,
                         letterSpacing: -0.2,
-                        color: Colors.white,
+                        color: AppColors.getTextPrimary(context),
                       ),
                     ),
                     const SizedBox(height: 2),
@@ -74,7 +75,7 @@ class StatutoryProcessingSpeedCard extends StatelessWidget {
                             "Average working days vs. RA 11032 statutory ceilings",
                             style: GoogleFonts.inter(
                               fontSize: 11,
-                              color: AppColors.textSecondary,
+                              color: AppColors.getTextSecondary(context),
                               fontWeight: FontWeight.w500,
                             ),
                             overflow: TextOverflow.ellipsis,
@@ -89,11 +90,12 @@ class StatutoryProcessingSpeedCard extends StatelessWidget {
           ),
 
           const SizedBox(height: 16),
-          const Divider(height: 1, color: AppColors.border),
+          Divider(height: 1, color: AppColors.getBorder(context)),
           const SizedBox(height: 14),
 
           // 1. Simple Transactions Tier (Emerald #10B981)
           _buildTierRow(
+            context,
             title: "Simple Transactions",
             statutoryLimitLabel: "Statutory Limit: 3 Days",
             tier: processingSpeed.simple,
@@ -104,6 +106,7 @@ class StatutoryProcessingSpeedCard extends StatelessWidget {
 
           // 2. Complex Transactions Tier (Blue #3B82F6)
           _buildTierRow(
+            context,
             title: "Complex Transactions",
             statutoryLimitLabel: "Statutory Limit: 7 Days",
             tier: processingSpeed.complex,
@@ -114,6 +117,7 @@ class StatutoryProcessingSpeedCard extends StatelessWidget {
 
           // 3. Highly Technical Tier (Indigo #6366F1)
           _buildTierRow(
+            context,
             title: "Highly Technical",
             statutoryLimitLabel: "Statutory Limit: 20 Days",
             tier: processingSpeed.highlyTechnical,
@@ -124,7 +128,8 @@ class StatutoryProcessingSpeedCard extends StatelessWidget {
     );
   }
 
-  Widget _buildTierRow({
+  Widget _buildTierRow(
+    BuildContext context, {
     required String title,
     required String statutoryLimitLabel,
     required ProcessingSpeedTierModel tier,
@@ -136,10 +141,10 @@ class StatutoryProcessingSpeedCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(13),
       decoration: BoxDecoration(
-        color: AppColors.surfaceElevated.withValues(alpha: 0.5),
+        color: AppColors.getSurfaceElevated(context).withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: AppColors.border.withValues(alpha: 0.8),
+          color: AppColors.getBorder(context).withValues(alpha: 0.8),
           width: 1,
         ),
       ),
@@ -156,7 +161,7 @@ class StatutoryProcessingSpeedCard extends StatelessWidget {
                 style: GoogleFonts.inter(
                   fontSize: 12.5,
                   fontWeight: FontWeight.w800,
-                  color: Colors.white,
+                  color: AppColors.getTextPrimary(context),
                 ),
               ),
               Row(
@@ -210,7 +215,7 @@ class StatutoryProcessingSpeedCard extends StatelessWidget {
                 height: 7,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.08),
+                  color: (AppColors.isDark(context) ? Colors.white : Colors.black).withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(6),
                 ),
               ),
@@ -244,7 +249,7 @@ class StatutoryProcessingSpeedCard extends StatelessWidget {
                 statutoryLimitLabel,
                 style: GoogleFonts.inter(
                   fontSize: 10,
-                  color: AppColors.textSecondary,
+                  color: AppColors.getTextSecondary(context),
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -252,7 +257,7 @@ class StatutoryProcessingSpeedCard extends StatelessWidget {
                 "${tier.count} transactions recorded",
                 style: GoogleFonts.inter(
                   fontSize: 10,
-                  color: AppColors.textSecondary,
+                  color: AppColors.getTextSecondary(context),
                   fontWeight: FontWeight.w600,
                 ),
               ),
