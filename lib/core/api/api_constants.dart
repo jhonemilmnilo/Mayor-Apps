@@ -28,7 +28,6 @@ class AppConstants {
   static const String tuluyanEndpoint = "/api/mobile/mayor/tuluyan";
   static const String tourismEndpoint = "/api/mobile/mayor/tourism";
   static const String artaEndpoint = "/api/mobile/mayor/arta";
-  static const String activityLogsEndpoint = "/api/mobile/mayor/activity-logs";
 }
 
 class AppColors {

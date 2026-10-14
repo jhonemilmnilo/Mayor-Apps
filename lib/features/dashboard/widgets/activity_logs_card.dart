@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/api/api_constants.dart';
 import '../models/activity_log_model.dart';
-import 'activity_logs_audit_modal.dart';
 
 class ActivityLogsCard extends StatelessWidget {
   final List<ActivityLogItemModel> activityLogs;
@@ -13,7 +12,7 @@ class ActivityLogsCard extends StatelessWidget {
     super.key,
     required this.activityLogs,
     this.selectedBarangay = 'ALL',
-    this.maxItems = 6,
+    this.maxItems = 5,
   });
 
   @override
@@ -86,29 +85,6 @@ class ActivityLogsCard extends StatelessWidget {
                       ],
                     ),
                   ],
-                ),
-              ),
-              InkWell(
-                onTap: () => ActivityLogsAuditModal.show(context),
-                borderRadius: BorderRadius.circular(8),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        "VIEW ALL",
-                        style: GoogleFonts.inter(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w800,
-                          color: accentRose,
-                          letterSpacing: 0.5,
-                        ),
-                      ),
-                      const SizedBox(width: 4),
-                      const Icon(Icons.arrow_forward_rounded, size: 14, color: accentRose),
-                    ],
-                  ),
                 ),
               ),
             ],
@@ -195,14 +171,11 @@ class ActivityLogsCard extends StatelessWidget {
                       Expanded(
                         child: Padding(
                           padding: EdgeInsets.only(bottom: isLast ? 0 : 14),
-                          child: InkWell(
-                            onTap: () => ActivityLogsAuditModal.show(context),
-                            borderRadius: BorderRadius.circular(8),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 2),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 2),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
                                   RichText(
                                     text: TextSpan(
                                       style: GoogleFonts.inter(
@@ -275,10 +248,9 @@ class ActivityLogsCard extends StatelessWidget {
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
+                      ],
+                    ),
+                  );
               },
             ),
         ],
