@@ -4,6 +4,7 @@ import 'news_item_model.dart';
 import 'event_item_model.dart';
 import 'admin_service_model.dart';
 import 'activity_log_model.dart';
+import 'staff_audit_log_model.dart';
 
 class MetricCounts {
   final int residents;
@@ -203,7 +204,7 @@ class MayorDashboardData {
   final List<dynamic> payments;
   final List<dynamic> recentTransactions;
   final List<dynamic> recentReports;
-  final List<dynamic> staffLogs;
+  final List<StaffAuditLogModel> staffLogs;
   final List<ActivityLogItemModel> activityLogs;
   final List<MapPlaceItem> mapPlaces;
   final List<String> barangays;
@@ -280,7 +281,12 @@ class MayorDashboardData {
       payments: recentFeeds['payments'] as List? ?? [],
       recentTransactions: recentFeeds['transactions'] as List? ?? [],
       recentReports: recentFeeds['reports'] as List? ?? [],
-      staffLogs: recentFeeds['staffLogs'] as List? ?? [],
+      staffLogs: (recentFeeds['staffLogs'] as List? ?? []).map((s) {
+        if (s is Map<String, dynamic>) {
+          return StaffAuditLogModel.fromJson(s);
+        }
+        return StaffAuditLogModel.fromJson({});
+      }).toList(),
       activityLogs: rawActivityLogs.map((l) {
         if (l is Map<String, dynamic>) {
           return ActivityLogItemModel.fromJson(l);

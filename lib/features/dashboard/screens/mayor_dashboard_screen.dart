@@ -18,6 +18,7 @@ import '../widgets/latest_news_card.dart';
 import '../widgets/recent_events_card.dart';
 import '../widgets/administrative_services_card.dart';
 import '../widgets/activity_logs_card.dart';
+import '../widgets/staff_audit_logs_card.dart';
 import '../widgets/barangay_search_modal.dart';
 
 class MayorDashboardScreen extends ConsumerWidget {
@@ -237,6 +238,13 @@ class MayorDashboardScreen extends ConsumerWidget {
                 // Real-Time Activity Logs Card (Resident Analytics Stream)
                 ActivityLogsCard(
                   activityLogs: data.activityLogs,
+                  selectedBarangay: selectedBarangay,
+                ),
+                const SizedBox(height: 14),
+
+                // Staff Operational Audit Logs Card (100% Web Parity)
+                StaffAuditLogsCard(
+                  staffLogs: data.staffLogs,
                   selectedBarangay: selectedBarangay,
                 ),
                 const SizedBox(height: 14),
