@@ -2,6 +2,7 @@ import 'project_item_model.dart';
 import 'announcement_item_model.dart';
 import 'news_item_model.dart';
 import 'event_item_model.dart';
+import 'admin_service_model.dart';
 
 class MetricCounts {
   final int residents;
@@ -188,6 +189,7 @@ class MayorDashboardData {
   final String themeColor;
   final String selectedBarangay;
   final MetricCounts counts;
+  final AdminServicesCounts adminServices;
   final RevenueAnalytics revenue;
   final TransactionAnalytics transactions;
   final DemographicAnalytics demographics;
@@ -208,6 +210,7 @@ class MayorDashboardData {
     required this.themeColor,
     required this.selectedBarangay,
     required this.counts,
+    required this.adminServices,
     required this.revenue,
     required this.transactions,
     required this.demographics,
@@ -235,6 +238,7 @@ class MayorDashboardData {
       themeColor: json['themeColor'] ?? '#FF003C',
       selectedBarangay: json['selectedBarangay'] ?? '',
       counts: MetricCounts.fromJson(json['counts'] ?? {}),
+      adminServices: AdminServicesCounts.fromJson(json['adminServices'] ?? {}),
       revenue: RevenueAnalytics.fromJson(analytics['revenue'] ?? {}),
       transactions: TransactionAnalytics.fromJson(analytics['transactions'] ?? {}),
       demographics: DemographicAnalytics.fromJson(analytics['demographics'] ?? {}),
