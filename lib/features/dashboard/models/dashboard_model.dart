@@ -7,6 +7,7 @@ import 'activity_log_model.dart';
 import 'staff_audit_log_model.dart';
 import 'department_compliance_model.dart';
 import 'processing_speed_model.dart';
+import 'overdue_arta_model.dart';
 
 class MetricCounts {
   final int residents;
@@ -210,6 +211,7 @@ class MayorDashboardData {
   final List<ActivityLogItemModel> activityLogs;
   final List<DepartmentComplianceModel> departmentLeaderboard;
   final StatutoryProcessingSpeedModel processingSpeed;
+  final List<OverdueArtaModel> overdueRequests;
   final List<MapPlaceItem> mapPlaces;
   final List<String> barangays;
 
@@ -234,6 +236,7 @@ class MayorDashboardData {
     this.activityLogs = const [],
     this.departmentLeaderboard = const [],
     required this.processingSpeed,
+    this.overdueRequests = const [],
     required this.mapPlaces,
     required this.barangays,
   });
@@ -308,6 +311,12 @@ class MayorDashboardData {
       processingSpeed: json['processingSpeed'] != null
           ? StatutoryProcessingSpeedModel.fromJson(json['processingSpeed'] as Map<String, dynamic>)
           : StatutoryProcessingSpeedModel.fallback(),
+      overdueRequests: (json['overdueRequests'] as List? ?? []).map((o) {
+        if (o is Map<String, dynamic>) {
+          return OverdueArtaModel.fromJson(o);
+        }
+        return OverdueArtaModel.fromJson({});
+      }).toList(),
       mapPlaces: rawPlaces.map((p) => MapPlaceItem.fromJson(p as Map<String, dynamic>)).toList(),
       barangays: (json['barangays'] as List? ?? []).map((e) => e.toString()).toList(),
     );

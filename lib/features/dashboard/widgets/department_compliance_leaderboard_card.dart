@@ -511,33 +511,6 @@ class _DepartmentComplianceLeaderboardCardState
               ),
             ),
           ),
-
-          const SizedBox(height: 14),
-          const Divider(height: 1, color: AppColors.border),
-          const SizedBox(height: 8),
-
-          // Footnote
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Ranked by statutory SLA compliance rate",
-                style: GoogleFonts.inter(
-                  fontSize: 10,
-                  color: AppColors.textSecondary.withValues(alpha: 0.7),
-                  fontStyle: FontStyle.italic,
-                ),
-              ),
-              Text(
-                "PST Working Days",
-                style: GoogleFonts.inter(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w700,
-                  color: accentTeal.withValues(alpha: 0.8),
-                ),
-              ),
-            ],
-          ),
         ],
       ),
     );
