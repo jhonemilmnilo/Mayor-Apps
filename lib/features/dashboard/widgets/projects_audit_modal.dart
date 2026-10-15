@@ -294,13 +294,15 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = AppColors.isDark(context);
+
     return Container(
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.92,
       ),
-      decoration: const BoxDecoration(
-        color: AppColors.background,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(26)),
+      decoration: BoxDecoration(
+        color: AppColors.getBackground(context),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(26)),
       ),
       child: Column(
         children: [
@@ -311,7 +313,7 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
               width: 42,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
+                color: isDark ? Colors.white.withValues(alpha: 0.2) : Colors.black12,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -376,7 +378,7 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
                       fontWeight: FontWeight.w900,
                       fontStyle: FontStyle.italic,
                       letterSpacing: 0.5,
-                      color: Colors.white,
+                      color: AppColors.getTextPrimary(context),
                     ),
                   ),
                   Text(
@@ -385,7 +387,7 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
                         : "$_totalCount Registered Infrastructure Projects",
                     style: GoogleFonts.inter(
                       fontSize: 10.5,
-                      color: AppColors.textSecondary,
+                      color: AppColors.getTextSecondary(context),
                     ),
                   ),
                 ],
@@ -422,10 +424,10 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
               ),
               IconButton(
                 onPressed: () => Navigator.pop(context),
-                icon: const Icon(
+                icon: Icon(
                   LucideIcons.x,
                   size: 20,
-                  color: AppColors.textSecondary,
+                  color: AppColors.getTextSecondary(context),
                 ),
                 splashRadius: 20,
               ),
@@ -485,13 +487,15 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
     required IconData icon,
     required Color color,
   }) {
+    final isDark = AppColors.isDark(context);
     return Container(
       constraints: const BoxConstraints(minWidth: 105),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: AppColors.getSurface(context),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: AppColors.getBorder(context)),
+        boxShadow: isDark ? [] : AppColors.getCardShadow(context),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -506,7 +510,7 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
                 style: GoogleFonts.inter(
                   fontSize: 8.5,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.textSecondary,
+                  color: AppColors.getTextSecondary(context),
                   letterSpacing: 0.5,
                 ),
               ),
@@ -527,6 +531,7 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
   }
 
   Widget _buildSearchAndFilterToolbar() {
+    final isDark = AppColors.isDark(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -535,18 +540,19 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
           Container(
             height: 40,
             decoration: BoxDecoration(
-              color: AppColors.surface,
+              color: AppColors.getSurface(context),
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: AppColors.border),
+              border: Border.all(color: AppColors.getBorder(context)),
+              boxShadow: isDark ? [] : AppColors.getCardShadow(context),
             ),
             child: TextField(
               controller: _searchController,
               onChanged: _onSearchChanged,
-              style: GoogleFonts.inter(color: Colors.white, fontSize: 12),
+              style: GoogleFonts.inter(color: AppColors.getTextPrimary(context), fontSize: 12),
               decoration: InputDecoration(
                 hintText: "Search by title, location, contractor...",
                 hintStyle: GoogleFonts.inter(
-                  color: AppColors.textSecondary,
+                  color: AppColors.getTextSecondary(context),
                   fontSize: 11.5,
                 ),
                 prefixIcon: const Icon(
@@ -556,7 +562,7 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
                 ),
                 suffixIcon: _searchController.text.isNotEmpty
                     ? IconButton(
-                        icon: const Icon(LucideIcons.x, size: 14, color: AppColors.textSecondary),
+                        icon: Icon(LucideIcons.x, size: 14, color: AppColors.getTextSecondary(context)),
                         onPressed: () {
                           _searchController.clear();
                           _onSearchChanged("");
@@ -592,11 +598,14 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
                       duration: const Duration(milliseconds: 180),
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       decoration: BoxDecoration(
-                        color: isSelected ? color.withValues(alpha: 0.2) : AppColors.surface,
+                        color: isSelected
+                            ? color.withValues(alpha: isDark ? 0.2 : 0.12)
+                            : AppColors.getSurface(context),
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
-                          color: isSelected ? color : AppColors.border,
+                          color: isSelected ? color : AppColors.getBorder(context),
                         ),
+                        boxShadow: (!isSelected && !isDark) ? AppColors.getCardShadow(context) : [],
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -605,7 +614,7 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
                             width: 6,
                             height: 6,
                             decoration: BoxDecoration(
-                              color: isSelected ? color : AppColors.textSecondary.withValues(alpha: 0.4),
+                              color: isSelected ? color : AppColors.getTextSecondary(context).withValues(alpha: 0.4),
                               shape: BoxShape.circle,
                             ),
                           ),
@@ -615,7 +624,9 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
                             style: GoogleFonts.inter(
                               fontSize: 10.5,
                               fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-                              color: isSelected ? Colors.white : AppColors.textSecondary,
+                              color: isSelected
+                                  ? (isDark ? Colors.white : color)
+                                  : AppColors.getTextSecondary(context),
                             ),
                           ),
                         ],
@@ -632,6 +643,7 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
   }
 
   Widget _buildActiveScopeBadge() {
+    final isDark = AppColors.isDark(context);
     final bgy = widget.selectedBarangay.isEmpty
         ? "Municipality-Wide"
         : widget.selectedBarangay;
@@ -645,9 +657,9 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.03),
+          color: isDark ? Colors.white.withValues(alpha: 0.03) : Colors.black.withValues(alpha: 0.03),
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: AppColors.border.withValues(alpha: 0.5)),
+          border: Border.all(color: AppColors.getBorder(context).withValues(alpha: 0.5)),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -672,10 +684,10 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
             ),
             Row(
               children: [
-                const Icon(
+                Icon(
                   LucideIcons.tag,
                   size: 11,
-                  color: AppColors.textSecondary,
+                  color: AppColors.getTextSecondary(context),
                 ),
                 const SizedBox(width: 5),
                 Text(
@@ -683,7 +695,7 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
                   style: GoogleFonts.inter(
                     fontSize: 10,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.textSecondary,
+                    color: AppColors.getTextSecondary(context),
                   ),
                 ),
               ],
@@ -752,10 +764,10 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(
+            Icon(
               LucideIcons.fileSearch,
               size: 40,
-              color: AppColors.textSecondary,
+              color: AppColors.getTextSecondary(context),
             ),
             const SizedBox(height: 10),
             Text(
@@ -763,7 +775,7 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
               style: GoogleFonts.inter(
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
-                color: Colors.white,
+                color: AppColors.getTextPrimary(context),
               ),
             ),
             const SizedBox(height: 4),
@@ -771,7 +783,7 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
               "Try adjusting your search query or status filter.",
               style: GoogleFonts.inter(
                 fontSize: 11,
-                color: AppColors.textSecondary,
+                color: AppColors.getTextSecondary(context),
               ),
             ),
           ],
@@ -787,13 +799,13 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
       itemBuilder: (context, index) {
         if (index == _projects.length) {
           if (_hasMore) {
-            return const Padding(
-              padding: EdgeInsets.symmetric(vertical: 16),
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
               child: Center(
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 14,
                       height: 14,
                       child: CircularProgressIndicator(
@@ -801,12 +813,12 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
                         color: Color(0xFF8B5CF6),
                       ),
                     ),
-                    SizedBox(width: 8),
+                    const SizedBox(width: 8),
                     Text(
                       "Loading next 15 records...",
                       style: TextStyle(
                         fontSize: 11,
-                        color: AppColors.textSecondary,
+                        color: AppColors.getTextSecondary(context),
                       ),
                     ),
                   ],
@@ -822,7 +834,7 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
                   style: GoogleFonts.inter(
                     fontSize: 10.5,
                     fontStyle: FontStyle.italic,
-                    color: AppColors.textSecondary.withValues(alpha: 0.6),
+                    color: AppColors.getTextSecondary(context).withValues(alpha: 0.6),
                   ),
                 ),
               ),
@@ -837,6 +849,7 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
   }
 
   Widget _buildProjectAuditCard(ProjectItemModel item) {
+    final isDark = AppColors.isDark(context);
     final statusColor = _getStatusColor(item.status);
     final progressColor = _getProgressColor(item.progress);
 
@@ -846,9 +859,10 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
       child: Container(
         padding: const EdgeInsets.all(13),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: AppColors.getSurface(context),
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AppColors.border),
+          border: Border.all(color: AppColors.getBorder(context)),
+          boxShadow: isDark ? [] : AppColors.getCardShadow(context),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -864,7 +878,7 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
                     style: GoogleFonts.inter(
                       fontSize: 12.5,
                       fontWeight: FontWeight.w800,
-                      color: Colors.white,
+                      color: AppColors.getTextPrimary(context),
                       height: 1.3,
                     ),
                     maxLines: 2,
@@ -875,9 +889,9 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2.5),
                   decoration: BoxDecoration(
-                    color: statusColor.withValues(alpha: 0.15),
+                    color: statusColor.withValues(alpha: isDark ? 0.15 : 0.12),
                     borderRadius: BorderRadius.circular(6),
-                    border: Border.all(color: statusColor.withValues(alpha: 0.3)),
+                    border: Border.all(color: statusColor.withValues(alpha: isDark ? 0.3 : 0.25)),
                   ),
                   child: Text(
                     item.status,
@@ -899,7 +913,7 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF8B5CF6).withValues(alpha: 0.12),
+                    color: const Color(0xFF8B5CF6).withValues(alpha: isDark ? 0.12 : 0.08),
                     borderRadius: BorderRadius.circular(5),
                   ),
                   child: Text(
@@ -916,7 +930,7 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(LucideIcons.mapPin, size: 10, color: AppColors.textSecondary),
+                      Icon(LucideIcons.mapPin, size: 10, color: AppColors.getTextSecondary(context)),
                       const SizedBox(width: 3),
                       Flexible(
                         child: Text(
@@ -924,7 +938,7 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
                           style: GoogleFonts.inter(
                             fontSize: 9,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.textSecondary,
+                            color: AppColors.getTextSecondary(context),
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -952,14 +966,14 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
                   ),
                   if (item.contractor != null && item.contractor!.isNotEmpty) ...[
                     const SizedBox(width: 8),
-                    const Text("•", style: TextStyle(color: AppColors.textSecondary, fontSize: 10)),
+                    Text("•", style: TextStyle(color: AppColors.getTextSecondary(context), fontSize: 10)),
                     const SizedBox(width: 8),
                     Flexible(
                       child: Text(
                         item.contractor!,
                         style: GoogleFonts.inter(
                           fontSize: 9.5,
-                          color: AppColors.textSecondary,
+                          color: AppColors.getTextSecondary(context),
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -980,7 +994,7 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
                     borderRadius: BorderRadius.circular(4),
                     child: Container(
                       height: 5,
-                      color: Colors.white.withValues(alpha: 0.08),
+                      color: isDark ? Colors.white.withValues(alpha: 0.08) : Colors.black.withValues(alpha: 0.08),
                       child: FractionallySizedBox(
                         alignment: Alignment.centerLeft,
                         widthFactor: (item.progress / 100).clamp(0.0, 1.0),
