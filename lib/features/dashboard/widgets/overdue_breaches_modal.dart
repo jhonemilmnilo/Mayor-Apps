@@ -313,54 +313,60 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Row 1: Reference No + Office Badge + Overdue Pill
+                            // Row 1: Reference No + Office Badge + Overdue Pill (Fully Responsive)
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Row(
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 6, vertical: 2),
-                                      decoration: BoxDecoration(
-                                        color: (isDark ? Colors.white : Colors.black).withValues(alpha: 0.05),
-                                        borderRadius: BorderRadius.circular(5),
-                                        border: Border.all(
-                                            color: AppColors.getBorder(context), width: 0.8),
-                                      ),
-                                      child: Text(
-                                        item.referenceNo,
-                                        style: GoogleFonts.jetBrainsMono(
-                                          fontSize: 10.5,
-                                          fontWeight: FontWeight.w800,
-                                          color: AppColors.getTextPrimary(context),
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      Flexible(
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 6, vertical: 2),
+                                          decoration: BoxDecoration(
+                                            color: (isDark ? Colors.white : Colors.black).withValues(alpha: 0.05),
+                                            borderRadius: BorderRadius.circular(5),
+                                            border: Border.all(
+                                                color: AppColors.getBorder(context), width: 0.8),
+                                          ),
+                                          child: Text(
+                                            item.referenceNo,
+                                            style: GoogleFonts.jetBrainsMono(
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w800,
+                                              color: AppColors.getTextPrimary(context),
+                                            ),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    const SizedBox(width: 6),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 6, vertical: 2),
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFF3B82F6)
-                                            .withValues(alpha: isDark ? 0.15 : 0.1),
-                                        borderRadius: BorderRadius.circular(5),
-                                        border: Border.all(
-                                            color: const Color(0xFF3B82F6)
-                                                .withValues(alpha: isDark ? 0.3 : 0.25),
-                                            width: 0.8),
-                                      ),
-                                      child: Text(
-                                        item.officeCode,
-                                        style: GoogleFonts.inter(
-                                          fontSize: 9,
-                                          fontWeight: FontWeight.w900,
-                                          color: isDark ? const Color(0xFF60A5FA) : const Color(0xFF2563EB),
+                                      const SizedBox(width: 6),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6, vertical: 2),
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xFF3B82F6)
+                                              .withValues(alpha: isDark ? 0.15 : 0.1),
+                                          borderRadius: BorderRadius.circular(5),
+                                          border: Border.all(
+                                              color: const Color(0xFF3B82F6)
+                                                  .withValues(alpha: isDark ? 0.3 : 0.25),
+                                              width: 0.8),
+                                        ),
+                                        child: Text(
+                                          item.officeCode,
+                                          style: GoogleFonts.inter(
+                                            fontSize: 9,
+                                            fontWeight: FontWeight.w900,
+                                            color: isDark ? const Color(0xFF60A5FA) : const Color(0xFF2563EB),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
+                                const SizedBox(width: 8),
                                 Container(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8, vertical: 2.5),
@@ -401,24 +407,30 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
 
                             // Handler & Deadline Row
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Row(
-                                  children: [
-                                    Icon(LucideIcons.user,
-                                        size: 11, color: AppColors.getTextSecondary(context)),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      "Handler: ${item.handlerName}",
-                                      style: GoogleFonts.inter(
-                                        fontSize: 10.5,
-                                        color: AppColors.getTextSecondary(context),
-                                        fontWeight: FontWeight.w500,
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      Icon(LucideIcons.user,
+                                          size: 11, color: AppColors.getTextSecondary(context)),
+                                      const SizedBox(width: 4),
+                                      Expanded(
+                                        child: Text(
+                                          "Handler: ${item.handlerName}",
+                                          style: GoogleFonts.inter(
+                                            fontSize: 10.5,
+                                            color: AppColors.getTextSecondary(context),
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                                if (item.deadlineAt != null)
+                                if (item.deadlineAt != null) ...[
+                                  const SizedBox(width: 8),
                                   Row(
                                     children: [
                                       Icon(LucideIcons.clock,
@@ -434,6 +446,7 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
                                       ),
                                     ],
                                   ),
+                                ],
                               ],
                             ),
                           ],

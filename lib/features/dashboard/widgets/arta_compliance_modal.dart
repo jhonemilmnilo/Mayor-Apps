@@ -406,43 +406,48 @@ class _ArtaComplianceModalState extends ConsumerState<ArtaComplianceModal> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
               decoration: BoxDecoration(
                 color: AppColors.getSurface(context),
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(color: AppColors.getBorder(context)),
               ),
-              child: Row(
-                children: [
-                  InkWell(
-                    onTap: _pickDateRange,
-                    borderRadius: BorderRadius.circular(8),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(Icons.calendar_month_rounded, size: 16, color: Color(0xFF3B82F6)),
-                        const SizedBox(width: 8),
-                        Text(
-                          dateRangeLabel,
-                          style: GoogleFonts.inter(
-                            fontSize: 11.5,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.getTextPrimary(context),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    InkWell(
+                      onTap: _pickDateRange,
+                      borderRadius: BorderRadius.circular(8),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.calendar_month_rounded, size: 15, color: Color(0xFF3B82F6)),
+                          const SizedBox(width: 6),
+                          Text(
+                            dateRangeLabel,
+                            style: GoogleFonts.inter(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.getTextPrimary(context),
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 4),
-                        Icon(Icons.keyboard_arrow_down_rounded, size: 16, color: AppColors.getTextSecondary(context)),
-                      ],
+                          const SizedBox(width: 3),
+                          Icon(Icons.keyboard_arrow_down_rounded, size: 15, color: AppColors.getTextSecondary(context)),
+                        ],
+                      ),
                     ),
-                  ),
-                  const Spacer(),
-                  // Preset Quick Pills
-                  _buildDatePresetPill("30D", "30 Days"),
-                  const SizedBox(width: 4),
-                  _buildDatePresetPill("7D", "7 Days"),
-                  const SizedBox(width: 4),
-                  _buildDatePresetPill("MONTH", "Month"),
-                ],
+                    const SizedBox(width: 8),
+                    Container(width: 1, height: 16, color: AppColors.getBorder(context)),
+                    const SizedBox(width: 8),
+                    // Preset Quick Pills
+                    _buildDatePresetPill("30D", "30 Days"),
+                    const SizedBox(width: 4),
+                    _buildDatePresetPill("7D", "7 Days"),
+                    const SizedBox(width: 4),
+                    _buildDatePresetPill("MONTH", "Month"),
+                  ],
+                ),
               ),
             ),
           ),
@@ -645,12 +650,16 @@ class _ArtaComplianceModalState extends ConsumerState<ArtaComplianceModal> {
               ],
             ),
             const SizedBox(height: 3),
-            Text(
-              value,
-              style: GoogleFonts.inter(
-                fontSize: 15,
-                fontWeight: FontWeight.w900,
-                color: color,
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
+              child: Text(
+                value,
+                style: GoogleFonts.inter(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w900,
+                  color: color,
+                ),
               ),
             ),
           ],

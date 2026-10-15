@@ -339,46 +339,57 @@ class _PaymentsLedgerModalState extends ConsumerState<PaymentsLedgerModal> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF10B981).withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Icon(
-                  LucideIcons.receipt,
-                  size: 18,
-                  color: Color(0xFF10B981),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "MUNICIPAL PAYMENTS LEDGER",
-                    style: GoogleFonts.inter(
-                      fontSize: 12.5,
-                      fontWeight: FontWeight.w900,
-                      letterSpacing: 0.5,
-                      color: AppColors.getTextPrimary(context),
-                    ),
+          Expanded(
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF10B981).withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  Text(
-                    _isLoading
-                        ? "Connecting to municipal records..."
-                        : "$_totalCount Registered Payment Records",
-                    style: GoogleFonts.inter(
-                      fontSize: 10.5,
-                      color: AppColors.getTextSecondary(context),
-                    ),
+                  child: const Icon(
+                    LucideIcons.receipt,
+                    size: 18,
+                    color: Color(0xFF10B981),
                   ),
-                ],
-              ),
-            ],
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "MUNICIPAL PAYMENTS",
+                          style: GoogleFonts.inter(
+                            fontSize: 12.5,
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: 0.5,
+                            color: AppColors.getTextPrimary(context),
+                          ),
+                        ),
+                      ),
+                      Text(
+                        _isLoading
+                            ? "Connecting to municipal records..."
+                            : "$_totalCount Registered Payment Records",
+                        style: GoogleFonts.inter(
+                          fontSize: 10.5,
+                          color: AppColors.getTextSecondary(context),
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
+          const SizedBox(width: 8),
           IconButton(
             onPressed: () => Navigator.pop(context),
             icon: Icon(
@@ -405,30 +416,30 @@ class _PaymentsLedgerModalState extends ConsumerState<PaymentsLedgerModal> {
         children: [
           // Total Collected
           Expanded(
+            flex: 4,
             child: _buildKpiCard(
               title: "TOTAL COLLECTED",
               value: _currencyFormat.format(totalRev),
-              icon: LucideIcons.wallet,
               color: AppColors.primary,
             ),
           ),
           const SizedBox(width: 8),
           // Paid Transactions
           Expanded(
+            flex: 3,
             child: _buildKpiCard(
               title: "PAID",
               value: "$paidCount",
-              icon: LucideIcons.checkCircle2,
               color: const Color(0xFF10B981),
             ),
           ),
           const SizedBox(width: 8),
           // Pending
           Expanded(
+            flex: 3,
             child: _buildKpiCard(
               title: "PENDING",
               value: "$pendingCount",
-              icon: LucideIcons.clock,
               color: const Color(0xFFF59E0B),
             ),
           ),
@@ -440,7 +451,6 @@ class _PaymentsLedgerModalState extends ConsumerState<PaymentsLedgerModal> {
   Widget _buildKpiCard({
     required String title,
     required String value,
-    required IconData icon,
     required Color color,
   }) {
     final isDark = AppColors.isDark(context);
@@ -455,31 +465,29 @@ class _PaymentsLedgerModalState extends ConsumerState<PaymentsLedgerModal> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                title,
-                style: GoogleFonts.inter(
-                  fontSize: 8.5,
-                  fontWeight: FontWeight.w800,
-                  color: AppColors.getTextSecondary(context),
-                  letterSpacing: 0.4,
-                ),
-              ),
-              Icon(icon, size: 12, color: color),
-            ],
-          ),
-          const SizedBox(height: 4),
           Text(
-            value,
+            title,
             style: GoogleFonts.inter(
-              fontSize: 12.5,
-              fontWeight: FontWeight.w900,
-              color: color == AppColors.primary ? AppColors.getTextPrimary(context) : color,
+              fontSize: 8.5,
+              fontWeight: FontWeight.w800,
+              color: AppColors.getTextSecondary(context),
+              letterSpacing: 0.4,
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(height: 4),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              value,
+              style: GoogleFonts.inter(
+                fontSize: 13,
+                fontWeight: FontWeight.w900,
+                color: color == AppColors.primary ? AppColors.getTextPrimary(context) : color,
+              ),
+            ),
           ),
         ],
       ),

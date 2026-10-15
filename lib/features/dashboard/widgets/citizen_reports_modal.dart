@@ -1089,48 +1089,59 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(7),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFF59E0B).withValues(alpha: 0.15),
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: const Color(0xFFF59E0B).withValues(alpha: 0.3),
-                            ),
-                          ),
-                          child: const Icon(
-                            LucideIcons.alertCircle,
-                            size: 15,
-                            color: Color(0xFFF59E0B),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "INCIDENT INSPECTION",
-                              style: GoogleFonts.inter(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w900,
-                                fontStyle: FontStyle.italic,
-                                color: AppColors.getTextPrimary(context),
-                                letterSpacing: 0.5,
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(7),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFF59E0B).withValues(alpha: 0.15),
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: const Color(0xFFF59E0B).withValues(alpha: 0.3),
                               ),
                             ),
-                            Text(
-                              "Executive civic grievance investigation dossier",
-                              style: GoogleFonts.inter(
-                                fontSize: 10,
-                                color: AppColors.getTextSecondary(context),
-                              ),
+                            child: const Icon(
+                              LucideIcons.alertCircle,
+                              size: 15,
+                              color: Color(0xFFF59E0B),
                             ),
-                          ],
-                        ),
-                      ],
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "INCIDENT INSPECTION",
+                                    style: GoogleFonts.inter(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w900,
+                                      fontStyle: FontStyle.italic,
+                                      color: AppColors.getTextPrimary(context),
+                                      letterSpacing: 0.5,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  "Executive civic grievance investigation dossier",
+                                  style: GoogleFonts.inter(
+                                    fontSize: 10,
+                                    color: AppColors.getTextSecondary(context),
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
+                    const SizedBox(width: 8),
                     IconButton(
                       onPressed: () => Navigator.pop(context),
                       icon: Icon(LucideIcons.x, size: 18, color: AppColors.getTextSecondary(context)),
