@@ -247,9 +247,9 @@ class _DemographicCensusCardState
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColors.surfaceElevated,
+                      color: AppColors.getSurfaceElevated(context),
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: AppColors.border),
+                      border: Border.all(color: AppColors.getBorder(context)),
                     ),
                     child: Row(
                       children: [
@@ -266,17 +266,17 @@ class _DemographicCensusCardState
                           style: GoogleFonts.inter(
                             fontSize: 10.5,
                             fontWeight: FontWeight.w800,
-                            color: Colors.white,
+                            color: AppColors.getTextPrimary(context),
                           ),
                         ),
                         if (!_filter.isAllTime) ...[
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 6),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 6),
                             child: Text(
                               "to",
                               style: TextStyle(
                                 fontSize: 10,
-                                color: AppColors.textSecondary,
+                                color: AppColors.getTextSecondary(context),
                                 fontStyle: FontStyle.italic,
                               ),
                             ),
@@ -292,7 +292,7 @@ class _DemographicCensusCardState
                             style: GoogleFonts.inter(
                               fontSize: 10.5,
                               fontWeight: FontWeight.w800,
-                              color: Colors.white,
+                              color: AppColors.getTextPrimary(context),
                             ),
                           ),
                         ],
@@ -319,9 +319,9 @@ class _DemographicCensusCardState
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColors.surfaceElevated,
+                      color: AppColors.getSurfaceElevated(context),
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: AppColors.border),
+                      border: Border.all(color: AppColors.getBorder(context)),
                     ),
                     child: Row(
                       children: [
@@ -335,10 +335,10 @@ class _DemographicCensusCardState
                           ),
                         ),
                         const SizedBox(width: 4),
-                        const Icon(
+                        Icon(
                           LucideIcons.chevronDown,
                           size: 12,
-                          color: AppColors.textSecondary,
+                          color: AppColors.getTextSecondary(context),
                         ),
                       ],
                     ),

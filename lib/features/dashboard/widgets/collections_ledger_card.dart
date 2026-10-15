@@ -405,11 +405,11 @@ class _CollectionsLedgerCardState extends ConsumerState<CollectionsLedgerCard> {
                     style: GoogleFonts.inter(
                       fontSize: 10,
                       fontWeight: FontWeight.w700,
-                      color: Colors.white,
+                      color: AppColors.getTextPrimary(context),
                     ),
                   ),
                   const SizedBox(width: 8),
-                  Container(width: 1, height: 12, color: AppColors.border),
+                  Container(width: 1, height: 12, color: AppColors.getBorder(context)),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -417,13 +417,13 @@ class _CollectionsLedgerCardState extends ConsumerState<CollectionsLedgerCard> {
                       style: GoogleFonts.inter(
                         fontSize: 9.5,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.textSecondary,
+                        color: AppColors.getTextSecondary(context),
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  const Icon(LucideIcons.chevronDown, size: 12, color: AppColors.textSecondary),
+                  Icon(LucideIcons.chevronDown, size: 12, color: AppColors.getTextSecondary(context)),
                 ],
               ),
             ),

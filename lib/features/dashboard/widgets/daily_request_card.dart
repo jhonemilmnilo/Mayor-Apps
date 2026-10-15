@@ -304,9 +304,9 @@ class _DailyRequestCardState extends ConsumerState<DailyRequestCard> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
-                      color: AppColors.surfaceElevated,
+                      color: AppColors.getSurfaceElevated(context),
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: AppColors.border),
+                      border: Border.all(color: AppColors.getBorder(context)),
                     ),
                     child: Row(
                       children: [
@@ -314,17 +314,17 @@ class _DailyRequestCardState extends ConsumerState<DailyRequestCard> {
                         const SizedBox(width: 6),
                         Text(
                           _displayDateFormat.format(_filter.startDate),
-                          style: GoogleFonts.inter(fontSize: 10.5, fontWeight: FontWeight.w800, color: Colors.white),
+                          style: GoogleFonts.inter(fontSize: 10.5, fontWeight: FontWeight.w800, color: AppColors.getTextPrimary(context)),
                         ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 6),
-                          child: Text("to", style: TextStyle(fontSize: 10, color: AppColors.textSecondary, fontStyle: FontStyle.italic)),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 6),
+                          child: Text("to", style: TextStyle(fontSize: 10, color: AppColors.getTextSecondary(context), fontStyle: FontStyle.italic)),
                         ),
                         const Icon(LucideIcons.calendar, size: 12, color: Color(0xFF8B5CF6)),
                         const SizedBox(width: 6),
                         Text(
                           _displayDateFormat.format(_filter.endDate),
-                          style: GoogleFonts.inter(fontSize: 10.5, fontWeight: FontWeight.w800, color: Colors.white),
+                          style: GoogleFonts.inter(fontSize: 10.5, fontWeight: FontWeight.w800, color: AppColors.getTextPrimary(context)),
                         ),
                       ],
                     ),
@@ -346,9 +346,9 @@ class _DailyRequestCardState extends ConsumerState<DailyRequestCard> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
-                      color: AppColors.surfaceElevated,
+                      color: AppColors.getSurfaceElevated(context),
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: AppColors.border),
+                      border: Border.all(color: AppColors.getBorder(context)),
                     ),
                     child: Row(
                       children: [
@@ -362,7 +362,7 @@ class _DailyRequestCardState extends ConsumerState<DailyRequestCard> {
                           ),
                         ),
                         const SizedBox(width: 4),
-                        const Icon(LucideIcons.chevronDown, size: 12, color: AppColors.textSecondary),
+                        Icon(LucideIcons.chevronDown, size: 12, color: AppColors.getTextSecondary(context)),
                       ],
                     ),
                   ),

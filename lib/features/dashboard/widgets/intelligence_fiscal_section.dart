@@ -72,9 +72,9 @@ class _IntelligenceFiscalSectionState extends State<IntelligenceFiscalSection> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2.5),
                 decoration: BoxDecoration(
-                  color: AppColors.surfaceElevated,
+                  color: AppColors.getSurfaceElevated(context),
                   borderRadius: BorderRadius.circular(6),
-                  border: Border.all(color: AppColors.border),
+                  border: Border.all(color: AppColors.getBorder(context)),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -144,10 +144,10 @@ class _IntelligenceFiscalSectionState extends State<IntelligenceFiscalSection> {
           duration: const Duration(milliseconds: 180),
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
           decoration: BoxDecoration(
-            color: isSelected ? activeColor.withValues(alpha: 0.16) : AppColors.surfaceElevated,
+            color: isSelected ? activeColor.withValues(alpha: 0.16) : AppColors.getSurfaceElevated(context),
             borderRadius: BorderRadius.circular(9),
             border: Border.all(
-              color: isSelected ? activeColor.withValues(alpha: 0.5) : AppColors.border,
+              color: isSelected ? activeColor.withValues(alpha: 0.5) : AppColors.getBorder(context),
               width: 1,
             ),
           ),
@@ -731,9 +731,9 @@ class _IntelligenceFiscalSectionState extends State<IntelligenceFiscalSection> {
               margin: const EdgeInsets.only(bottom: 7),
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
               decoration: BoxDecoration(
-                color: AppColors.surfaceElevated,
+                color: AppColors.getSurfaceElevated(context),
                 borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: AppColors.border),
+                border: Border.all(color: AppColors.getBorder(context)),
               ),
               child: Row(
                 children: [
@@ -755,7 +755,7 @@ class _IntelligenceFiscalSectionState extends State<IntelligenceFiscalSection> {
                           style: GoogleFonts.inter(
                             fontSize: 11,
                             fontWeight: FontWeight.w800,
-                            color: Colors.white,
+                            color: AppColors.getTextPrimary(context),
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -764,7 +764,7 @@ class _IntelligenceFiscalSectionState extends State<IntelligenceFiscalSection> {
                           "Filed by $reporter • $date",
                           style: GoogleFonts.inter(
                             fontSize: 9.5,
-                            color: AppColors.textSecondary,
+                            color: AppColors.getTextSecondary(context),
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -789,9 +789,9 @@ class _IntelligenceFiscalSectionState extends State<IntelligenceFiscalSection> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
       decoration: BoxDecoration(
-        color: AppColors.surfaceElevated,
+        color: AppColors.getSurfaceElevated(context),
         borderRadius: BorderRadius.circular(9),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: AppColors.getBorder(context)),
       ),
       child: Row(
         children: [

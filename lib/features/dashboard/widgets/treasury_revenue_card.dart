@@ -220,9 +220,9 @@ class TreasuryRevenueCard extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
                   decoration: BoxDecoration(
-                    color: AppColors.surfaceElevated,
+                    color: AppColors.getSurfaceElevated(context),
                     borderRadius: BorderRadius.circular(9),
-                    border: Border.all(color: AppColors.border),
+                    border: Border.all(color: AppColors.getBorder(context)),
                   ),
                   child: Row(
                     children: [
@@ -234,11 +234,11 @@ class TreasuryRevenueCard extends StatelessWidget {
                           children: [
                             Text(
                               "Daily Average",
-                              style: GoogleFonts.inter(fontSize: 8.5, fontWeight: FontWeight.w600, color: AppColors.textSecondary),
+                              style: GoogleFonts.inter(fontSize: 8.5, fontWeight: FontWeight.w600, color: AppColors.getTextSecondary(context)),
                             ),
                             Text(
                               points.isNotEmpty ? currencyFormat.format(total / points.length) : "₱0",
-                              style: GoogleFonts.inter(fontSize: 10.5, fontWeight: FontWeight.w800, color: Colors.white),
+                              style: GoogleFonts.inter(fontSize: 10.5, fontWeight: FontWeight.w800, color: AppColors.getTextPrimary(context)),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -254,9 +254,9 @@ class TreasuryRevenueCard extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
                   decoration: BoxDecoration(
-                    color: AppColors.surfaceElevated,
+                    color: AppColors.getSurfaceElevated(context),
                     borderRadius: BorderRadius.circular(9),
-                    border: Border.all(color: AppColors.border),
+                    border: Border.all(color: AppColors.getBorder(context)),
                   ),
                   child: Row(
                     children: [
@@ -268,11 +268,11 @@ class TreasuryRevenueCard extends StatelessWidget {
                           children: [
                             Text(
                               "Tracking Window",
-                              style: GoogleFonts.inter(fontSize: 8.5, fontWeight: FontWeight.w600, color: AppColors.textSecondary),
+                              style: GoogleFonts.inter(fontSize: 8.5, fontWeight: FontWeight.w600, color: AppColors.getTextSecondary(context)),
                             ),
                             Text(
                               "${points.length} Days Active",
-                              style: GoogleFonts.inter(fontSize: 10.5, fontWeight: FontWeight.w800, color: Colors.white),
+                              style: GoogleFonts.inter(fontSize: 10.5, fontWeight: FontWeight.w800, color: AppColors.getTextPrimary(context)),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
