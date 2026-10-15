@@ -114,9 +114,9 @@ class _AllDepartmentsComplianceModalState extends State<AllDepartmentsCompliance
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.90,
       ),
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      decoration: BoxDecoration(
+        color: AppColors.getBackground(context),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
         children: [
@@ -127,7 +127,7 @@ class _AllDepartmentsComplianceModalState extends State<AllDepartmentsCompliance
               width: 38,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
+                color: AppColors.isDark(context) ? Colors.white24 : Colors.black12,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -160,12 +160,12 @@ class _AllDepartmentsComplianceModalState extends State<AllDepartmentsCompliance
                             fontWeight: FontWeight.w900,
                             fontStyle: FontStyle.italic,
                             letterSpacing: -0.2,
-                            color: Colors.white,
+                            color: AppColors.getTextPrimary(context),
                           ),
                         ),
                         Text(
                           "Statutory ARTA SLA Leaderboard",
-                          style: GoogleFonts.inter(fontSize: 10.5, color: AppColors.textSecondary),
+                          style: GoogleFonts.inter(fontSize: 10.5, color: AppColors.getTextSecondary(context)),
                         ),
                       ],
                     ),
@@ -173,14 +173,14 @@ class _AllDepartmentsComplianceModalState extends State<AllDepartmentsCompliance
                 ),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(LucideIcons.x, size: 20, color: AppColors.textSecondary),
+                  icon: Icon(LucideIcons.x, size: 20, color: AppColors.getTextSecondary(context)),
                   visualDensity: VisualDensity.compact,
                 ),
               ],
             ),
           ),
 
-          const Divider(color: AppColors.border, height: 1),
+          Divider(color: AppColors.getBorder(context), height: 1),
 
           // Date Filter Toolbar & Search Bar
           Padding(
@@ -194,9 +194,10 @@ class _AllDepartmentsComplianceModalState extends State<AllDepartmentsCompliance
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                     decoration: BoxDecoration(
-                      color: AppColors.surfaceElevated,
+                      color: AppColors.getSurface(context),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(color: _accentTeal.withValues(alpha: 0.35)),
+                      boxShadow: AppColors.getCardShadow(context),
                     ),
                     child: Row(
                       children: [
@@ -210,7 +211,7 @@ class _AllDepartmentsComplianceModalState extends State<AllDepartmentsCompliance
                             style: GoogleFonts.inter(
                               fontSize: 11.5,
                               fontWeight: FontWeight.w700,
-                              color: Colors.white,
+                              color: AppColors.getTextPrimary(context),
                             ),
                           ),
                         ),
@@ -232,7 +233,7 @@ class _AllDepartmentsComplianceModalState extends State<AllDepartmentsCompliance
                           ),
                           const SizedBox(width: 6),
                         ],
-                        const Icon(LucideIcons.chevronDown, size: 14, color: AppColors.textSecondary),
+                        Icon(LucideIcons.chevronDown, size: 14, color: AppColors.getTextSecondary(context)),
                       ],
                     ),
                   ),
@@ -248,14 +249,14 @@ class _AllDepartmentsComplianceModalState extends State<AllDepartmentsCompliance
                       _searchQuery = val;
                     });
                   },
-                  style: GoogleFonts.inter(fontSize: 12, color: Colors.white),
+                  style: GoogleFonts.inter(fontSize: 12, color: AppColors.getTextPrimary(context)),
                   decoration: InputDecoration(
                     hintText: "Search department or code...",
-                    hintStyle: GoogleFonts.inter(fontSize: 12, color: AppColors.textSecondary),
-                    prefixIcon: const Icon(LucideIcons.search, size: 14, color: AppColors.textSecondary),
+                    hintStyle: GoogleFonts.inter(fontSize: 12, color: AppColors.getTextSecondary(context)),
+                    prefixIcon: Icon(LucideIcons.search, size: 14, color: AppColors.getTextSecondary(context)),
                     suffixIcon: _searchQuery.isNotEmpty
                         ? IconButton(
-                            icon: const Icon(LucideIcons.x, size: 14, color: AppColors.textSecondary),
+                            icon: Icon(LucideIcons.x, size: 14, color: AppColors.getTextSecondary(context)),
                             onPressed: () {
                               _searchController.clear();
                               setState(() {
@@ -265,15 +266,15 @@ class _AllDepartmentsComplianceModalState extends State<AllDepartmentsCompliance
                           )
                         : null,
                     filled: true,
-                    fillColor: AppColors.surfaceElevated.withValues(alpha: 0.6),
+                    fillColor: AppColors.getSurface(context),
                     contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: AppColors.border),
+                      borderSide: BorderSide(color: AppColors.getBorder(context)),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: AppColors.border),
+                      borderSide: BorderSide(color: AppColors.getBorder(context)),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -321,6 +322,7 @@ class _AllDepartmentsComplianceModalState extends State<AllDepartmentsCompliance
                         itemBuilder: (context, index) {
                           final dept = list[index];
                           final rank = index + 1;
+                          final isDark = AppColors.isDark(context);
 
                           Color rankBadgeBg;
                           Color rankTextColor;
@@ -329,24 +331,25 @@ class _AllDepartmentsComplianceModalState extends State<AllDepartmentsCompliance
                             rankTextColor = const Color(0xFFF59E0B);
                           } else if (rank == 2) {
                             rankBadgeBg = const Color(0xFF94A3B8).withValues(alpha: 0.2);
-                            rankTextColor = const Color(0xFFE2E8F0);
+                            rankTextColor = isDark ? const Color(0xFFE2E8F0) : const Color(0xFF475569);
                           } else if (rank == 3) {
                             rankBadgeBg = const Color(0xFFB45309).withValues(alpha: 0.2);
                             rankTextColor = const Color(0xFFD97706);
                           } else {
-                            rankBadgeBg = Colors.white.withValues(alpha: 0.05);
-                            rankTextColor = AppColors.textSecondary;
+                            rankBadgeBg = isDark ? Colors.white.withValues(alpha: 0.05) : Colors.black.withValues(alpha: 0.04);
+                            rankTextColor = AppColors.getTextSecondary(context);
                           }
 
                           return Container(
                             padding: const EdgeInsets.all(13),
                             decoration: BoxDecoration(
-                              color: AppColors.surfaceElevated.withValues(alpha: 0.5),
+                              color: AppColors.getSurface(context),
                               borderRadius: BorderRadius.circular(16),
                               border: Border.all(
-                                color: AppColors.border.withValues(alpha: 0.8),
+                                color: AppColors.getBorder(context),
                                 width: 1,
                               ),
+                              boxShadow: isDark ? [] : AppColors.getCardShadow(context),
                             ),
                             child: Row(
                               children: [
@@ -384,7 +387,7 @@ class _AllDepartmentsComplianceModalState extends State<AllDepartmentsCompliance
                                               style: GoogleFonts.inter(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w800,
-                                                color: Colors.white,
+                                                color: AppColors.getTextPrimary(context),
                                               ),
                                               overflow: TextOverflow.ellipsis,
                                             ),
@@ -393,16 +396,16 @@ class _AllDepartmentsComplianceModalState extends State<AllDepartmentsCompliance
                                           Container(
                                             padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
                                             decoration: BoxDecoration(
-                                              color: Colors.white.withValues(alpha: 0.06),
+                                              color: isDark ? Colors.white.withValues(alpha: 0.06) : Colors.black.withValues(alpha: 0.05),
                                               borderRadius: BorderRadius.circular(4),
-                                              border: Border.all(color: Colors.white12, width: 0.6),
+                                              border: Border.all(color: AppColors.getBorder(context), width: 0.6),
                                             ),
                                             child: Text(
                                               dept.officeCode,
                                               style: GoogleFonts.inter(
                                                 fontSize: 8.5,
                                                 fontWeight: FontWeight.w900,
-                                                color: AppColors.textSecondary,
+                                                color: AppColors.getTextSecondary(context),
                                               ),
                                             ),
                                           ),
@@ -416,7 +419,7 @@ class _AllDepartmentsComplianceModalState extends State<AllDepartmentsCompliance
                                             style: GoogleFonts.inter(
                                               fontSize: 10.5,
                                               fontWeight: FontWeight.w600,
-                                              color: AppColors.textSecondary,
+                                              color: AppColors.getTextSecondary(context),
                                             ),
                                           ),
                                           const SizedBox(width: 8),
@@ -425,7 +428,7 @@ class _AllDepartmentsComplianceModalState extends State<AllDepartmentsCompliance
                                             style: GoogleFonts.inter(
                                               fontSize: 10.5,
                                               fontWeight: FontWeight.w600,
-                                              color: AppColors.textSecondary,
+                                              color: AppColors.getTextSecondary(context),
                                             ),
                                           ),
                                           if (dept.overdue > 0) ...[
@@ -456,7 +459,7 @@ class _AllDepartmentsComplianceModalState extends State<AllDepartmentsCompliance
                                         fontSize: 14.5,
                                         fontWeight: FontWeight.w900,
                                         fontStyle: FontStyle.italic,
-                                        color: Colors.white,
+                                        color: AppColors.getTextPrimary(context),
                                       ),
                                     ),
                                     const SizedBox(height: 2),

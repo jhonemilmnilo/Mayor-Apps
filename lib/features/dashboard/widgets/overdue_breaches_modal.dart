@@ -297,16 +297,18 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
                     separatorBuilder: (_, _) => const SizedBox(height: 10),
                     itemBuilder: (context, index) {
                       final item = filtered[index];
+                      final isDark = AppColors.isDark(context);
 
                       return Container(
                         padding: const EdgeInsets.all(13),
                         decoration: BoxDecoration(
-                          color: AppColors.getSurfaceElevated(context).withValues(alpha: 0.5),
+                          color: AppColors.getSurface(context),
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
-                            color: _alertRose.withValues(alpha: 0.25),
+                            color: isDark ? _alertRose.withValues(alpha: 0.25) : _alertRose.withValues(alpha: 0.2),
                             width: 1,
                           ),
+                          boxShadow: isDark ? [] : AppColors.getCardShadow(context),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -321,10 +323,10 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 6, vertical: 2),
                                       decoration: BoxDecoration(
-                                        color: (AppColors.isDark(context) ? Colors.white : Colors.black).withValues(alpha: 0.08),
+                                        color: (isDark ? Colors.white : Colors.black).withValues(alpha: 0.05),
                                         borderRadius: BorderRadius.circular(5),
                                         border: Border.all(
-                                            color: (AppColors.isDark(context) ? Colors.white12 : Colors.black12), width: 0.8),
+                                            color: AppColors.getBorder(context), width: 0.8),
                                       ),
                                       child: Text(
                                         item.referenceNo,
@@ -341,11 +343,11 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
                                           horizontal: 6, vertical: 2),
                                       decoration: BoxDecoration(
                                         color: const Color(0xFF3B82F6)
-                                            .withValues(alpha: 0.15),
+                                            .withValues(alpha: isDark ? 0.15 : 0.1),
                                         borderRadius: BorderRadius.circular(5),
                                         border: Border.all(
                                             color: const Color(0xFF3B82F6)
-                                                .withValues(alpha: 0.3),
+                                                .withValues(alpha: isDark ? 0.3 : 0.25),
                                             width: 0.8),
                                       ),
                                       child: Text(
@@ -353,7 +355,7 @@ class _OverdueBreachesModalState extends State<OverdueBreachesModal> {
                                         style: GoogleFonts.inter(
                                           fontSize: 9,
                                           fontWeight: FontWeight.w900,
-                                          color: const Color(0xFF60A5FA),
+                                          color: isDark ? const Color(0xFF60A5FA) : const Color(0xFF2563EB),
                                         ),
                                       ),
                                     ),
