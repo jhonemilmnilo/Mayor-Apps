@@ -517,12 +517,16 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
             ],
           ),
           const SizedBox(height: 3),
-          Text(
-            value,
-            style: GoogleFonts.inter(
-              fontSize: 16,
-              fontWeight: FontWeight.w900,
-              color: color,
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              value,
+              style: GoogleFonts.inter(
+                fontSize: 16,
+                fontWeight: FontWeight.w900,
+                color: color,
+              ),
             ),
           ),
         ],

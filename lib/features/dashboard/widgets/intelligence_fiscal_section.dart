@@ -381,12 +381,16 @@ class _IntelligenceFiscalSectionState extends State<IntelligenceFiscalSection> {
                     ),
                   ),
                   const SizedBox(height: 2),
-                  Text(
-                    "$total Processed",
-                    style: GoogleFonts.inter(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w900,
-                      color: const Color(0xFF8B5CF6),
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "$total Processed",
+                      style: GoogleFonts.inter(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w900,
+                        color: const Color(0xFF8B5CF6),
+                      ),
                     ),
                   ),
                 ],
@@ -536,12 +540,16 @@ class _IntelligenceFiscalSectionState extends State<IntelligenceFiscalSection> {
                     ),
                   ),
                   const SizedBox(height: 2),
-                  Text(
-                    "$total Residents",
-                    style: GoogleFonts.inter(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w900,
-                      color: const Color(0xFF3B82F6),
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "$total Residents",
+                      style: GoogleFonts.inter(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w900,
+                        color: const Color(0xFF3B82F6),
+                      ),
                     ),
                   ),
                 ],
@@ -689,12 +697,16 @@ class _IntelligenceFiscalSectionState extends State<IntelligenceFiscalSection> {
                     ),
                   ),
                   const SizedBox(height: 2),
-                  Text(
-                    "${list.length} Recent Issues",
-                    style: GoogleFonts.inter(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w900,
-                      color: const Color(0xFFF59E0B),
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "${list.length} Recent Issues",
+                      style: GoogleFonts.inter(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w900,
+                        color: const Color(0xFFF59E0B),
+                      ),
                     ),
                   ),
                 ],

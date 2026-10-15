@@ -570,13 +570,17 @@ class _EventsAuditModalState extends ConsumerState<EventsAuditModal> {
                 ),
                 child: Icon(icon, size: 12, color: color),
               ),
-              Text(
-                "$count",
-                style: GoogleFonts.inter(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w900,
-                  fontStyle: FontStyle.italic,
-                  color: AppColors.getTextPrimary(context),
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerRight,
+                child: Text(
+                  "$count",
+                  style: GoogleFonts.inter(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w900,
+                    fontStyle: FontStyle.italic,
+                    color: AppColors.getTextPrimary(context),
+                  ),
                 ),
               ),
             ],
