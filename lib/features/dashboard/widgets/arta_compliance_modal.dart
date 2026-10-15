@@ -157,16 +157,24 @@ class _ArtaComplianceModalState extends ConsumerState<ArtaComplianceModal> {
       lastDate: DateTime.now().add(const Duration(days: 365)),
       initialDateRange: DateTimeRange(start: _startDate, end: _endDate),
       builder: (context, child) {
+        final isDark = AppColors.isDark(context);
         return Theme(
-          data: ThemeData.dark().copyWith(
-            colorScheme: const ColorScheme.dark(
-              primary: Color(0xFF3B82F6),
-              onPrimary: Colors.white,
-              surface: AppColors.surfaceElevated,
-              onSurface: Colors.white,
-            ),
-            dialogTheme: const DialogThemeData(
-              backgroundColor: AppColors.surface,
+          data: (isDark ? ThemeData.dark() : ThemeData.light()).copyWith(
+            colorScheme: isDark
+                ? const ColorScheme.dark(
+                    primary: Color(0xFF3B82F6),
+                    onPrimary: Colors.white,
+                    surface: AppColors.surfaceElevated,
+                    onSurface: Colors.white,
+                  )
+                : const ColorScheme.light(
+                    primary: Color(0xFF3B82F6),
+                    onPrimary: Colors.white,
+                    surface: AppColors.lightSurface,
+                    onSurface: AppColors.lightTextPrimary,
+                  ),
+            dialogTheme: DialogThemeData(
+              backgroundColor: AppColors.getSurface(context),
             ),
           ),
           child: child!,
@@ -292,9 +300,9 @@ class _ArtaComplianceModalState extends ConsumerState<ArtaComplianceModal> {
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.94,
-      decoration: const BoxDecoration(
-        color: AppColors.background,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      decoration: BoxDecoration(
+        color: AppColors.getBackground(context),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: Column(
         children: [
@@ -305,7 +313,7 @@ class _ArtaComplianceModalState extends ConsumerState<ArtaComplianceModal> {
               width: 38,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.white24,
+                color: AppColors.isDark(context) ? Colors.white24 : Colors.black12,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -343,7 +351,7 @@ class _ArtaComplianceModalState extends ConsumerState<ArtaComplianceModal> {
                               fontWeight: FontWeight.w900,
                               fontStyle: FontStyle.italic,
                               letterSpacing: -0.2,
-                              color: Colors.white,
+                              color: AppColors.getTextPrimary(context),
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -368,7 +376,7 @@ class _ArtaComplianceModalState extends ConsumerState<ArtaComplianceModal> {
                         "Anti-Red Tape Act • Statutory SLA Real-Time Audit",
                         style: GoogleFonts.inter(
                           fontSize: 11,
-                          color: AppColors.textSecondary,
+                          color: AppColors.getTextSecondary(context),
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -377,7 +385,7 @@ class _ArtaComplianceModalState extends ConsumerState<ArtaComplianceModal> {
                 ),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(Icons.close_rounded, color: AppColors.textSecondary, size: 20),
+                  icon: Icon(Icons.close_rounded, color: AppColors.getTextSecondary(context), size: 20),
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
                 ),
@@ -391,9 +399,9 @@ class _ArtaComplianceModalState extends ConsumerState<ArtaComplianceModal> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: AppColors.getSurface(context),
                 borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: AppColors.border),
+                border: Border.all(color: AppColors.getBorder(context)),
               ),
               child: Row(
                 children: [
@@ -410,11 +418,11 @@ class _ArtaComplianceModalState extends ConsumerState<ArtaComplianceModal> {
                           style: GoogleFonts.inter(
                             fontSize: 11.5,
                             fontWeight: FontWeight.w700,
-                            color: Colors.white,
+                            color: AppColors.getTextPrimary(context),
                           ),
                         ),
                         const SizedBox(width: 4),
-                        const Icon(Icons.keyboard_arrow_down_rounded, size: 16, color: AppColors.textSecondary),
+                        Icon(Icons.keyboard_arrow_down_rounded, size: 16, color: AppColors.getTextSecondary(context)),
                       ],
                     ),
                   ),
@@ -490,32 +498,32 @@ class _ArtaComplianceModalState extends ConsumerState<ArtaComplianceModal> {
             child: Container(
               height: 42,
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: AppColors.getSurface(context),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.border),
+                border: Border.all(color: AppColors.getBorder(context)),
               ),
               child: TextField(
                 controller: _searchController,
                 onChanged: _onSearchChanged,
                 style: GoogleFonts.inter(
-                  color: Colors.white,
+                  color: AppColors.getTextPrimary(context),
                   fontSize: 12.5,
                   fontWeight: FontWeight.w500,
                 ),
                 decoration: InputDecoration(
                   hintText: "Search ref #, service, office code, or applicant...",
                   hintStyle: GoogleFonts.inter(
-                    color: AppColors.textSecondary.withValues(alpha: 0.7),
+                    color: AppColors.getTextSecondary(context).withValues(alpha: 0.7),
                     fontSize: 11.5,
                   ),
-                  prefixIcon: const Icon(
+                  prefixIcon: Icon(
                     Icons.search_rounded,
-                    color: AppColors.textSecondary,
+                    color: AppColors.getTextSecondary(context),
                     size: 18,
                   ),
                   suffixIcon: _searchController.text.isNotEmpty
                       ? IconButton(
-                          icon: const Icon(Icons.clear_rounded, color: AppColors.textSecondary, size: 16),
+                          icon: Icon(Icons.clear_rounded, color: AppColors.getTextSecondary(context), size: 16),
                           onPressed: () {
                             _searchController.clear();
                             _onSearchChanged('');
@@ -543,13 +551,13 @@ class _ArtaComplianceModalState extends ConsumerState<ArtaComplianceModal> {
                 const SizedBox(width: 8),
                 _buildFilterChip("BREACHED", "Breached SLA ($_kpiOverdue)", color: const Color(0xFFEF4444)),
                 const SizedBox(width: 8),
-                _buildFilterChip("COMPLIANT", "Compliant ($_kpiCompleted)", color: const Color(0xFF10B981)),
+                _buildFilterChip("COMPLIANT", "Compliant Requests ($_kpiCompleted)", color: const Color(0xFF10B981)),
               ],
             ),
           ),
 
           const SizedBox(height: 8),
-          const Divider(height: 1, color: AppColors.border),
+          Divider(height: 1, color: AppColors.getBorder(context)),
 
           // Body Content
           Expanded(
@@ -568,7 +576,7 @@ class _ArtaComplianceModalState extends ConsumerState<ArtaComplianceModal> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFF3B82F6) : AppColors.surfaceElevated,
+          color: isSelected ? const Color(0xFF3B82F6) : AppColors.getSurfaceElevated(context),
           borderRadius: BorderRadius.circular(6),
         ),
         child: Text(
@@ -576,7 +584,7 @@ class _ArtaComplianceModalState extends ConsumerState<ArtaComplianceModal> {
           style: GoogleFonts.inter(
             fontSize: 9.5,
             fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-            color: isSelected ? Colors.white : AppColors.textSecondary,
+            color: isSelected ? Colors.white : AppColors.getTextSecondary(context),
           ),
         ),
       ),
@@ -598,7 +606,7 @@ class _ArtaComplianceModalState extends ConsumerState<ArtaComplianceModal> {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 7),
         decoration: BoxDecoration(
-          color: isActive ? color.withValues(alpha: 0.15) : AppColors.surface,
+          color: isActive ? color.withValues(alpha: 0.15) : AppColors.getSurface(context),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isActive ? color : color.withValues(alpha: 0.25),
@@ -621,7 +629,7 @@ class _ArtaComplianceModalState extends ConsumerState<ArtaComplianceModal> {
                       fontSize: 8.5,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 0.2,
-                      color: AppColors.textSecondary,
+                      color: AppColors.getTextSecondary(context),
                     ),
                   ),
                 ),
@@ -653,10 +661,10 @@ class _ArtaComplianceModalState extends ConsumerState<ArtaComplianceModal> {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 6),
         decoration: BoxDecoration(
-          color: isSelected ? activeColor.withValues(alpha: 0.2) : AppColors.surface,
+          color: isSelected ? activeColor.withValues(alpha: 0.2) : AppColors.getSurface(context),
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: isSelected ? activeColor : AppColors.border,
+            color: isSelected ? activeColor : AppColors.getBorder(context),
             width: isSelected ? 1.5 : 1,
           ),
         ),
@@ -679,7 +687,7 @@ class _ArtaComplianceModalState extends ConsumerState<ArtaComplianceModal> {
               style: GoogleFonts.inter(
                 fontSize: 11,
                 fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-                color: isSelected ? Colors.white : AppColors.textSecondary,
+                color: isSelected ? (AppColors.isDark(context) ? Colors.white : activeColor) : AppColors.getTextSecondary(context),
               ),
             ),
           ],
@@ -707,7 +715,7 @@ class _ArtaComplianceModalState extends ConsumerState<ArtaComplianceModal> {
               "Auditing statutory ARTA requests...",
               style: GoogleFonts.inter(
                 fontSize: 13,
-                color: AppColors.textSecondary,
+                color: AppColors.getTextSecondary(context),
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -727,13 +735,13 @@ class _ArtaComplianceModalState extends ConsumerState<ArtaComplianceModal> {
               const SizedBox(height: 12),
               Text(
                 "Audit Load Failed",
-                style: GoogleFonts.inter(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
+                style: GoogleFonts.inter(color: AppColors.getTextPrimary(context), fontWeight: FontWeight.bold, fontSize: 15),
               ),
               const SizedBox(height: 6),
               Text(
                 _errorMessage!,
                 textAlign: TextAlign.center,
-                style: GoogleFonts.inter(color: AppColors.textSecondary, fontSize: 12),
+                style: GoogleFonts.inter(color: AppColors.getTextSecondary(context), fontSize: 12),
               ),
               const SizedBox(height: 16),
               ElevatedButton.icon(
@@ -760,21 +768,21 @@ class _ArtaComplianceModalState extends ConsumerState<ArtaComplianceModal> {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: AppColors.getSurface(context),
                 shape: BoxShape.circle,
-                border: Border.all(color: AppColors.border),
+                border: Border.all(color: AppColors.getBorder(context)),
               ),
-              child: const Icon(Icons.shield_outlined, color: AppColors.textSecondary, size: 36),
+              child: Icon(Icons.shield_outlined, color: AppColors.getTextSecondary(context), size: 36),
             ),
             const SizedBox(height: 14),
             Text(
               "No ARTA Requests Found",
-              style: GoogleFonts.inter(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
+              style: GoogleFonts.inter(color: AppColors.getTextPrimary(context), fontWeight: FontWeight.bold, fontSize: 15),
             ),
             const SizedBox(height: 6),
             Text(
               "No requests match status: $_selectedSlaFilter in the selected date range.",
-              style: GoogleFonts.inter(color: AppColors.textSecondary, fontSize: 12),
+              style: GoogleFonts.inter(color: AppColors.getTextSecondary(context), fontSize: 12),
             ),
           ],
         ),
@@ -828,9 +836,10 @@ class _ArtaComplianceModalState extends ConsumerState<ArtaComplianceModal> {
 
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: AppColors.getSurface(context),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: AppColors.getBorder(context)),
+        boxShadow: AppColors.getCardShadow(context),
       ),
       child: Material(
         color: Colors.transparent,
@@ -899,7 +908,7 @@ class _ArtaComplianceModalState extends ConsumerState<ArtaComplianceModal> {
                   style: GoogleFonts.inter(
                     fontSize: 14.5,
                     fontWeight: FontWeight.w800,
-                    color: Colors.white,
+                    color: AppColors.getTextPrimary(context),
                   ),
                 ),
 
@@ -908,7 +917,7 @@ class _ArtaComplianceModalState extends ConsumerState<ArtaComplianceModal> {
                 // Applicant & Transaction type
                 Row(
                   children: [
-                    const Icon(Icons.person_outline_rounded, size: 13, color: AppColors.textSecondary),
+                    Icon(Icons.person_outline_rounded, size: 13, color: AppColors.getTextSecondary(context)),
                     const SizedBox(width: 5),
                     Expanded(
                       child: Text(
@@ -917,7 +926,7 @@ class _ArtaComplianceModalState extends ConsumerState<ArtaComplianceModal> {
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.inter(
                           fontSize: 12,
-                          color: AppColors.textSecondary,
+                          color: AppColors.getTextSecondary(context),
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -925,7 +934,9 @@ class _ArtaComplianceModalState extends ConsumerState<ArtaComplianceModal> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.05),
+                        color: AppColors.isDark(context)
+                            ? Colors.white.withValues(alpha: 0.05)
+                            : Colors.black.withValues(alpha: 0.05),
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Text(
@@ -933,7 +944,7 @@ class _ArtaComplianceModalState extends ConsumerState<ArtaComplianceModal> {
                         style: GoogleFonts.inter(
                           fontSize: 9.5,
                           fontWeight: FontWeight.w700,
-                          color: Colors.white60,
+                          color: AppColors.getTextSecondary(context),
                         ),
                       ),
                     ),
@@ -941,7 +952,7 @@ class _ArtaComplianceModalState extends ConsumerState<ArtaComplianceModal> {
                 ),
 
                 const SizedBox(height: 12),
-                const Divider(height: 1, color: AppColors.border),
+                Divider(height: 1, color: AppColors.getBorder(context)),
                 const SizedBox(height: 10),
 
                 // Bottom row: Submitted date & Action
@@ -952,7 +963,7 @@ class _ArtaComplianceModalState extends ConsumerState<ArtaComplianceModal> {
                       "Filed: ${item.submittedAt.split('T').first}",
                       style: GoogleFonts.inter(
                         fontSize: 11,
-                        color: AppColors.textSecondary,
+                        color: AppColors.getTextSecondary(context),
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -993,9 +1004,9 @@ class _ArtaDetailSheet extends StatelessWidget {
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.80,
-      decoration: const BoxDecoration(
-        color: AppColors.background,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      decoration: BoxDecoration(
+        color: AppColors.getBackground(context),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
         children: [
@@ -1006,7 +1017,7 @@ class _ArtaDetailSheet extends StatelessWidget {
               width: 38,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.white24,
+                color: AppColors.isDark(context) ? Colors.white24 : Colors.black12,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -1063,7 +1074,7 @@ class _ArtaDetailSheet extends StatelessWidget {
                     style: GoogleFonts.robotoMono(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.textSecondary,
+                      color: AppColors.getTextSecondary(context),
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -1074,7 +1085,7 @@ class _ArtaDetailSheet extends StatelessWidget {
                     style: GoogleFonts.inter(
                       fontSize: 19,
                       fontWeight: FontWeight.w900,
-                      color: Colors.white,
+                      color: AppColors.getTextPrimary(context),
                     ),
                   ),
 
@@ -1082,14 +1093,15 @@ class _ArtaDetailSheet extends StatelessWidget {
 
                   // Info Tiles
                   _buildDetailTile(
+                    context: context,
                     icon: Icons.person_outline_rounded,
                     label: "Applicant Full Name",
                     value: item.applicantName,
                   ),
                   const SizedBox(height: 10),
 
-
                   _buildDetailTile(
+                    context: context,
                     icon: Icons.category_outlined,
                     label: "Transaction Type & Charter Standard",
                     value: "${item.transactionType} Transaction (SLA Max Limit)",
@@ -1097,6 +1109,7 @@ class _ArtaDetailSheet extends StatelessWidget {
                   const SizedBox(height: 10),
 
                   _buildDetailTile(
+                    context: context,
                     icon: Icons.calendar_today_outlined,
                     label: "Date & Time Filed",
                     value: item.submittedAt.replaceAll('T', ' ').split('.').first,
@@ -1105,6 +1118,7 @@ class _ArtaDetailSheet extends StatelessWidget {
 
                   if (item.deadlineAt != null) ...[
                     _buildDetailTile(
+                      context: context,
                       icon: Icons.alarm_outlined,
                       label: "Statutory SLA Deadline",
                       value: item.deadlineAt!.replaceAll('T', ' ').split('.').first,
@@ -1114,6 +1128,7 @@ class _ArtaDetailSheet extends StatelessWidget {
 
                   if (item.completedAt != null) ...[
                     _buildDetailTile(
+                      context: context,
                       icon: Icons.check_circle_outline,
                       label: "Resolution / Completed At",
                       value: item.completedAt!.replaceAll('T', ' ').split('.').first,
@@ -1122,6 +1137,7 @@ class _ArtaDetailSheet extends StatelessWidget {
                   ],
 
                   _buildDetailTile(
+                    context: context,
                     icon: Icons.info_outline_rounded,
                     label: "Current Workflow Status",
                     value: item.status,
@@ -1142,11 +1158,11 @@ class _ArtaDetailSheet extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () => Navigator.of(context).pop(),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.surfaceElevated,
-                  foregroundColor: Colors.white,
+                  backgroundColor: AppColors.getSurfaceElevated(context),
+                  foregroundColor: AppColors.getTextPrimary(context),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
-                    side: const BorderSide(color: AppColors.border),
+                    side: BorderSide(color: AppColors.getBorder(context)),
                   ),
                 ),
                 child: Text(
@@ -1166,6 +1182,7 @@ class _ArtaDetailSheet extends StatelessWidget {
   }
 
   Widget _buildDetailTile({
+    required BuildContext context,
     required IconData icon,
     required String label,
     required String value,
@@ -1174,9 +1191,9 @@ class _ArtaDetailSheet extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: AppColors.getSurface(context),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: AppColors.getBorder(context)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1192,7 +1209,7 @@ class _ArtaDetailSheet extends StatelessWidget {
                   style: GoogleFonts.inter(
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.textSecondary,
+                    color: AppColors.getTextSecondary(context),
                   ),
                 ),
                 const SizedBox(height: 3),
@@ -1201,7 +1218,7 @@ class _ArtaDetailSheet extends StatelessWidget {
                   style: GoogleFonts.inter(
                     fontSize: 12.5,
                     fontWeight: FontWeight.w600,
-                    color: Colors.white,
+                    color: AppColors.getTextPrimary(context),
                   ),
                 ),
               ],
@@ -1209,7 +1226,7 @@ class _ArtaDetailSheet extends StatelessWidget {
           ),
           if (onCopy != null)
             IconButton(
-              icon: const Icon(Icons.copy_rounded, size: 16, color: AppColors.textSecondary),
+              icon: Icon(Icons.copy_rounded, size: 16, color: AppColors.getTextSecondary(context)),
               onPressed: onCopy,
               constraints: const BoxConstraints(),
               padding: EdgeInsets.zero,
