@@ -868,7 +868,7 @@ class _TourismDetailSheet extends StatelessWidget {
               width: 38,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.white24,
+                color: AppColors.isDark(context) ? Colors.white24 : Colors.black12,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -1010,7 +1010,7 @@ class _TourismDetailSheet extends StatelessWidget {
                     style: GoogleFonts.inter(
                       fontSize: 20,
                       fontWeight: FontWeight.w900,
-                      color: Colors.white,
+                      color: AppColors.getTextPrimary(context),
                     ),
                   ),
 
@@ -1021,7 +1021,7 @@ class _TourismDetailSheet extends StatelessWidget {
                       spot.description,
                       style: GoogleFonts.inter(
                         fontSize: 13,
-                        color: Colors.white.withValues(alpha: 0.85),
+                        color: AppColors.getTextSecondary(context),
                         height: 1.45,
                       ),
                     ),
@@ -1156,8 +1156,8 @@ class _TourismDetailSheet extends StatelessWidget {
                   ),
                   TextSpan(
                     text: value,
-                    style: const TextStyle(
-                      color: Colors.white,
+                    style: TextStyle(
+                      color: AppColors.getTextPrimary(context),
                       fontWeight: FontWeight.w500,
                     ),
                   ),

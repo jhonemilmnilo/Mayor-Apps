@@ -306,9 +306,9 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.92,
       ),
-      decoration: const BoxDecoration(
-        color: AppColors.background,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(26)),
+      decoration: BoxDecoration(
+        color: AppColors.getBackground(context),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(26)),
       ),
       child: Column(
         children: [
@@ -319,7 +319,7 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
               width: 42,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
+                color: AppColors.isDark(context) ? Colors.white24 : Colors.black12,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -384,7 +384,7 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                       fontWeight: FontWeight.w900,
                       fontStyle: FontStyle.italic,
                       letterSpacing: 0.5,
-                      color: Colors.white,
+                      color: AppColors.getTextPrimary(context),
                     ),
                   ),
                   Text(
@@ -393,7 +393,7 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                         : "$_totalCount Verified Community Incidents",
                     style: GoogleFonts.inter(
                       fontSize: 10.5,
-                      color: AppColors.textSecondary,
+                      color: AppColors.getTextSecondary(context),
                     ),
                   ),
                 ],
@@ -430,10 +430,10 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
               ),
               IconButton(
                 onPressed: () => Navigator.pop(context),
-                icon: const Icon(
+                icon: Icon(
                   LucideIcons.x,
                   size: 20,
-                  color: AppColors.textSecondary,
+                  color: AppColors.getTextSecondary(context),
                 ),
                 splashRadius: 20,
               ),
@@ -505,9 +505,10 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
       constraints: const BoxConstraints(minWidth: 95),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: AppColors.getSurface(context),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: AppColors.getBorder(context)),
+        boxShadow: AppColors.getCardShadow(context),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -522,7 +523,7 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                 style: GoogleFonts.inter(
                   fontSize: 9,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.textSecondary,
+                  color: AppColors.getTextSecondary(context),
                   letterSpacing: 0.5,
                 ),
               ),
@@ -551,18 +552,18 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
           Container(
             height: 40,
             decoration: BoxDecoration(
-              color: AppColors.surface,
+              color: AppColors.getSurface(context),
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: AppColors.border),
+              border: Border.all(color: AppColors.getBorder(context)),
             ),
             child: TextField(
               controller: _searchController,
               onChanged: _onSearchChanged,
-              style: GoogleFonts.inter(color: Colors.white, fontSize: 12),
+              style: GoogleFonts.inter(color: AppColors.getTextPrimary(context), fontSize: 12),
               decoration: InputDecoration(
                 hintText: "Search by grievance, reporter, category...",
                 hintStyle: GoogleFonts.inter(
-                  color: AppColors.textSecondary,
+                  color: AppColors.getTextSecondary(context),
                   fontSize: 11.5,
                 ),
                 prefixIcon: const Icon(
@@ -572,7 +573,7 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                 ),
                 suffixIcon: _searchController.text.isNotEmpty
                     ? IconButton(
-                        icon: const Icon(LucideIcons.x, size: 14, color: AppColors.textSecondary),
+                        icon: Icon(LucideIcons.x, size: 14, color: AppColors.getTextSecondary(context)),
                         onPressed: () {
                           _searchController.clear();
                           _onSearchChanged("");
@@ -608,10 +609,10 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                       duration: const Duration(milliseconds: 180),
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       decoration: BoxDecoration(
-                        color: isSelected ? color.withValues(alpha: 0.2) : AppColors.surface,
+                        color: isSelected ? color.withValues(alpha: 0.2) : AppColors.getSurface(context),
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
-                          color: isSelected ? color : AppColors.border,
+                          color: isSelected ? color : AppColors.getBorder(context),
                         ),
                       ),
                       child: Row(
@@ -621,7 +622,7 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                             width: 6,
                             height: 6,
                             decoration: BoxDecoration(
-                              color: isSelected ? color : AppColors.textSecondary.withValues(alpha: 0.4),
+                              color: isSelected ? color : AppColors.getTextSecondary(context).withValues(alpha: 0.4),
                               shape: BoxShape.circle,
                             ),
                           ),
@@ -631,7 +632,7 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                             style: GoogleFonts.inter(
                               fontSize: 10.5,
                               fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-                              color: isSelected ? Colors.white : AppColors.textSecondary,
+                              color: isSelected ? (AppColors.isDark(context) ? Colors.white : color) : AppColors.getTextSecondary(context),
                             ),
                           ),
                         ],
@@ -870,9 +871,10 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: AppColors.getSurface(context),
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppColors.border),
+          border: Border.all(color: AppColors.getBorder(context)),
+          boxShadow: AppColors.getCardShadow(context),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -883,7 +885,9 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
               height: 26,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.05),
+                color: AppColors.isDark(context)
+                    ? Colors.white.withValues(alpha: 0.05)
+                    : Colors.black.withValues(alpha: 0.05),
                 borderRadius: BorderRadius.circular(6),
               ),
               child: Text(
@@ -891,7 +895,7 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                 style: GoogleFonts.inter(
                   fontSize: 10,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.textSecondary,
+                  color: AppColors.getTextSecondary(context),
                 ),
               ),
             ),
@@ -915,7 +919,7 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                                 style: GoogleFonts.inter(
                                   fontSize: 12.5,
                                   fontWeight: FontWeight.w900,
-                                  color: Colors.white,
+                                  color: AppColors.getTextPrimary(context),
                                 ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -927,7 +931,7 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                               style: GoogleFonts.inter(
                                 fontSize: 9.5,
                                 fontWeight: FontWeight.w500,
-                                color: AppColors.textSecondary,
+                                color: AppColors.getTextSecondary(context),
                               ),
                             ),
                           ],
@@ -979,7 +983,9 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                           decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.05),
+                            color: AppColors.isDark(context)
+                                ? Colors.white.withValues(alpha: 0.05)
+                                : Colors.black.withValues(alpha: 0.05),
                             borderRadius: BorderRadius.circular(5),
                           ),
                           child: Row(
@@ -1047,9 +1053,9 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
           constraints: BoxConstraints(
             maxHeight: MediaQuery.of(context).size.height * 0.88,
           ),
-          decoration: const BoxDecoration(
-            color: AppColors.background,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          decoration: BoxDecoration(
+            color: AppColors.getBackground(context),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
           ),
           child: Column(
             children: [
@@ -1060,7 +1066,7 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.2),
+                    color: AppColors.isDark(context) ? Colors.white24 : Colors.black12,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -1099,7 +1105,7 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                                 fontSize: 13,
                                 fontWeight: FontWeight.w900,
                                 fontStyle: FontStyle.italic,
-                                color: Colors.white,
+                                color: AppColors.getTextPrimary(context),
                                 letterSpacing: 0.5,
                               ),
                             ),
@@ -1107,7 +1113,7 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                               "Executive civic grievance investigation dossier",
                               style: GoogleFonts.inter(
                                 fontSize: 10,
-                                color: AppColors.textSecondary,
+                                color: AppColors.getTextSecondary(context),
                               ),
                             ),
                           ],
@@ -1116,7 +1122,7 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                     ),
                     IconButton(
                       onPressed: () => Navigator.pop(context),
-                      icon: const Icon(LucideIcons.x, size: 18, color: Colors.white70),
+                      icon: Icon(LucideIcons.x, size: 18, color: AppColors.getTextSecondary(context)),
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),
                     ),
@@ -1124,7 +1130,7 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                 ),
               ),
 
-              const Divider(color: AppColors.border, height: 1),
+              Divider(color: AppColors.getBorder(context), height: 1),
 
               // Detail Content
               Expanded(
@@ -1182,9 +1188,9 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                       Container(
                         padding: const EdgeInsets.all(14),
                         decoration: BoxDecoration(
-                          color: AppColors.surface,
+                          color: AppColors.getSurface(context),
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: AppColors.border),
+                          border: Border.all(color: AppColors.getBorder(context)),
                         ),
                         child: Column(
                           children: [
@@ -1201,7 +1207,7 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                                         style: GoogleFonts.inter(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w800,
-                                          color: Colors.white,
+                                          color: AppColors.getTextPrimary(context),
                                         ),
                                       ),
                                       if (report.address != null && report.address!.isNotEmpty)
@@ -1209,7 +1215,7 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                                           report.address!,
                                           style: GoogleFonts.inter(
                                             fontSize: 10.5,
-                                            color: AppColors.textSecondary,
+                                            color: AppColors.getTextSecondary(context),
                                           ),
                                         ),
                                     ],
@@ -1218,21 +1224,21 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                               ],
                             ),
                             const SizedBox(height: 10),
-                            const Divider(color: AppColors.border, height: 1),
+                            Divider(color: AppColors.getBorder(context), height: 1),
                             const SizedBox(height: 10),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
                                   children: [
-                                    const Icon(LucideIcons.calendar, size: 13, color: AppColors.textSecondary),
+                                    Icon(LucideIcons.calendar, size: 13, color: AppColors.getTextSecondary(context)),
                                     const SizedBox(width: 6),
                                     Text(
                                       formattedDate,
                                       style: GoogleFonts.inter(
                                         fontSize: 10.5,
                                         fontWeight: FontWeight.w600,
-                                        color: AppColors.textSecondary,
+                                        color: AppColors.getTextSecondary(context),
                                       ),
                                     ),
                                   ],
@@ -1264,19 +1270,21 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                       Container(
                         padding: const EdgeInsets.all(14),
                         decoration: BoxDecoration(
-                          color: AppColors.surface,
+                          color: AppColors.getSurface(context),
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: AppColors.border),
+                          border: Border.all(color: AppColors.getBorder(context)),
                         ),
                         child: Row(
                           children: [
                             Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.05),
+                                color: AppColors.isDark(context)
+                                    ? Colors.white.withValues(alpha: 0.05)
+                                    : Colors.black.withValues(alpha: 0.05),
                                 shape: BoxShape.circle,
                               ),
-                              child: const Icon(LucideIcons.user, size: 16, color: Colors.white),
+                              child: Icon(LucideIcons.user, size: 16, color: AppColors.getTextPrimary(context)),
                             ),
                             const SizedBox(width: 10),
                             Expanded(
@@ -1288,14 +1296,14 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                                     style: GoogleFonts.inter(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w800,
-                                      color: Colors.white,
+                                      color: AppColors.getTextPrimary(context),
                                     ),
                                   ),
                                   Text(
                                     report.reporterEmail ?? "Verified Citizen Account",
                                     style: GoogleFonts.inter(
                                       fontSize: 10,
-                                      color: AppColors.textSecondary,
+                                      color: AppColors.getTextSecondary(context),
                                     ),
                                   ),
                                 ],
@@ -1322,9 +1330,9 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                         width: double.infinity,
                         padding: const EdgeInsets.all(14),
                         decoration: BoxDecoration(
-                          color: AppColors.surfaceElevated,
+                          color: AppColors.getSurfaceElevated(context),
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: AppColors.border),
+                          border: Border.all(color: AppColors.getBorder(context)),
                         ),
                         child: Text(
                           report.description.isNotEmpty
@@ -1333,7 +1341,7 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                           style: GoogleFonts.inter(
                             fontSize: 12,
                             height: 1.5,
-                            color: Colors.white,
+                            color: AppColors.getTextPrimary(context),
                           ),
                         ),
                       ),
@@ -1347,7 +1355,7 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                           fontSize: 10,
                           fontWeight: FontWeight.w800,
                           letterSpacing: 0.8,
-                          color: AppColors.textSecondary,
+                          color: AppColors.getTextSecondary(context),
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -1356,9 +1364,9 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                           width: double.infinity,
                           padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
-                            color: AppColors.surface,
+                            color: AppColors.getSurface(context),
                             borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: AppColors.border),
+                            border: Border.all(color: AppColors.getBorder(context)),
                           ),
                           child: Center(
                             child: Text(
@@ -1366,7 +1374,7 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                               style: GoogleFonts.inter(
                                 fontSize: 11,
                                 fontStyle: FontStyle.italic,
-                                color: AppColors.textSecondary,
+                                color: AppColors.getTextSecondary(context),
                               ),
                             ),
                           ),
@@ -1386,9 +1394,9 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                                 child: Container(
                                   width: 130,
                                   decoration: BoxDecoration(
-                                    color: AppColors.surface,
+                                    color: AppColors.getSurface(context),
                                     borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(color: AppColors.border),
+                                    border: Border.all(color: AppColors.getBorder(context)),
                                   ),
                                   clipBehavior: Clip.antiAlias,
                                   child: Image.network(
@@ -1406,12 +1414,12 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                                     },
                                     errorBuilder: (ctx, error, stackTrace) {
                                       return Container(
-                                        color: AppColors.surfaceElevated,
-                                        child: const Center(
+                                        color: AppColors.getSurfaceElevated(context),
+                                        child: Center(
                                           child: Icon(
                                             LucideIcons.imageOff,
                                             size: 20,
-                                            color: AppColors.textSecondary,
+                                            color: AppColors.getTextSecondary(context),
                                           ),
                                         ),
                                       );
@@ -1432,7 +1440,7 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                           fontSize: 10,
                           fontWeight: FontWeight.w800,
                           letterSpacing: 0.8,
-                          color: AppColors.textSecondary,
+                          color: AppColors.getTextSecondary(context),
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -1442,12 +1450,12 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                         decoration: BoxDecoration(
                           color: report.adminComment != null
                               ? const Color(0xFF10B981).withValues(alpha: 0.1)
-                              : AppColors.surface,
+                              : AppColors.getSurface(context),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
                             color: report.adminComment != null
                                 ? const Color(0xFF10B981).withValues(alpha: 0.3)
-                                : AppColors.border,
+                                : AppColors.getBorder(context),
                           ),
                         ),
                         child: Row(
@@ -1460,7 +1468,7 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                               size: 16,
                               color: report.adminComment != null
                                   ? const Color(0xFF10B981)
-                                  : AppColors.textSecondary,
+                                  : AppColors.getTextSecondary(context),
                             ),
                             const SizedBox(width: 10),
                             Expanded(
@@ -1471,8 +1479,8 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
                                   fontSize: 11.5,
                                   height: 1.4,
                                   color: report.adminComment != null
-                                      ? Colors.white
-                                      : AppColors.textSecondary,
+                                      ? AppColors.getTextPrimary(context)
+                                      : AppColors.getTextSecondary(context),
                                 ),
                               ),
                             ),

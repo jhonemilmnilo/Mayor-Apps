@@ -161,9 +161,9 @@ class _KainanDirectoryModalState extends ConsumerState<KainanDirectoryModal> {
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.90,
-      decoration: const BoxDecoration(
-        color: AppColors.background,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      decoration: BoxDecoration(
+        color: AppColors.getBackground(context),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: Column(
         children: [
@@ -174,7 +174,7 @@ class _KainanDirectoryModalState extends ConsumerState<KainanDirectoryModal> {
               width: 38,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.white24,
+                color: AppColors.isDark(context) ? Colors.white24 : Colors.black12,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -212,7 +212,7 @@ class _KainanDirectoryModalState extends ConsumerState<KainanDirectoryModal> {
                               fontWeight: FontWeight.w900,
                               fontStyle: FontStyle.italic,
                               letterSpacing: -0.2,
-                              color: Colors.white,
+                              color: AppColors.getTextPrimary(context),
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -237,7 +237,7 @@ class _KainanDirectoryModalState extends ConsumerState<KainanDirectoryModal> {
                         "Municipal Dining, Cafes & Gastronomic Establishments",
                         style: GoogleFonts.inter(
                           fontSize: 11,
-                          color: AppColors.textSecondary,
+                          color: AppColors.getTextSecondary(context),
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -246,7 +246,7 @@ class _KainanDirectoryModalState extends ConsumerState<KainanDirectoryModal> {
                 ),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(Icons.close_rounded, color: AppColors.textSecondary, size: 20),
+                  icon: Icon(Icons.close_rounded, color: AppColors.getTextSecondary(context), size: 20),
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
                 ),
@@ -260,9 +260,9 @@ class _KainanDirectoryModalState extends ConsumerState<KainanDirectoryModal> {
             child: Container(
               height: 42,
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: AppColors.getSurface(context),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.border),
+                border: Border.all(color: AppColors.getBorder(context)),
               ),
               child: TextField(
                 controller: _searchController,
@@ -270,19 +270,19 @@ class _KainanDirectoryModalState extends ConsumerState<KainanDirectoryModal> {
                 style: GoogleFonts.inter(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
-                  color: Colors.white,
+                  color: AppColors.getTextPrimary(context),
                 ),
                 decoration: InputDecoration(
                   hintText: "Search restaurant, cuisine or address...",
                   hintStyle: GoogleFonts.inter(
                     fontSize: 12,
-                    color: AppColors.textSecondary,
+                    color: AppColors.getTextSecondary(context),
                     fontWeight: FontWeight.w500,
                   ),
-                  prefixIcon: const Icon(Icons.search_rounded, color: AppColors.textSecondary, size: 18),
+                  prefixIcon: Icon(Icons.search_rounded, color: AppColors.getTextSecondary(context), size: 18),
                   suffixIcon: _searchController.text.isNotEmpty
                       ? IconButton(
-                          icon: const Icon(Icons.clear_rounded, size: 16, color: AppColors.textSecondary),
+                          icon: Icon(Icons.clear_rounded, size: 16, color: AppColors.getTextSecondary(context)),
                           onPressed: () {
                             _searchController.clear();
                             setState(() {
@@ -328,7 +328,7 @@ class _KainanDirectoryModalState extends ConsumerState<KainanDirectoryModal> {
               const SizedBox(height: 10),
               Text(
                 "Unable to load dining spots",
-                style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white),
+                style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w700, color: AppColors.getTextPrimary(context)),
               ),
               const SizedBox(height: 14),
               ElevatedButton(
@@ -351,7 +351,7 @@ class _KainanDirectoryModalState extends ConsumerState<KainanDirectoryModal> {
             const SizedBox(height: 10),
             Text(
               "No dining establishments found",
-              style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white),
+              style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w700, color: AppColors.getTextPrimary(context)),
             ),
           ],
         ),
@@ -377,7 +377,7 @@ class _KainanDirectoryModalState extends ConsumerState<KainanDirectoryModal> {
               child: Center(
                 child: Text(
                   "— End of Kainan Directory (${_diningSpots.length} loaded) —",
-                  style: GoogleFonts.inter(fontSize: 10.5, fontStyle: FontStyle.italic, color: AppColors.textSecondary),
+                  style: GoogleFonts.inter(fontSize: 10.5, fontStyle: FontStyle.italic, color: AppColors.getTextSecondary(context)),
                 ),
               ),
             );
@@ -391,9 +391,10 @@ class _KainanDirectoryModalState extends ConsumerState<KainanDirectoryModal> {
             margin: const EdgeInsets.only(bottom: 8),
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
             decoration: BoxDecoration(
-              color: AppColors.surface,
+              color: AppColors.getSurface(context),
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: AppColors.border),
+              border: Border.all(color: AppColors.getBorder(context)),
+              boxShadow: AppColors.getCardShadow(context),
             ),
             child: Row(
               children: [
@@ -402,7 +403,7 @@ class _KainanDirectoryModalState extends ConsumerState<KainanDirectoryModal> {
                   child: Container(
                     width: 50,
                     height: 50,
-                    color: AppColors.surfaceElevated,
+                    color: AppColors.getSurfaceElevated(context),
                     child: (item.imageUrl != null && item.imageUrl!.isNotEmpty)
                         ? Image.network(
                             item.imageUrl!,
@@ -426,7 +427,7 @@ class _KainanDirectoryModalState extends ConsumerState<KainanDirectoryModal> {
                         style: GoogleFonts.inter(
                           fontSize: 13.5,
                           fontWeight: FontWeight.w800,
-                          color: Colors.white,
+                          color: AppColors.getTextPrimary(context),
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -436,7 +437,7 @@ class _KainanDirectoryModalState extends ConsumerState<KainanDirectoryModal> {
                         "${item.address} • ${item.barangay}",
                         style: GoogleFonts.inter(
                           fontSize: 10,
-                          color: AppColors.textSecondary,
+                          color: AppColors.getTextSecondary(context),
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -456,7 +457,7 @@ class _KainanDirectoryModalState extends ConsumerState<KainanDirectoryModal> {
                   ),
                 ),
                 const SizedBox(width: 8),
-                const Icon(Icons.arrow_forward_ios_rounded, size: 12, color: AppColors.textSecondary),
+                Icon(Icons.arrow_forward_ios_rounded, size: 12, color: AppColors.getTextSecondary(context)),
               ],
             ),
           ),
@@ -477,7 +478,7 @@ class _KainanDetailSheet extends StatelessWidget {
         backgroundColor: const Color(0xFFF59E0B),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        content: Text("Address copied to clipboard!", style: GoogleFonts.inter(fontWeight: FontWeight.w700, fontSize: 12)),
+        content: Text("Address copied to clipboard!", style: GoogleFonts.inter(fontWeight: FontWeight.w700, fontSize: 12, color: Colors.white)),
       ),
     );
   }
@@ -486,9 +487,9 @@ class _KainanDetailSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.85),
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      decoration: BoxDecoration(
+        color: AppColors.getSurface(context),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       padding: const EdgeInsets.all(20),
       child: ListView(
@@ -497,7 +498,10 @@ class _KainanDetailSheet extends StatelessWidget {
             child: Container(
               width: 36,
               height: 4,
-              decoration: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(2)),
+              decoration: BoxDecoration(
+                color: AppColors.isDark(context) ? Colors.white24 : Colors.black12,
+                borderRadius: BorderRadius.circular(2),
+              ),
             ),
           ),
           const SizedBox(height: 16),
@@ -507,7 +511,14 @@ class _KainanDetailSheet extends StatelessWidget {
               child: Image.network(item.imageUrl!, height: 180, width: double.infinity, fit: BoxFit.cover),
             ),
           const SizedBox(height: 16),
-          Text(item.name, style: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.w900, color: Colors.white)),
+          Text(
+            item.name,
+            style: GoogleFonts.inter(
+              fontSize: 20,
+              fontWeight: FontWeight.w900,
+              color: AppColors.getTextPrimary(context),
+            ),
+          ),
           const SizedBox(height: 8),
           Wrap(
             spacing: 8,
@@ -539,40 +550,70 @@ class _KainanDetailSheet extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
-                  color: AppColors.surfaceElevated,
+                  color: AppColors.getSurfaceElevated(context),
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.white12),
+                  border: Border.all(color: AppColors.getBorder(context)),
                 ),
                 child: Text(
                   "Brgy. ${item.barangay}",
                   style: GoogleFonts.inter(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
-                    color: Colors.white70,
+                    color: AppColors.getTextSecondary(context),
                   ),
                 ),
               ),
             ],
           ),
           const SizedBox(height: 12),
-          Text(item.description.isNotEmpty ? item.description : "Premier local dining spot in Mapandan.", style: GoogleFonts.inter(fontSize: 12, color: Colors.white70)),
+          Text(
+            item.description.isNotEmpty ? item.description : "Premier local dining spot in Mapandan.",
+            style: GoogleFonts.inter(
+              fontSize: 12,
+              color: AppColors.getTextSecondary(context),
+            ),
+          ),
           const SizedBox(height: 16),
           Container(
             padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(color: AppColors.surfaceElevated, borderRadius: BorderRadius.circular(12)),
+            decoration: BoxDecoration(
+              color: AppColors.getSurfaceElevated(context),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: AppColors.getBorder(context)),
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("LOCATION & HOURS", style: GoogleFonts.inter(fontSize: 9.5, fontWeight: FontWeight.w900, color: AppColors.textSecondary)),
+                Text(
+                  "LOCATION & HOURS",
+                  style: GoogleFonts.inter(
+                    fontSize: 9.5,
+                    fontWeight: FontWeight.w900,
+                    color: AppColors.getTextSecondary(context),
+                  ),
+                ),
                 const SizedBox(height: 6),
-                Text(item.address, style: GoogleFonts.inter(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w600)),
+                Text(
+                  item.address,
+                  style: GoogleFonts.inter(
+                    fontSize: 12,
+                    color: AppColors.getTextPrimary(context),
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
                 if (item.openingHours != null) ...[
                   const SizedBox(height: 4),
-                  Text("Hours: ${item.openingHours}", style: GoogleFonts.inter(fontSize: 11, color: const Color(0xFF10B981))),
+                  Text(
+                    "Hours: ${item.openingHours}",
+                    style: GoogleFonts.inter(fontSize: 11, color: const Color(0xFF10B981)),
+                  ),
                 ],
                 if (item.contactNumber != null) ...[
                   const SizedBox(height: 4),
-                  Text("Phone: ${item.contactNumber}", style: GoogleFonts.inter(fontSize: 11, color: Colors.white70)),
+                  Text(
+                    "Phone: ${item.contactNumber}",
+                    style: GoogleFonts.inter(fontSize: 11, color: AppColors.getTextSecondary(context)),
+                  ),
                 ],
               ],
             ),
