@@ -315,14 +315,20 @@ class _EventsAuditModalState extends ConsumerState<EventsAuditModal> {
                     children: [
                       Row(
                         children: [
-                          Text(
-                            "MUNICIPAL EVENTS DIRECTORY",
-                            style: GoogleFonts.inter(
-                              fontSize: 14.5,
-                              fontWeight: FontWeight.w900,
-                              fontStyle: FontStyle.italic,
-                              letterSpacing: -0.2,
-                              color: AppColors.getTextPrimary(context),
+                          Flexible(
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "MUNICIPAL EVENTS",
+                                style: GoogleFonts.inter(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w900,
+                                  fontStyle: FontStyle.italic,
+                                  letterSpacing: -0.2,
+                                  color: AppColors.getTextPrimary(context),
+                                ),
+                              ),
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -346,14 +352,17 @@ class _EventsAuditModalState extends ConsumerState<EventsAuditModal> {
                       Text(
                         "Official Festivals, Sports & Civic Gatherings",
                         style: GoogleFonts.inter(
-                          fontSize: 11,
+                          fontSize: 10.5,
                           color: AppColors.getTextSecondary(context),
                           fontWeight: FontWeight.w500,
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
                 ),
+                const SizedBox(width: 8),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
                   icon: Icon(Icons.close_rounded, color: AppColors.getTextSecondary(context), size: 20),

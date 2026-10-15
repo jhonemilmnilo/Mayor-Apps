@@ -315,14 +315,20 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
                     children: [
                       Row(
                         children: [
-                          Text(
-                            "MUNICIPAL NEWS DIRECTORY",
-                            style: GoogleFonts.inter(
-                              fontSize: 14.5,
-                              fontWeight: FontWeight.w900,
-                              fontStyle: FontStyle.italic,
-                              letterSpacing: -0.2,
-                              color: AppColors.getTextPrimary(context),
+                          Flexible(
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "MUNICIPAL NEWS",
+                                style: GoogleFonts.inter(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w900,
+                                  fontStyle: FontStyle.italic,
+                                  letterSpacing: -0.2,
+                                  color: AppColors.getTextPrimary(context),
+                                ),
+                              ),
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -346,14 +352,17 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
                       Text(
                         "Official Press Releases & Municipal News Feed",
                         style: GoogleFonts.inter(
-                          fontSize: 11,
+                          fontSize: 10.5,
                           color: AppColors.getTextSecondary(context),
                           fontWeight: FontWeight.w500,
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
                 ),
+                const SizedBox(width: 8),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
                   icon: Icon(Icons.close_rounded, color: AppColors.getTextSecondary(context), size: 20),

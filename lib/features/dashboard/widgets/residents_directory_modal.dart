@@ -483,45 +483,57 @@ class _ResidentsDirectoryModalState
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF3B82F6).withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Icon(
-                  LucideIcons.users,
-                  size: 18,
-                  color: Color(0xFF3B82F6),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "MUNICIPAL RESIDENTS DIRECTORY",
-                    style: GoogleFonts.inter(
-                      fontSize: 12.5,
-                      fontWeight: FontWeight.w900,
-                      letterSpacing: 0.5,
-                      color: AppColors.getTextPrimary(context),                    ),
+          Expanded(
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF3B82F6).withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  Text(
-                    _isLoading
-                        ? "Connecting to citizen registry..."
-                        : "$_totalCount Verified Municipal Residents",
-                    style: GoogleFonts.inter(
-                      fontSize: 10.5,
-                      color: AppColors.getTextSecondary(context),
-                    ),
+                  child: const Icon(
+                    LucideIcons.users,
+                    size: 18,
+                    color: Color(0xFF3B82F6),
                   ),
-                ],
-              ),
-            ],
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "MUNICIPAL RESIDENTS",
+                          style: GoogleFonts.inter(
+                            fontSize: 12.5,
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: 0.5,
+                            color: AppColors.getTextPrimary(context),
+                          ),
+                        ),
+                      ),
+                      Text(
+                        _isLoading
+                            ? "Connecting to citizen registry..."
+                            : "$_totalCount Verified Municipal Residents",
+                        style: GoogleFonts.inter(
+                          fontSize: 10.5,
+                          color: AppColors.getTextSecondary(context),
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
+          const SizedBox(width: 8),
           IconButton(
             onPressed: () => Navigator.pop(context),
             icon: Icon(

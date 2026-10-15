@@ -356,50 +356,61 @@ class _CitizenReportsModalState extends ConsumerState<CitizenReportsModal> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF59E0B).withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: const Color(0xFFF59E0B).withValues(alpha: 0.3),
-                  ),
-                ),
-                child: const Icon(
-                  LucideIcons.alertTriangle,
-                  size: 18,
-                  color: Color(0xFFF59E0B),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "CITIZEN REPORTS AUDIT & LOGS",
-                    style: GoogleFonts.inter(
-                      fontSize: 12.5,
-                      fontWeight: FontWeight.w900,
-                      fontStyle: FontStyle.italic,
-                      letterSpacing: 0.5,
-                      color: AppColors.getTextPrimary(context),
+          Expanded(
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF59E0B).withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: const Color(0xFFF59E0B).withValues(alpha: 0.3),
                     ),
                   ),
-                  Text(
-                    _isLoading
-                        ? "Connecting to civic records..."
-                        : "$_totalCount Verified Community Incidents",
-                    style: GoogleFonts.inter(
-                      fontSize: 10.5,
-                      color: AppColors.getTextSecondary(context),
-                    ),
+                  child: const Icon(
+                    LucideIcons.alertTriangle,
+                    size: 18,
+                    color: Color(0xFFF59E0B),
                   ),
-                ],
-              ),
-            ],
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "CITIZEN REPORTS AUDIT & LOGS",
+                          style: GoogleFonts.inter(
+                            fontSize: 12.5,
+                            fontWeight: FontWeight.w900,
+                            fontStyle: FontStyle.italic,
+                            letterSpacing: 0.5,
+                            color: AppColors.getTextPrimary(context),
+                          ),
+                        ),
+                      ),
+                      Text(
+                        _isLoading
+                            ? "Connecting to civic records..."
+                            : "$_totalCount Verified Community Incidents",
+                        style: GoogleFonts.inter(
+                          fontSize: 10.5,
+                          color: AppColors.getTextSecondary(context),
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
+          const SizedBox(width: 8),
           Row(
             children: [
               IconButton(

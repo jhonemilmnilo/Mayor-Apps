@@ -350,50 +350,61 @@ class _ProjectsAuditModalState extends ConsumerState<ProjectsAuditModal> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF8B5CF6).withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: const Color(0xFF8B5CF6).withValues(alpha: 0.3),
-                  ),
-                ),
-                child: const Icon(
-                  LucideIcons.hardHat,
-                  size: 18,
-                  color: Color(0xFF8B5CF6),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "LGU PROJECTS DIRECTORY",
-                    style: GoogleFonts.inter(
-                      fontSize: 12.5,
-                      fontWeight: FontWeight.w900,
-                      fontStyle: FontStyle.italic,
-                      letterSpacing: 0.5,
-                      color: AppColors.getTextPrimary(context),
+          Expanded(
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF8B5CF6).withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: const Color(0xFF8B5CF6).withValues(alpha: 0.3),
                     ),
                   ),
-                  Text(
-                    _isLoading
-                        ? "Connecting to municipal capital records..."
-                        : "$_totalCount Registered Infrastructure Projects",
-                    style: GoogleFonts.inter(
-                      fontSize: 10.5,
-                      color: AppColors.getTextSecondary(context),
-                    ),
+                  child: const Icon(
+                    LucideIcons.hardHat,
+                    size: 18,
+                    color: Color(0xFF8B5CF6),
                   ),
-                ],
-              ),
-            ],
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "LGU PROJECTS",
+                          style: GoogleFonts.inter(
+                            fontSize: 12.5,
+                            fontWeight: FontWeight.w900,
+                            fontStyle: FontStyle.italic,
+                            letterSpacing: 0.5,
+                            color: AppColors.getTextPrimary(context),
+                          ),
+                        ),
+                      ),
+                      Text(
+                        _isLoading
+                            ? "Connecting to municipal capital records..."
+                            : "$_totalCount Registered Infrastructure Projects",
+                        style: GoogleFonts.inter(
+                          fontSize: 10.5,
+                          color: AppColors.getTextSecondary(context),
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
+          const SizedBox(width: 8),
           Row(
             children: [
               IconButton(

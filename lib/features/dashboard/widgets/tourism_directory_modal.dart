@@ -224,14 +224,20 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
                     children: [
                       Row(
                         children: [
-                          Text(
-                            "TOURISM GALLERY DIRECTORY",
-                            style: GoogleFonts.inter(
-                              fontSize: 14.5,
-                              fontWeight: FontWeight.w900,
-                              fontStyle: FontStyle.italic,
-                              letterSpacing: -0.2,
-                              color: AppColors.getTextPrimary(context),
+                          Flexible(
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "TOURISM GALLERY",
+                                style: GoogleFonts.inter(
+                                  fontSize: 14.5,
+                                  fontWeight: FontWeight.w900,
+                                  fontStyle: FontStyle.italic,
+                                  letterSpacing: -0.2,
+                                  color: AppColors.getTextPrimary(context),
+                                ),
+                              ),
                             ),
                           ),
                           const SizedBox(width: 8),

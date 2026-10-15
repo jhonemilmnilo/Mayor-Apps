@@ -195,14 +195,20 @@ class _TuluyanDirectoryModalState extends ConsumerState<TuluyanDirectoryModal> {
                     children: [
                       Row(
                         children: [
-                          Text(
-                            "TULUYAN HUB DIRECTORY",
-                            style: GoogleFonts.inter(
-                              fontSize: 14.5,
-                              fontWeight: FontWeight.w900,
-                              fontStyle: FontStyle.italic,
-                              letterSpacing: -0.2,
-                              color: AppColors.getTextPrimary(context),
+                          Flexible(
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "TULUYAN HUB",
+                                style: GoogleFonts.inter(
+                                  fontSize: 14.5,
+                                  fontWeight: FontWeight.w900,
+                                  fontStyle: FontStyle.italic,
+                                  letterSpacing: -0.2,
+                                  color: AppColors.getTextPrimary(context),
+                                ),
+                              ),
                             ),
                           ),
                           const SizedBox(width: 8),
