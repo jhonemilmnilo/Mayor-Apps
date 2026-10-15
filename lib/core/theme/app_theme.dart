@@ -45,6 +45,17 @@ class AppTheme {
       color: AppColors.border,
       thickness: 1,
     ),
+    datePickerTheme: DatePickerThemeData(
+      backgroundColor: AppColors.surface,
+      headerBackgroundColor: AppColors.surfaceElevated,
+      headerForegroundColor: Colors.white,
+      dayForegroundColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) return Colors.white;
+        return Colors.white;
+      }),
+      rangePickerHeaderForegroundColor: Colors.white,
+      rangePickerHeaderBackgroundColor: AppColors.surfaceElevated,
+    ),
   );
 
   // --- LIGHT THEME ---
@@ -88,6 +99,17 @@ class AppTheme {
     dividerTheme: const DividerThemeData(
       color: AppColors.lightBorder,
       thickness: 1,
+    ),
+    datePickerTheme: DatePickerThemeData(
+      backgroundColor: Colors.white,
+      headerBackgroundColor: const Color(0xFFF1F5F9),
+      headerForegroundColor: AppColors.lightTextPrimary,
+      dayForegroundColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) return Colors.white;
+        return AppColors.lightTextPrimary;
+      }),
+      rangePickerHeaderForegroundColor: AppColors.lightTextPrimary,
+      rangePickerHeaderBackgroundColor: const Color(0xFFF1F5F9),
     ),
   );
 }

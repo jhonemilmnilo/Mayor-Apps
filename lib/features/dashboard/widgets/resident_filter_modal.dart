@@ -156,12 +156,24 @@ class _ResidentFilterModalState extends State<ResidentFilterModal> {
       firstDate: first,
       lastDate: last,
       builder: (context, child) {
+        final isDark = AppColors.isDark(context);
         return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.dark(
-              primary: Color(0xFF3B82F6),
-              surface: Color(0xFF151B2B),
-              onSurface: Colors.white,
+          data: (isDark ? ThemeData.dark() : ThemeData.light()).copyWith(
+            colorScheme: isDark
+                ? const ColorScheme.dark(
+                    primary: Color(0xFF3B82F6),
+                    onPrimary: Colors.white,
+                    surface: AppColors.surfaceElevated,
+                    onSurface: Colors.white,
+                  )
+                : const ColorScheme.light(
+                    primary: Color(0xFF3B82F6),
+                    onPrimary: Colors.white,
+                    surface: Colors.white,
+                    onSurface: AppColors.lightTextPrimary,
+                  ),
+            dialogTheme: DialogThemeData(
+              backgroundColor: isDark ? AppColors.surface : Colors.white,
             ),
           ),
           child: child!,

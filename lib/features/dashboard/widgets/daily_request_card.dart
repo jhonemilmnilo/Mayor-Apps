@@ -149,6 +149,7 @@ class _DailyRequestCardState extends ConsumerState<DailyRequestCard> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = AppColors.isDark(context);
     final activeTransactions = _filteredTransactions ?? widget.transactions;
     final statusConfig = _statusConfigs[_filter.status] ??
         _statusConfigs['ALL'] ??
@@ -265,9 +266,9 @@ class _DailyRequestCardState extends ConsumerState<DailyRequestCard> {
             text: TextSpan(
               style: GoogleFonts.inter(fontSize: 11, fontWeight: FontWeight.w500, fontStyle: FontStyle.italic),
               children: [
-                const TextSpan(
+                TextSpan(
                   text: "Analyzing ",
-                  style: TextStyle(color: AppColors.textSecondary),
+                  style: TextStyle(color: AppColors.getTextSecondary(context)),
                 ),
                 TextSpan(
                   text: statusConfig['label'],
@@ -278,7 +279,7 @@ class _DailyRequestCardState extends ConsumerState<DailyRequestCard> {
                 ),
                 TextSpan(
                   text: _isLoading ? " (Loading...)" : " ($computedTotal total requests)",
-                  style: const TextStyle(color: AppColors.textSecondary),
+                  style: TextStyle(color: AppColors.getTextSecondary(context)),
                 ),
               ],
             ),
@@ -304,9 +305,9 @@ class _DailyRequestCardState extends ConsumerState<DailyRequestCard> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
-                      color: AppColors.getSurfaceElevated(context),
+                      color: isDark ? AppColors.surfaceElevated : const Color(0xFFF1F5F9),
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: AppColors.getBorder(context)),
+                      border: Border.all(color: isDark ? AppColors.border : const Color(0xFFE2E8F0)),
                     ),
                     child: Row(
                       children: [
@@ -346,9 +347,9 @@ class _DailyRequestCardState extends ConsumerState<DailyRequestCard> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
-                      color: AppColors.getSurfaceElevated(context),
+                      color: isDark ? AppColors.surfaceElevated : const Color(0xFFF1F5F9),
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: AppColors.getBorder(context)),
+                      border: Border.all(color: isDark ? AppColors.border : const Color(0xFFE2E8F0)),
                     ),
                     child: Row(
                       children: [

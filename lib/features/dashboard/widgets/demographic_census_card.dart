@@ -119,6 +119,7 @@ class _DemographicCensusCardState
 
   @override
   Widget build(BuildContext context) {
+    final isDark = AppColors.isDark(context);
     final activeDemographics =
         _filteredDemographics ?? widget.demographics;
     final points = activeDemographics.chart;
@@ -181,7 +182,7 @@ class _DemographicCensusCardState
                       style: GoogleFonts.inter(
                         fontSize: 10,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.textSecondary,
+                        color: AppColors.getTextSecondary(context),
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -203,9 +204,9 @@ class _DemographicCensusCardState
                 fontStyle: FontStyle.italic,
               ),
               children: [
-                const TextSpan(
+                TextSpan(
                   text: "Analyzing ",
-                  style: TextStyle(color: AppColors.textSecondary),
+                  style: TextStyle(color: AppColors.getTextSecondary(context)),
                 ),
                 TextSpan(
                   text: sectorConfig['label'],
@@ -218,7 +219,7 @@ class _DemographicCensusCardState
                   text: _isLoading
                       ? " (Loading...)"
                       : " ($total registered residents)",
-                  style: const TextStyle(color: AppColors.textSecondary),
+                  style: TextStyle(color: AppColors.getTextSecondary(context)),
                 ),
               ],
             ),
@@ -247,9 +248,9 @@ class _DemographicCensusCardState
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColors.getSurfaceElevated(context),
+                      color: isDark ? AppColors.surfaceElevated : const Color(0xFFF1F5F9),
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: AppColors.getBorder(context)),
+                      border: Border.all(color: isDark ? AppColors.border : const Color(0xFFE2E8F0)),
                     ),
                     child: Row(
                       children: [
@@ -319,9 +320,9 @@ class _DemographicCensusCardState
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColors.getSurfaceElevated(context),
+                      color: isDark ? AppColors.surfaceElevated : const Color(0xFFF1F5F9),
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: AppColors.getBorder(context)),
+                      border: Border.all(color: isDark ? AppColors.border : const Color(0xFFE2E8F0)),
                     ),
                     child: Row(
                       children: [

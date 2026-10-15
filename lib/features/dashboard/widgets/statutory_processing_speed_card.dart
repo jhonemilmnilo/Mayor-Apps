@@ -151,57 +151,65 @@ class StatutoryProcessingSpeedCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Row: Title & Avg Working Days
+          // Header: Title & Avg Working Days (Flexible & Responsive)
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                title,
-                style: GoogleFonts.inter(
-                  fontSize: 12.5,
-                  fontWeight: FontWeight.w800,
-                  color: AppColors.getTextPrimary(context),
+              Expanded(
+                child: Text(
+                  title,
+                  style: GoogleFonts.inter(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.getTextPrimary(context),
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-              Row(
-                children: [
-                  Text(
-                    "${tier.avgDays.toStringAsFixed(tier.avgDays.truncateToDouble() == tier.avgDays ? 0 : 1)} / ${tier.limit} Working Days",
-                    style: GoogleFonts.inter(
-                      fontSize: 11.5,
-                      fontWeight: FontWeight.w900,
-                      color: themeColor,
-                    ),
-                  ),
-                  const SizedBox(width: 6),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
-                    decoration: BoxDecoration(
-                      color: isWithinCeiling
-                          ? const Color(0xFF10B981).withValues(alpha: 0.15)
-                          : const Color(0xFFF43F5E).withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(4),
-                      border: Border.all(
-                        color: isWithinCeiling
-                            ? const Color(0xFF10B981).withValues(alpha: 0.3)
-                            : const Color(0xFFF43F5E).withValues(alpha: 0.3),
-                        width: 0.8,
-                      ),
-                    ),
-                    child: Text(
-                      isWithinCeiling ? "WITHIN SLA" : "EXCEEDED",
+              const SizedBox(width: 6),
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "${tier.avgDays.toStringAsFixed(tier.avgDays.truncateToDouble() == tier.avgDays ? 0 : 1)} / ${tier.limit} Days",
                       style: GoogleFonts.inter(
-                        fontSize: 8.5,
+                        fontSize: 11,
                         fontWeight: FontWeight.w900,
-                        letterSpacing: 0.4,
-                        color: isWithinCeiling
-                            ? const Color(0xFF10B981)
-                            : const Color(0xFFF43F5E),
+                        color: themeColor,
                       ),
                     ),
-                  ),
-                ],
+                    const SizedBox(width: 5),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
+                      decoration: BoxDecoration(
+                        color: isWithinCeiling
+                            ? const Color(0xFF10B981).withValues(alpha: 0.15)
+                            : const Color(0xFFF43F5E).withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(4),
+                        border: Border.all(
+                          color: isWithinCeiling
+                              ? const Color(0xFF10B981).withValues(alpha: 0.3)
+                              : const Color(0xFFF43F5E).withValues(alpha: 0.3),
+                          width: 0.8,
+                        ),
+                      ),
+                      child: Text(
+                        isWithinCeiling ? "WITHIN SLA" : "EXCEEDED",
+                        style: GoogleFonts.inter(
+                          fontSize: 8,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 0.3,
+                          color: isWithinCeiling
+                              ? const Color(0xFF10B981)
+                              : const Color(0xFFF43F5E),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -245,20 +253,30 @@ class StatutoryProcessingSpeedCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                statutoryLimitLabel,
-                style: GoogleFonts.inter(
-                  fontSize: 10,
-                  color: AppColors.getTextSecondary(context),
-                  fontWeight: FontWeight.w600,
+              Flexible(
+                child: Text(
+                  statutoryLimitLabel,
+                  style: GoogleFonts.inter(
+                    fontSize: 9.5,
+                    color: AppColors.getTextSecondary(context),
+                    fontWeight: FontWeight.w600,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-              Text(
-                "${tier.count} transactions recorded",
-                style: GoogleFonts.inter(
-                  fontSize: 10,
-                  color: AppColors.getTextSecondary(context),
-                  fontWeight: FontWeight.w600,
+              const SizedBox(width: 6),
+              Flexible(
+                child: Text(
+                  "${tier.count} recorded",
+                  style: GoogleFonts.inter(
+                    fontSize: 9.5,
+                    color: AppColors.getTextSecondary(context),
+                    fontWeight: FontWeight.w600,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.end,
                 ),
               ),
             ],

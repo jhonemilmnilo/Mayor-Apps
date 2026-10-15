@@ -125,9 +125,21 @@ class _CollectionsFilterModalState extends State<CollectionsFilterModal> {
                     onPrimary: Colors.white,
                     surface: AppColors.surfaceElevated,
                     onSurface: Colors.white,
+                    onSurfaceVariant: AppColors.textSecondary,
                   ),
                   dialogTheme: const DialogThemeData(
                     backgroundColor: AppColors.surface,
+                  ),
+                  datePickerTheme: DatePickerThemeData(
+                    backgroundColor: AppColors.surface,
+                    headerBackgroundColor: AppColors.surfaceElevated,
+                    headerForegroundColor: Colors.white,
+                    dayForegroundColor: WidgetStateProperty.resolveWith((states) {
+                      if (states.contains(WidgetState.selected)) return Colors.white;
+                      return Colors.white;
+                    }),
+                    rangePickerHeaderForegroundColor: Colors.white,
+                    rangePickerHeaderBackgroundColor: AppColors.surfaceElevated,
                   ),
                 )
               : ThemeData.light().copyWith(
@@ -136,9 +148,21 @@ class _CollectionsFilterModalState extends State<CollectionsFilterModal> {
                     onPrimary: Colors.white,
                     surface: Colors.white,
                     onSurface: AppColors.lightTextPrimary,
+                    onSurfaceVariant: AppColors.lightTextSecondary,
                   ),
                   dialogTheme: const DialogThemeData(
                     backgroundColor: Colors.white,
+                  ),
+                  datePickerTheme: DatePickerThemeData(
+                    backgroundColor: Colors.white,
+                    headerBackgroundColor: Color(0xFFF1F5F9),
+                    headerForegroundColor: AppColors.lightTextPrimary,
+                    dayForegroundColor: WidgetStateProperty.resolveWith((states) {
+                      if (states.contains(WidgetState.selected)) return Colors.white;
+                      return AppColors.lightTextPrimary;
+                    }),
+                    rangePickerHeaderForegroundColor: AppColors.lightTextPrimary,
+                    rangePickerHeaderBackgroundColor: Color(0xFFF1F5F9),
                   ),
                 ),
           child: child!,
@@ -244,7 +268,7 @@ class _CollectionsFilterModalState extends State<CollectionsFilterModal> {
                       fontSize: 9.5,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 0.8,
-                      color: AppColors.textSecondary,
+                      color: AppColors.getTextSecondary(context),
                     ),
                   ),
                   const SizedBox(height: 8),

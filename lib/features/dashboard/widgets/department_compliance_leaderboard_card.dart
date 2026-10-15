@@ -185,12 +185,16 @@ class _DepartmentComplianceLeaderboardCardState
                           ),
                         ),
                         const SizedBox(width: 6),
-                        Text(
-                          "RA 11032 Anti-Red Tape Authority (ARTA) SLA",
-                          style: GoogleFonts.inter(
-                            fontSize: 11,
-                            color: AppColors.getTextSecondary(context),
-                            fontWeight: FontWeight.w500,
+                        Expanded(
+                          child: Text(
+                            "RA 11032 Anti-Red Tape Authority (ARTA) SLA",
+                            style: GoogleFonts.inter(
+                              fontSize: 11,
+                              color: AppColors.getTextSecondary(context),
+                              fontWeight: FontWeight.w500,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],
@@ -228,9 +232,12 @@ class _DepartmentComplianceLeaderboardCardState
                         fontWeight: FontWeight.w700,
                         color: AppColors.getTextPrimary(context),
                       ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   if (_filter.activePreset != null && _filter.activePreset != 'CUSTOM') ...[
+                    const SizedBox(width: 4),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1.5),
                       decoration: BoxDecoration(
@@ -246,7 +253,7 @@ class _DepartmentComplianceLeaderboardCardState
                         ),
                       ),
                     ),
-                    const SizedBox(width: 6),
+                    const SizedBox(width: 4),
                   ],
                   Icon(
                     LucideIcons.chevronDown,
@@ -324,7 +331,7 @@ class _DepartmentComplianceLeaderboardCardState
                 }
 
                 return Container(
-                  padding: const EdgeInsets.all(12),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   decoration: BoxDecoration(
                     color: AppColors.getSurfaceElevated(context).withValues(alpha: 0.5),
                     borderRadius: BorderRadius.circular(16),
@@ -354,7 +361,7 @@ class _DepartmentComplianceLeaderboardCardState
                           ),
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: 10),
 
                       // Department Info
                       Expanded(
@@ -367,16 +374,17 @@ class _DepartmentComplianceLeaderboardCardState
                                   child: Text(
                                     dept.officeName,
                                     style: GoogleFonts.inter(
-                                      fontSize: 12.5,
+                                      fontSize: 12,
                                       fontWeight: FontWeight.w800,
                                       color: AppColors.getTextPrimary(context),
                                     ),
+                                    maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
-                                const SizedBox(width: 6),
+                                const SizedBox(width: 4),
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
+                                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
                                   decoration: BoxDecoration(
                                     color: (AppColors.isDark(context) ? Colors.white : Colors.black).withValues(alpha: 0.06),
                                     borderRadius: BorderRadius.circular(4),
@@ -388,7 +396,7 @@ class _DepartmentComplianceLeaderboardCardState
                                   child: Text(
                                     dept.officeCode,
                                     style: GoogleFonts.inter(
-                                      fontSize: 8.5,
+                                      fontSize: 8,
                                       fontWeight: FontWeight.w900,
                                       color: AppColors.getTextSecondary(context),
                                     ),
@@ -396,60 +404,64 @@ class _DepartmentComplianceLeaderboardCardState
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 4),
-                            Row(
+                            const SizedBox(height: 3),
+                            Wrap(
+                              spacing: 6,
+                              runSpacing: 2,
+                              crossAxisAlignment: WrapCrossAlignment.center,
                               children: [
                                 Text(
                                   "Done: ${dept.completed}",
                                   style: GoogleFonts.inter(
-                                    fontSize: 10,
+                                    fontSize: 9.5,
                                     fontWeight: FontWeight.w600,
                                     color: AppColors.getTextSecondary(context),
                                   ),
                                 ),
-                                const SizedBox(width: 8),
                                 Text(
                                   "Pending: ${dept.pending}",
                                   style: GoogleFonts.inter(
-                                    fontSize: 10,
+                                    fontSize: 9.5,
                                     fontWeight: FontWeight.w600,
                                     color: AppColors.getTextSecondary(context),
                                   ),
                                 ),
-                                if (dept.overdue > 0) ...[
-                                  const SizedBox(width: 8),
+                                if (dept.overdue > 0)
                                   Text(
                                     "Overdue: ${dept.overdue}",
                                     style: GoogleFonts.inter(
-                                      fontSize: 10,
+                                      fontSize: 9.5,
                                       fontWeight: FontWeight.w800,
                                       color: const Color(0xFFF43F5E),
                                     ),
                                   ),
-                                ],
                               ],
                             ),
                           ],
                         ),
                       ),
-                      const SizedBox(width: 10),
+                      const SizedBox(width: 8),
 
                       // Rate & Status Pill
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
-                            "${dept.complianceRate.toStringAsFixed(dept.complianceRate.truncateToDouble() == dept.complianceRate ? 0 : 1)}%",
-                            style: GoogleFonts.inter(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w900,
-                              fontStyle: FontStyle.italic,
-                              color: AppColors.getTextPrimary(context),
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              "${dept.complianceRate.toStringAsFixed(dept.complianceRate.truncateToDouble() == dept.complianceRate ? 0 : 1)}%",
+                              style: GoogleFonts.inter(
+                                fontSize: 13.5,
+                                fontWeight: FontWeight.w900,
+                                fontStyle: FontStyle.italic,
+                                color: AppColors.getTextPrimary(context),
+                              ),
                             ),
                           ),
                           const SizedBox(height: 2),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1.5),
                             decoration: BoxDecoration(
                               color: dept.statusColor.withValues(alpha: 0.15),
                               borderRadius: BorderRadius.circular(20),
@@ -461,9 +473,9 @@ class _DepartmentComplianceLeaderboardCardState
                             child: Text(
                               dept.statusLabel.toUpperCase(),
                               style: GoogleFonts.inter(
-                                fontSize: 8.5,
+                                fontSize: 8,
                                 fontWeight: FontWeight.w800,
-                                letterSpacing: 0.4,
+                                letterSpacing: 0.3,
                                 color: dept.statusColor,
                               ),
                             ),
