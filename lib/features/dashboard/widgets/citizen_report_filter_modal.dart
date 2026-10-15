@@ -98,13 +98,15 @@ class _CitizenReportFilterModalState extends State<CitizenReportFilterModal> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = AppColors.isDark(context);
+
     return Container(
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.75,
       ),
-      decoration: const BoxDecoration(
-        color: AppColors.background,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      decoration: BoxDecoration(
+        color: AppColors.getSurface(context),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
         children: [
@@ -115,7 +117,7 @@ class _CitizenReportFilterModalState extends State<CitizenReportFilterModal> {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
+                color: isDark ? Colors.white.withValues(alpha: 0.2) : Colors.black12,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -154,7 +156,7 @@ class _CitizenReportFilterModalState extends State<CitizenReportFilterModal> {
                             fontSize: 13,
                             fontWeight: FontWeight.w900,
                             fontStyle: FontStyle.italic,
-                            color: Colors.white,
+                            color: AppColors.getTextPrimary(context),
                             letterSpacing: 0.5,
                           ),
                         ),
@@ -162,7 +164,7 @@ class _CitizenReportFilterModalState extends State<CitizenReportFilterModal> {
                           "Refine by Status & Incident Category",
                           style: GoogleFonts.inter(
                             fontSize: 10.5,
-                            color: AppColors.textSecondary,
+                            color: AppColors.getTextSecondary(context),
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -172,7 +174,7 @@ class _CitizenReportFilterModalState extends State<CitizenReportFilterModal> {
                 ),
                 IconButton(
                   onPressed: () => Navigator.pop(context),
-                  icon: const Icon(LucideIcons.x, size: 18, color: Colors.white70),
+                  icon: Icon(LucideIcons.x, size: 18, color: AppColors.getTextSecondary(context)),
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
                 ),
@@ -180,7 +182,7 @@ class _CitizenReportFilterModalState extends State<CitizenReportFilterModal> {
             ),
           ),
 
-          const Divider(color: AppColors.border, height: 1),
+          Divider(color: AppColors.getBorder(context), height: 1),
 
           // Scrollable Filter Body
           Expanded(
@@ -204,7 +206,7 @@ class _CitizenReportFilterModalState extends State<CitizenReportFilterModal> {
                           fontSize: 10,
                           fontWeight: FontWeight.w800,
                           letterSpacing: 0.8,
-                          color: AppColors.textSecondary,
+                          color: AppColors.getTextSecondary(context),
                         ),
                       ),
                     ],
@@ -228,10 +230,10 @@ class _CitizenReportFilterModalState extends State<CitizenReportFilterModal> {
                           decoration: BoxDecoration(
                             color: isSelected
                                 ? color.withValues(alpha: 0.2)
-                                : AppColors.surface,
+                                : (isDark ? AppColors.surfaceElevated.withValues(alpha: 0.5) : const Color(0xFFF1F5F9)),
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
-                              color: isSelected ? color : AppColors.border,
+                              color: isSelected ? color : AppColors.getBorder(context),
                               width: isSelected ? 1.5 : 1,
                             ),
                           ),
@@ -255,8 +257,8 @@ class _CitizenReportFilterModalState extends State<CitizenReportFilterModal> {
                                       ? FontWeight.w800
                                       : FontWeight.w600,
                                   color: isSelected
-                                      ? Colors.white
-                                      : AppColors.textSecondary,
+                                      ? (isDark ? Colors.white : AppColors.lightTextPrimary)
+                                      : AppColors.getTextSecondary(context),
                                 ),
                               ),
                             ],
@@ -283,7 +285,7 @@ class _CitizenReportFilterModalState extends State<CitizenReportFilterModal> {
                           fontSize: 10,
                           fontWeight: FontWeight.w800,
                           letterSpacing: 0.8,
-                          color: AppColors.textSecondary,
+                          color: AppColors.getTextSecondary(context),
                         ),
                       ),
                     ],
@@ -306,12 +308,12 @@ class _CitizenReportFilterModalState extends State<CitizenReportFilterModal> {
                           decoration: BoxDecoration(
                             color: isSelected
                                 ? const Color(0xFFF59E0B).withValues(alpha: 0.2)
-                                : AppColors.surface,
+                                : (isDark ? AppColors.surfaceElevated.withValues(alpha: 0.5) : const Color(0xFFF1F5F9)),
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
                               color: isSelected
                                   ? const Color(0xFFF59E0B)
-                                  : AppColors.border,
+                                  : AppColors.getBorder(context),
                               width: isSelected ? 1.5 : 1,
                             ),
                           ),
@@ -323,8 +325,8 @@ class _CitizenReportFilterModalState extends State<CitizenReportFilterModal> {
                                   ? FontWeight.w800
                                   : FontWeight.w600,
                               color: isSelected
-                                  ? Colors.white
-                                  : AppColors.textSecondary,
+                                  ? (isDark ? Colors.white : AppColors.lightTextPrimary)
+                                  : AppColors.getTextSecondary(context),
                             ),
                           ),
                         ),
@@ -339,9 +341,9 @@ class _CitizenReportFilterModalState extends State<CitizenReportFilterModal> {
           // Bottom Action Bar
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-            decoration: const BoxDecoration(
-              color: AppColors.surfaceElevated,
-              border: Border(top: BorderSide(color: AppColors.border)),
+            decoration: BoxDecoration(
+              color: AppColors.getSurface(context),
+              border: Border(top: BorderSide(color: AppColors.getBorder(context))),
             ),
             child: Row(
               children: [
@@ -354,8 +356,8 @@ class _CitizenReportFilterModalState extends State<CitizenReportFilterModal> {
                       });
                     },
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColors.textSecondary,
-                      side: const BorderSide(color: AppColors.border),
+                      foregroundColor: AppColors.getTextSecondary(context),
+                      side: BorderSide(color: AppColors.getBorder(context)),
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),

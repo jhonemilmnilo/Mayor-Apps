@@ -180,9 +180,9 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.90,
-      decoration: const BoxDecoration(
-        color: AppColors.background,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      decoration: BoxDecoration(
+        color: AppColors.getBackground(context),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: Column(
         children: [
@@ -193,7 +193,7 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
               width: 38,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.white24,
+                color: (AppColors.isDark(context) ? Colors.white : Colors.black).withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -231,7 +231,7 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
                               fontWeight: FontWeight.w900,
                               fontStyle: FontStyle.italic,
                               letterSpacing: -0.2,
-                              color: Colors.white,
+                              color: AppColors.getTextPrimary(context),
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -256,7 +256,7 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
                         "Municipal Attractions, Heritage Sites & Landmarks",
                         style: GoogleFonts.inter(
                           fontSize: 11,
-                          color: AppColors.textSecondary,
+                          color: AppColors.getTextSecondary(context),
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -265,7 +265,7 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
                 ),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(Icons.close_rounded, color: AppColors.textSecondary, size: 20),
+                  icon: Icon(Icons.close_rounded, color: AppColors.getTextSecondary(context), size: 20),
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
                 ),
@@ -279,32 +279,32 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
             child: Container(
               height: 44,
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: AppColors.getSurface(context),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.border),
+                border: Border.all(color: AppColors.getBorder(context)),
               ),
               child: TextField(
                 controller: _searchController,
                 onChanged: _onSearchChanged,
                 style: GoogleFonts.inter(
-                  color: Colors.white,
+                  color: AppColors.getTextPrimary(context),
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                 ),
                 decoration: InputDecoration(
                   hintText: "Search tourist spot, category, or barangay...",
                   hintStyle: GoogleFonts.inter(
-                    color: AppColors.textSecondary.withValues(alpha: 0.7),
+                    color: AppColors.getTextSecondary(context).withValues(alpha: 0.7),
                     fontSize: 12.5,
                   ),
-                  prefixIcon: const Icon(
+                  prefixIcon: Icon(
                     Icons.search_rounded,
-                    color: AppColors.textSecondary,
+                    color: AppColors.getTextSecondary(context),
                     size: 19,
                   ),
                   suffixIcon: _searchController.text.isNotEmpty
                       ? IconButton(
-                          icon: const Icon(Icons.clear_rounded, color: AppColors.textSecondary, size: 16),
+                          icon: Icon(Icons.clear_rounded, color: AppColors.getTextSecondary(context), size: 16),
                           onPressed: () {
                             _searchController.clear();
                             _onSearchChanged('');
@@ -358,7 +358,7 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
           ),
 
           const SizedBox(height: 12),
-          const Divider(height: 1, color: AppColors.border),
+          Divider(height: 1, color: AppColors.getBorder(context)),
 
           // Body Content
           Expanded(
@@ -388,7 +388,7 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
               "Loading tourism spots...",
               style: GoogleFonts.inter(
                 fontSize: 13,
-                color: AppColors.textSecondary,
+                color: AppColors.getTextSecondary(context),
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -408,13 +408,13 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
               const SizedBox(height: 12),
               Text(
                 "Failed to load spots",
-                style: GoogleFonts.inter(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
+                style: GoogleFonts.inter(color: AppColors.getTextPrimary(context), fontWeight: FontWeight.bold, fontSize: 15),
               ),
               const SizedBox(height: 6),
               Text(
                 _errorMessage!,
                 textAlign: TextAlign.center,
-                style: GoogleFonts.inter(color: AppColors.textSecondary, fontSize: 12),
+                style: GoogleFonts.inter(color: AppColors.getTextSecondary(context), fontSize: 12),
               ),
               const SizedBox(height: 16),
               ElevatedButton.icon(
@@ -441,21 +441,21 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: AppColors.getSurface(context),
                 shape: BoxShape.circle,
-                border: Border.all(color: AppColors.border),
+                border: Border.all(color: AppColors.getBorder(context)),
               ),
-              child: const Icon(Icons.landscape_rounded, color: AppColors.textSecondary, size: 36),
+              child: Icon(Icons.landscape_rounded, color: AppColors.getTextSecondary(context), size: 36),
             ),
             const SizedBox(height: 14),
             Text(
               "No Tourist Spots Found",
-              style: GoogleFonts.inter(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
+              style: GoogleFonts.inter(color: AppColors.getTextPrimary(context), fontWeight: FontWeight.bold, fontSize: 15),
             ),
             const SizedBox(height: 6),
             Text(
               "Try searching for another keyword or landmark.",
-              style: GoogleFonts.inter(color: AppColors.textSecondary, fontSize: 12),
+              style: GoogleFonts.inter(color: AppColors.getTextSecondary(context), fontSize: 12),
             ),
           ],
         ),
@@ -507,12 +507,12 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
         decoration: BoxDecoration(
           color: isSelected
               ? chipColor.withValues(alpha: 0.16)
-              : AppColors.surface,
+              : AppColors.getSurface(context),
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
             color: isSelected
                 ? chipColor.withValues(alpha: 0.6)
-                : AppColors.border,
+                : AppColors.getBorder(context),
             width: isSelected ? 1.2 : 1,
           ),
         ),
@@ -523,7 +523,7 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
               Icon(
                 icon,
                 size: 13,
-                color: isSelected ? chipColor : AppColors.textSecondary,
+                color: isSelected ? chipColor : AppColors.getTextSecondary(context),
               ),
               const SizedBox(width: 5),
             ],
@@ -532,7 +532,7 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
               style: GoogleFonts.inter(
                 fontSize: 11,
                 fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-                color: isSelected ? chipColor : AppColors.textSecondary,
+                color: isSelected ? chipColor : AppColors.getTextSecondary(context),
                 letterSpacing: 0.2,
               ),
             ),
@@ -541,7 +541,7 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
                 decoration: BoxDecoration(
-                  color: isSelected ? chipColor : Colors.white10,
+                  color: isSelected ? chipColor : AppColors.getBorder(context).withValues(alpha: 0.5),
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
@@ -549,7 +549,7 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
                   style: GoogleFonts.inter(
                     fontSize: 9.5,
                     fontWeight: FontWeight.w900,
-                    color: isSelected ? Colors.black : Colors.white70,
+                    color: isSelected ? Colors.black : AppColors.getTextSecondary(context),
                   ),
                 ),
               ),
@@ -563,12 +563,12 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
   Widget _buildSpotCard(TourismSpotItemModel spot, Color accentColor) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: AppColors.getSurface(context),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: !spot.isPublished
               ? Colors.amber.withValues(alpha: 0.35)
-              : AppColors.border,
+              : AppColors.getBorder(context),
         ),
       ),
       clipBehavior: Clip.antiAlias,
@@ -593,7 +593,7 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
                         if (progress == null) return child;
                         return Container(
                           height: 130,
-                          color: AppColors.surfaceElevated,
+                          color: AppColors.getSurfaceElevated(context),
                           child: const Center(
                             child: SizedBox(
                               width: 20,
@@ -702,13 +702,13 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
                     style: GoogleFonts.inter(
                       fontSize: 15,
                       fontWeight: FontWeight.w800,
-                      color: Colors.white,
+                      color: AppColors.getTextPrimary(context),
                     ),
                   ),
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      const Icon(Icons.location_on_outlined, size: 13, color: AppColors.textSecondary),
+                      const Icon(Icons.location_on_outlined, size: 13, color: Color(0xFF10B981)),
                       const SizedBox(width: 4),
                       Expanded(
                         child: Text(
@@ -717,7 +717,7 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.inter(
                             fontSize: 11.5,
-                            color: AppColors.textSecondary,
+                            color: AppColors.getTextSecondary(context),
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -832,7 +832,7 @@ class _TourismDirectoryModalState extends ConsumerState<TourismDirectoryModal> {
     return Container(
       height: 70,
       width: double.infinity,
-      color: AppColors.surfaceElevated,
+      color: AppColors.getSurfaceElevated(context),
       child: Center(
         child: Icon(
           Icons.landscape_rounded,
@@ -855,9 +855,9 @@ class _TourismDetailSheet extends StatelessWidget {
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.80,
-      decoration: const BoxDecoration(
-        color: AppColors.background,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      decoration: BoxDecoration(
+        color: AppColors.getBackground(context),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
         children: [
@@ -919,7 +919,7 @@ class _TourismDetailSheet extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
-                          color: AppColors.surfaceElevated,
+                          color: AppColors.getSurfaceElevated(context),
                           borderRadius: BorderRadius.circular(6),
                         ),
                         child: Text(
@@ -1028,11 +1028,12 @@ class _TourismDetailSheet extends StatelessWidget {
                     const SizedBox(height: 18),
                   ],
 
-                  const Divider(height: 1, color: AppColors.border),
+                  Divider(height: 1, color: AppColors.getBorder(context)),
                   const SizedBox(height: 14),
 
                   // Compact Plain Text Info Rows (no cards)
                   _buildInfoRow(
+                    context: context,
                     icon: Icons.location_on_outlined,
                     label: "Location",
                     value: spot.address,
@@ -1050,6 +1051,7 @@ class _TourismDetailSheet extends StatelessWidget {
                   if (spot.entranceFee != null && spot.entranceFee!.isNotEmpty) ...[
                     const SizedBox(height: 6),
                     _buildInfoRow(
+                      context: context,
                       icon: Icons.confirmation_number_outlined,
                       label: "Entrance Fee",
                       value: spot.entranceFee!,
@@ -1059,6 +1061,7 @@ class _TourismDetailSheet extends StatelessWidget {
                   if (spot.bestTimeToVisit != null && spot.bestTimeToVisit!.isNotEmpty) ...[
                     const SizedBox(height: 6),
                     _buildInfoRow(
+                      context: context,
                       icon: Icons.access_time_rounded,
                       label: "Best Time to Visit",
                       value: spot.bestTimeToVisit!,
@@ -1068,6 +1071,7 @@ class _TourismDetailSheet extends StatelessWidget {
                   if (spot.contactNumber != null && spot.contactNumber!.isNotEmpty) ...[
                     const SizedBox(height: 6),
                     _buildInfoRow(
+                      context: context,
                       icon: Icons.phone_outlined,
                       label: "Contact Inquiry",
                       value: spot.contactNumber!,
@@ -1098,11 +1102,11 @@ class _TourismDetailSheet extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () => Navigator.of(context).pop(),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.surfaceElevated,
+                  backgroundColor: AppColors.getSurfaceElevated(context),
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
-                    side: const BorderSide(color: AppColors.border),
+                    side: BorderSide(color: AppColors.getBorder(context)),
                   ),
                 ),
                 child: Text(
@@ -1122,6 +1126,7 @@ class _TourismDetailSheet extends StatelessWidget {
   }
 
   Widget _buildInfoRow({
+    required BuildContext context,
     required IconData icon,
     required String label,
     required String value,
@@ -1144,8 +1149,8 @@ class _TourismDetailSheet extends StatelessWidget {
                 children: [
                   TextSpan(
                     text: "$label: ",
-                    style: const TextStyle(
-                      color: AppColors.textSecondary,
+                    style: TextStyle(
+                      color: AppColors.getTextSecondary(context),
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -1165,12 +1170,12 @@ class _TourismDetailSheet extends StatelessWidget {
             InkWell(
               onTap: onCopy,
               borderRadius: BorderRadius.circular(4),
-              child: const Padding(
-                padding: EdgeInsets.all(3),
+              child: Padding(
+                padding: const EdgeInsets.all(3),
                 child: Icon(
                   Icons.copy_rounded,
                   size: 13,
-                  color: AppColors.textSecondary,
+                  color: AppColors.getTextSecondary(context),
                 ),
               ),
             ),
@@ -1180,3 +1185,4 @@ class _TourismDetailSheet extends StatelessWidget {
     );
   }
 }
+

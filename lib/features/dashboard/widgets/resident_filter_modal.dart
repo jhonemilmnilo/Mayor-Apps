@@ -189,13 +189,15 @@ class _ResidentFilterModalState extends State<ResidentFilterModal> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = AppColors.isDark(context);
+
     return Container(
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.88,
       ),
-      decoration: const BoxDecoration(
-        color: AppColors.background,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      decoration: BoxDecoration(
+        color: AppColors.getSurface(context),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
         children: [
@@ -206,7 +208,7 @@ class _ResidentFilterModalState extends State<ResidentFilterModal> {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
+                color: isDark ? Colors.white.withValues(alpha: 0.2) : Colors.black12,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -238,12 +240,12 @@ class _ResidentFilterModalState extends State<ResidentFilterModal> {
                             fontSize: 12.5,
                             fontWeight: FontWeight.w900,
                             letterSpacing: 0.6,
-                            color: Colors.white,
+                            color: AppColors.getTextPrimary(context),
                           ),
                         ),
                         Text(
                           "Configure timeline, demographics, and sectors",
-                          style: GoogleFonts.inter(fontSize: 10, color: AppColors.textSecondary),
+                          style: GoogleFonts.inter(fontSize: 10, color: AppColors.getTextSecondary(context)),
                         ),
                       ],
                     ),
@@ -251,13 +253,13 @@ class _ResidentFilterModalState extends State<ResidentFilterModal> {
                 ),
                 IconButton(
                   onPressed: () => Navigator.pop(context),
-                  icon: const Icon(LucideIcons.x, size: 18, color: AppColors.textSecondary),
+                  icon: Icon(LucideIcons.x, size: 18, color: AppColors.getTextSecondary(context)),
                 ),
               ],
             ),
           ),
 
-          const Divider(color: AppColors.border, height: 1),
+          Divider(color: AppColors.getBorder(context), height: 1),
 
           Expanded(
             child: SingleChildScrollView(
@@ -278,15 +280,15 @@ class _ResidentFilterModalState extends State<ResidentFilterModal> {
                   const SizedBox(height: 8),
                   Row(
                     children: [
-                      _presetChip("All Time", 'ALL'),
+                      _presetChip(context, "All Time", 'ALL'),
                       const SizedBox(width: 5),
-                      _presetChip("Today", 'TODAY'),
+                      _presetChip(context, "Today", 'TODAY'),
                       const SizedBox(width: 5),
-                      _presetChip("7D", '7D'),
+                      _presetChip(context, "7D", '7D'),
                       const SizedBox(width: 5),
-                      _presetChip("30D", '30D'),
+                      _presetChip(context, "30D", '30D'),
                       const SizedBox(width: 5),
-                      _presetChip("Month", 'MONTH'),
+                      _presetChip(context, "Month", 'MONTH'),
                     ],
                   ),
 
@@ -299,7 +301,7 @@ class _ResidentFilterModalState extends State<ResidentFilterModal> {
                       fontSize: 10,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 0.8,
-                      color: AppColors.textSecondary,
+                      color: AppColors.getTextSecondary(context),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -312,18 +314,18 @@ class _ResidentFilterModalState extends State<ResidentFilterModal> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF151B2B),
+                              color: isDark ? const Color(0xFF151B2B) : const Color(0xFFF1F5F9),
                               borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: AppColors.border),
+                              border: Border.all(color: AppColors.getBorder(context)),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("FROM", style: GoogleFonts.inter(fontSize: 8.5, color: AppColors.textSecondary, fontWeight: FontWeight.bold)),
+                                Text("FROM", style: GoogleFonts.inter(fontSize: 8.5, color: AppColors.getTextSecondary(context), fontWeight: FontWeight.bold)),
                                 const SizedBox(height: 2),
                                 Text(
                                   _preset == 'ALL' ? "All Time" : _dateFormat.format(_startDate),
-                                  style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w800, color: Colors.white),
+                                  style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w800, color: AppColors.getTextPrimary(context)),
                                 ),
                               ],
                             ),
@@ -338,18 +340,18 @@ class _ResidentFilterModalState extends State<ResidentFilterModal> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF151B2B),
+                              color: isDark ? const Color(0xFF151B2B) : const Color(0xFFF1F5F9),
                               borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: AppColors.border),
+                              border: Border.all(color: AppColors.getBorder(context)),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("TO", style: GoogleFonts.inter(fontSize: 8.5, color: AppColors.textSecondary, fontWeight: FontWeight.bold)),
+                                Text("TO", style: GoogleFonts.inter(fontSize: 8.5, color: AppColors.getTextSecondary(context), fontWeight: FontWeight.bold)),
                                 const SizedBox(height: 2),
                                 Text(
                                   _preset == 'ALL' ? "Present" : _dateFormat.format(_endDate),
-                                  style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w800, color: Colors.white),
+                                  style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w800, color: AppColors.getTextPrimary(context)),
                                 ),
                               ],
                             ),
@@ -368,7 +370,7 @@ class _ResidentFilterModalState extends State<ResidentFilterModal> {
                       fontSize: 10,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 0.8,
-                      color: AppColors.textSecondary,
+                      color: AppColors.getTextSecondary(context),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -383,10 +385,12 @@ class _ResidentFilterModalState extends State<ResidentFilterModal> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
                           decoration: BoxDecoration(
-                            color: isSel ? const Color(0xFF3B82F6).withValues(alpha: 0.2) : const Color(0xFF1E2330),
+                            color: isSel
+                                ? const Color(0xFF3B82F6).withValues(alpha: 0.2)
+                                : (isDark ? const Color(0xFF1E2330) : const Color(0xFFF1F5F9)),
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
-                              color: isSel ? const Color(0xFF3B82F6) : const Color(0xFF2A3040),
+                              color: isSel ? const Color(0xFF3B82F6) : AppColors.getBorder(context),
                               width: isSel ? 1.5 : 1,
                             ),
                           ),
@@ -395,7 +399,7 @@ class _ResidentFilterModalState extends State<ResidentFilterModal> {
                             style: GoogleFonts.inter(
                               fontSize: 11,
                               fontWeight: FontWeight.w800,
-                              color: isSel ? const Color(0xFF60A5FA) : AppColors.textSecondary,
+                              color: isSel ? const Color(0xFF2563EB) : AppColors.getTextSecondary(context),
                             ),
                           ),
                         ),
@@ -412,7 +416,7 @@ class _ResidentFilterModalState extends State<ResidentFilterModal> {
                       fontSize: 10,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 0.8,
-                      color: AppColors.textSecondary,
+                      color: AppColors.getTextSecondary(context),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -427,10 +431,12 @@ class _ResidentFilterModalState extends State<ResidentFilterModal> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
                           decoration: BoxDecoration(
-                            color: isSel ? const Color(0xFF3B82F6).withValues(alpha: 0.2) : const Color(0xFF1E2330),
+                            color: isSel
+                                ? const Color(0xFF3B82F6).withValues(alpha: 0.2)
+                                : (isDark ? const Color(0xFF1E2330) : const Color(0xFFF1F5F9)),
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
-                              color: isSel ? const Color(0xFF3B82F6) : const Color(0xFF2A3040),
+                              color: isSel ? const Color(0xFF3B82F6) : AppColors.getBorder(context),
                               width: isSel ? 1.5 : 1,
                             ),
                           ),
@@ -439,7 +445,7 @@ class _ResidentFilterModalState extends State<ResidentFilterModal> {
                             style: GoogleFonts.inter(
                               fontSize: 11,
                               fontWeight: FontWeight.w800,
-                              color: isSel ? const Color(0xFF60A5FA) : AppColors.textSecondary,
+                              color: isSel ? const Color(0xFF2563EB) : AppColors.getTextSecondary(context),
                             ),
                           ),
                         ),
@@ -456,7 +462,7 @@ class _ResidentFilterModalState extends State<ResidentFilterModal> {
                       fontSize: 10,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 0.8,
-                      color: AppColors.textSecondary,
+                      color: AppColors.getTextSecondary(context),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -472,10 +478,12 @@ class _ResidentFilterModalState extends State<ResidentFilterModal> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
                           decoration: BoxDecoration(
-                            color: isSel ? color.withValues(alpha: 0.2) : const Color(0xFF1E2330),
+                            color: isSel
+                                ? color.withValues(alpha: 0.2)
+                                : (isDark ? const Color(0xFF1E2330) : const Color(0xFFF1F5F9)),
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
-                              color: isSel ? color : const Color(0xFF2A3040),
+                              color: isSel ? color : AppColors.getBorder(context),
                               width: isSel ? 1.5 : 1,
                             ),
                           ),
@@ -484,7 +492,7 @@ class _ResidentFilterModalState extends State<ResidentFilterModal> {
                             style: GoogleFonts.inter(
                               fontSize: 11,
                               fontWeight: FontWeight.w800,
-                              color: isSel ? color : AppColors.textSecondary,
+                              color: isSel ? color : AppColors.getTextSecondary(context),
                             ),
                           ),
                         ),
@@ -512,7 +520,7 @@ class _ResidentFilterModalState extends State<ResidentFilterModal> {
                             });
                           },
                           style: OutlinedButton.styleFrom(
-                            side: const BorderSide(color: Color(0xFF2A3040)),
+                            side: BorderSide(color: AppColors.getBorder(context)),
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                             padding: const EdgeInsets.symmetric(vertical: 14),
                           ),
@@ -522,7 +530,7 @@ class _ResidentFilterModalState extends State<ResidentFilterModal> {
                               fontSize: 11,
                               fontWeight: FontWeight.w800,
                               letterSpacing: 0.8,
-                              color: AppColors.textSecondary,
+                              color: AppColors.getTextSecondary(context),
                             ),
                           ),
                         ),
@@ -571,8 +579,9 @@ class _ResidentFilterModalState extends State<ResidentFilterModal> {
     );
   }
 
-  Widget _presetChip(String label, String code) {
+  Widget _presetChip(BuildContext context, String label, String code) {
     final isSel = _preset == code;
+    final isDark = AppColors.isDark(context);
     return Expanded(
       child: InkWell(
         onTap: () => _applyPreset(code),
@@ -580,10 +589,12 @@ class _ResidentFilterModalState extends State<ResidentFilterModal> {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 7),
           decoration: BoxDecoration(
-            color: isSel ? const Color(0xFF3B82F6).withValues(alpha: 0.2) : const Color(0xFF1E2330),
+            color: isSel
+                ? const Color(0xFF3B82F6).withValues(alpha: 0.2)
+                : (isDark ? const Color(0xFF1E2330) : const Color(0xFFF1F5F9)),
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
-              color: isSel ? const Color(0xFF3B82F6) : const Color(0xFF2A3040),
+              color: isSel ? const Color(0xFF3B82F6) : AppColors.getBorder(context),
             ),
           ),
           alignment: Alignment.center,
@@ -592,7 +603,7 @@ class _ResidentFilterModalState extends State<ResidentFilterModal> {
             style: GoogleFonts.inter(
               fontSize: 9.5,
               fontWeight: FontWeight.w800,
-              color: isSel ? const Color(0xFF60A5FA) : AppColors.textSecondary,
+              color: isSel ? const Color(0xFF2563EB) : AppColors.getTextSecondary(context),
             ),
           ),
         ),

@@ -114,16 +114,24 @@ class _ComplianceFilterModalState extends State<ComplianceFilterModal> {
       lastDate: DateTime.now().add(const Duration(days: 365)),
       initialDateRange: DateTimeRange(start: _startDate, end: _endDate),
       builder: (context, child) {
+        final isDark = AppColors.isDark(context);
         return Theme(
-          data: ThemeData.dark().copyWith(
-            colorScheme: const ColorScheme.dark(
-              primary: _accentTeal,
-              onPrimary: Colors.white,
-              surface: AppColors.surfaceElevated,
-              onSurface: Colors.white,
-            ),
-            dialogTheme: const DialogThemeData(
-              backgroundColor: AppColors.surface,
+          data: (isDark ? ThemeData.dark() : ThemeData.light()).copyWith(
+            colorScheme: isDark
+                ? const ColorScheme.dark(
+                    primary: _accentTeal,
+                    onPrimary: Colors.white,
+                    surface: AppColors.surfaceElevated,
+                    onSurface: Colors.white,
+                  )
+                : ColorScheme.light(
+                    primary: _accentTeal,
+                    onPrimary: Colors.white,
+                    surface: Colors.white,
+                    onSurface: AppColors.lightTextPrimary,
+                  ),
+            dialogTheme: DialogThemeData(
+              backgroundColor: isDark ? AppColors.surface : Colors.white,
             ),
           ),
           child: child!,

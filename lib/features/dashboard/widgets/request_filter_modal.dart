@@ -168,11 +168,13 @@ class _RequestFilterModalState extends State<RequestFilterModal> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = AppColors.isDark(context);
+
     return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFF151B2B),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
-        border: Border(top: BorderSide(color: Color(0xFF2A3040), width: 1.5)),
+      decoration: BoxDecoration(
+        color: AppColors.getSurface(context),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+        border: Border(top: BorderSide(color: AppColors.getBorder(context), width: 1.5)),
       ),
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 28),
       child: Column(
@@ -185,7 +187,7 @@ class _RequestFilterModalState extends State<RequestFilterModal> {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.white24,
+                color: isDark ? Colors.white24 : Colors.black12,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -212,14 +214,14 @@ class _RequestFilterModalState extends State<RequestFilterModal> {
                     style: GoogleFonts.inter(
                       fontSize: 16,
                       fontWeight: FontWeight.w900,
-                      color: Colors.white,
+                      color: AppColors.getTextPrimary(context),
                     ),
                   ),
                 ],
               ),
               IconButton(
                 onPressed: () => Navigator.pop(context),
-                icon: const Icon(LucideIcons.x, size: 20, color: AppColors.textSecondary),
+                icon: Icon(LucideIcons.x, size: 20, color: AppColors.getTextSecondary(context)),
               ),
             ],
           ),
@@ -233,7 +235,7 @@ class _RequestFilterModalState extends State<RequestFilterModal> {
               fontSize: 10,
               fontWeight: FontWeight.w800,
               letterSpacing: 0.8,
-              color: AppColors.textSecondary,
+              color: AppColors.getTextSecondary(context),
             ),
           ),
           const SizedBox(height: 8),
@@ -258,7 +260,7 @@ class _RequestFilterModalState extends State<RequestFilterModal> {
               fontSize: 10,
               fontWeight: FontWeight.w800,
               letterSpacing: 0.8,
-              color: AppColors.textSecondary,
+              color: AppColors.getTextSecondary(context),
             ),
           ),
           const SizedBox(height: 8),
@@ -271,9 +273,9 @@ class _RequestFilterModalState extends State<RequestFilterModal> {
                   onTap: () => _pickDate(isStart: true),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Icon(LucideIcons.arrowRight, size: 14, color: AppColors.textSecondary),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Icon(LucideIcons.arrowRight, size: 14, color: AppColors.getTextSecondary(context)),
               ),
               Expanded(
                 child: _dateBox(
@@ -294,7 +296,7 @@ class _RequestFilterModalState extends State<RequestFilterModal> {
               fontSize: 10,
               fontWeight: FontWeight.w800,
               letterSpacing: 0.8,
-              color: AppColors.textSecondary,
+              color: AppColors.getTextSecondary(context),
             ),
           ),
           const SizedBox(height: 8),
@@ -310,10 +312,12 @@ class _RequestFilterModalState extends State<RequestFilterModal> {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
                   decoration: BoxDecoration(
-                    color: isSel ? color.withValues(alpha: 0.2) : const Color(0xFF1E2330),
+                    color: isSel
+                        ? color.withValues(alpha: 0.2)
+                        : (isDark ? const Color(0xFF1E2330) : const Color(0xFFF1F5F9)),
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                      color: isSel ? color : const Color(0xFF2A3040),
+                      color: isSel ? color : AppColors.getBorder(context),
                       width: isSel ? 1.5 : 1,
                     ),
                   ),
@@ -322,7 +326,7 @@ class _RequestFilterModalState extends State<RequestFilterModal> {
                     style: GoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.w800,
-                      color: isSel ? color : AppColors.textSecondary,
+                      color: isSel ? color : AppColors.getTextSecondary(context),
                     ),
                   ),
                 ),
@@ -349,7 +353,7 @@ class _RequestFilterModalState extends State<RequestFilterModal> {
                     });
                   },
                   style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: Color(0xFF2A3040)),
+                    side: BorderSide(color: AppColors.getBorder(context)),
                     shape: RoundedRectangle308(BorderRadius.circular(12)),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
@@ -359,7 +363,7 @@ class _RequestFilterModalState extends State<RequestFilterModal> {
                       fontSize: 11,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 0.8,
-                      color: AppColors.textSecondary,
+                      color: AppColors.getTextSecondary(context),
                     ),
                   ),
                 ),
@@ -404,6 +408,7 @@ class _RequestFilterModalState extends State<RequestFilterModal> {
   }
 
   Widget _presetChip(String label, String code) {
+    final isDark = AppColors.isDark(context);
     final isSel = _preset == code;
     return Expanded(
       child: InkWell(
@@ -412,10 +417,12 @@ class _RequestFilterModalState extends State<RequestFilterModal> {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 7),
           decoration: BoxDecoration(
-            color: isSel ? const Color(0xFF8B5CF6).withValues(alpha: 0.2) : const Color(0xFF1E2330),
+            color: isSel
+                ? const Color(0xFF8B5CF6).withValues(alpha: 0.2)
+                : (isDark ? const Color(0xFF1E2330) : const Color(0xFFF1F5F9)),
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
-              color: isSel ? const Color(0xFF8B5CF6) : const Color(0xFF2A3040),
+              color: isSel ? const Color(0xFF8B5CF6) : AppColors.getBorder(context),
             ),
           ),
           alignment: Alignment.center,
@@ -424,7 +431,7 @@ class _RequestFilterModalState extends State<RequestFilterModal> {
             style: GoogleFonts.inter(
               fontSize: 10,
               fontWeight: FontWeight.w800,
-              color: isSel ? const Color(0xFF8B5CF6) : AppColors.textSecondary,
+              color: isSel ? const Color(0xFF8B5CF6) : AppColors.getTextSecondary(context),
             ),
           ),
         ),
@@ -433,15 +440,16 @@ class _RequestFilterModalState extends State<RequestFilterModal> {
   }
 
   Widget _dateBox({required String label, required String date, required VoidCallback onTap}) {
+    final isDark = AppColors.isDark(context);
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(10),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         decoration: BoxDecoration(
-          color: const Color(0xFF1E2330),
+          color: isDark ? const Color(0xFF1E2330) : const Color(0xFFF8FAFC),
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: const Color(0xFF2A3040)),
+          border: Border.all(color: AppColors.getBorder(context)),
         ),
         child: Row(
           children: [
@@ -452,11 +460,11 @@ class _RequestFilterModalState extends State<RequestFilterModal> {
               children: [
                 Text(
                   label,
-                  style: GoogleFonts.inter(fontSize: 8.5, color: AppColors.textSecondary, fontWeight: FontWeight.w600),
+                  style: GoogleFonts.inter(fontSize: 8.5, color: AppColors.getTextSecondary(context), fontWeight: FontWeight.w600),
                 ),
                 Text(
                   date,
-                  style: GoogleFonts.inter(fontSize: 11, color: Colors.white, fontWeight: FontWeight.w800),
+                  style: GoogleFonts.inter(fontSize: 11, color: AppColors.getTextPrimary(context), fontWeight: FontWeight.w800),
                 ),
               ],
             ),

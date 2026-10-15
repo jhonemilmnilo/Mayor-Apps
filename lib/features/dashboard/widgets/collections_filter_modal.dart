@@ -110,6 +110,7 @@ class _CollectionsFilterModalState extends State<CollectionsFilterModal> {
   }
 
   Future<void> _pickDateRange() async {
+    final isDark = AppColors.isDark(context);
     final picked = await showDateRangePicker(
       context: context,
       firstDate: DateTime(2024),
@@ -117,17 +118,29 @@ class _CollectionsFilterModalState extends State<CollectionsFilterModal> {
       initialDateRange: DateTimeRange(start: _startDate, end: _endDate),
       builder: (context, child) {
         return Theme(
-          data: ThemeData.dark().copyWith(
-            colorScheme: const ColorScheme.dark(
-              primary: Color(0xFF10B981),
-              onPrimary: Colors.white,
-              surface: AppColors.surfaceElevated,
-              onSurface: Colors.white,
-            ),
-            dialogTheme: const DialogThemeData(
-              backgroundColor: AppColors.surface,
-            ),
-          ),
+          data: isDark
+              ? ThemeData.dark().copyWith(
+                  colorScheme: const ColorScheme.dark(
+                    primary: Color(0xFF10B981),
+                    onPrimary: Colors.white,
+                    surface: AppColors.surfaceElevated,
+                    onSurface: Colors.white,
+                  ),
+                  dialogTheme: const DialogThemeData(
+                    backgroundColor: AppColors.surface,
+                  ),
+                )
+              : ThemeData.light().copyWith(
+                  colorScheme: const ColorScheme.light(
+                    primary: Color(0xFF10B981),
+                    onPrimary: Colors.white,
+                    surface: Colors.white,
+                    onSurface: AppColors.lightTextPrimary,
+                  ),
+                  dialogTheme: const DialogThemeData(
+                    backgroundColor: Colors.white,
+                  ),
+                ),
           child: child!,
         );
       },
@@ -144,13 +157,15 @@ class _CollectionsFilterModalState extends State<CollectionsFilterModal> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = AppColors.isDark(context);
+
     return Container(
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.85,
       ),
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      decoration: BoxDecoration(
+        color: AppColors.getSurface(context),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -162,7 +177,7 @@ class _CollectionsFilterModalState extends State<CollectionsFilterModal> {
               width: 38,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
+                color: isDark ? Colors.white.withValues(alpha: 0.2) : Colors.black12,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -194,12 +209,12 @@ class _CollectionsFilterModalState extends State<CollectionsFilterModal> {
                             fontSize: 12.5,
                             fontWeight: FontWeight.w900,
                             letterSpacing: 0.8,
-                            color: Colors.white,
+                            color: AppColors.getTextPrimary(context),
                           ),
                         ),
                         Text(
                           "Configure start date, end date, and payment channel",
-                          style: GoogleFonts.inter(fontSize: 10, color: AppColors.textSecondary),
+                          style: GoogleFonts.inter(fontSize: 10, color: AppColors.getTextSecondary(context)),
                         ),
                       ],
                     ),
@@ -207,14 +222,14 @@ class _CollectionsFilterModalState extends State<CollectionsFilterModal> {
                 ),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(LucideIcons.x, size: 18, color: AppColors.textSecondary),
+                  icon: Icon(LucideIcons.x, size: 18, color: AppColors.getTextSecondary(context)),
                   visualDensity: VisualDensity.compact,
                 ),
               ],
             ),
           ),
 
-          const Divider(color: AppColors.border, height: 1),
+          Divider(color: AppColors.getBorder(context), height: 1),
 
           Flexible(
             child: SingleChildScrollView(
@@ -253,7 +268,7 @@ class _CollectionsFilterModalState extends State<CollectionsFilterModal> {
                       fontSize: 9.5,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 0.8,
-                      color: AppColors.textSecondary,
+                      color: AppColors.getTextSecondary(context),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -264,9 +279,9 @@ class _CollectionsFilterModalState extends State<CollectionsFilterModal> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                       decoration: BoxDecoration(
-                        color: AppColors.surfaceElevated,
+                        color: isDark ? AppColors.surfaceElevated : const Color(0xFFF8FAFC),
                         borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: AppColors.border),
+                        border: Border.all(color: AppColors.getBorder(context)),
                       ),
                       child: Row(
                         children: [
@@ -275,7 +290,7 @@ class _CollectionsFilterModalState extends State<CollectionsFilterModal> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  children: [
+                                 children: [
                                     const Icon(LucideIcons.calendar, size: 12, color: Color(0xFF10B981)),
                                     const SizedBox(width: 5),
                                     Text(
@@ -283,7 +298,7 @@ class _CollectionsFilterModalState extends State<CollectionsFilterModal> {
                                       style: GoogleFonts.inter(
                                         fontSize: 8.5,
                                         fontWeight: FontWeight.w800,
-                                        color: AppColors.textSecondary,
+                                        color: AppColors.getTextSecondary(context),
                                       ),
                                     ),
                                   ],
@@ -294,7 +309,7 @@ class _CollectionsFilterModalState extends State<CollectionsFilterModal> {
                                   style: GoogleFonts.inter(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w800,
-                                    color: Colors.white,
+                                    color: AppColors.getTextPrimary(context),
                                   ),
                                 ),
                               ],
@@ -302,7 +317,7 @@ class _CollectionsFilterModalState extends State<CollectionsFilterModal> {
                           ),
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: const Icon(LucideIcons.arrowRight, size: 14, color: AppColors.textSecondary),
+                            child: Icon(LucideIcons.arrowRight, size: 14, color: AppColors.getTextSecondary(context)),
                           ),
                           Expanded(
                             child: Column(
@@ -317,7 +332,7 @@ class _CollectionsFilterModalState extends State<CollectionsFilterModal> {
                                       style: GoogleFonts.inter(
                                         fontSize: 8.5,
                                         fontWeight: FontWeight.w800,
-                                        color: AppColors.textSecondary,
+                                        color: AppColors.getTextSecondary(context),
                                       ),
                                     ),
                                   ],
@@ -328,7 +343,7 @@ class _CollectionsFilterModalState extends State<CollectionsFilterModal> {
                                   style: GoogleFonts.inter(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w800,
-                                    color: Colors.white,
+                                    color: AppColors.getTextPrimary(context),
                                   ),
                                 ),
                               ],
@@ -348,7 +363,7 @@ class _CollectionsFilterModalState extends State<CollectionsFilterModal> {
                       fontSize: 9.5,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 0.8,
-                      color: AppColors.textSecondary,
+                      color: AppColors.getTextSecondary(context),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -377,7 +392,7 @@ class _CollectionsFilterModalState extends State<CollectionsFilterModal> {
                             });
                           },
                           style: OutlinedButton.styleFrom(
-                            side: const BorderSide(color: AppColors.border),
+                            side: BorderSide(color: AppColors.getBorder(context)),
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                             padding: const EdgeInsets.symmetric(vertical: 12),
                           ),
@@ -386,7 +401,7 @@ class _CollectionsFilterModalState extends State<CollectionsFilterModal> {
                             style: GoogleFonts.inter(
                               fontSize: 11.5,
                               fontWeight: FontWeight.w700,
-                              color: AppColors.textSecondary,
+                              color: AppColors.getTextSecondary(context),
                             ),
                           ),
                         ),
@@ -443,6 +458,7 @@ class _CollectionsFilterModalState extends State<CollectionsFilterModal> {
 
   Widget _buildPresetChip(String key, String label) {
     final isSelected = _preset == key;
+    final isDark = AppColors.isDark(context);
     return InkWell(
       onTap: () => _applyPreset(key),
       borderRadius: BorderRadius.circular(10),
@@ -450,10 +466,12 @@ class _CollectionsFilterModalState extends State<CollectionsFilterModal> {
         duration: const Duration(milliseconds: 180),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFF10B981).withValues(alpha: 0.16) : AppColors.surfaceElevated,
+          color: isSelected
+              ? const Color(0xFF10B981).withValues(alpha: 0.16)
+              : (isDark ? AppColors.surfaceElevated.withValues(alpha: 0.5) : const Color(0xFFF1F5F9)),
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: isSelected ? const Color(0xFF10B981) : AppColors.border,
+            color: isSelected ? const Color(0xFF10B981) : AppColors.getBorder(context),
             width: isSelected ? 1.2 : 1,
           ),
         ),
@@ -462,7 +480,7 @@ class _CollectionsFilterModalState extends State<CollectionsFilterModal> {
           style: GoogleFonts.inter(
             fontSize: 11,
             fontWeight: FontWeight.w800,
-            color: isSelected ? const Color(0xFF10B981) : AppColors.textSecondary,
+            color: isSelected ? const Color(0xFF10B981) : AppColors.getTextSecondary(context),
           ),
         ),
       ),
@@ -471,6 +489,7 @@ class _CollectionsFilterModalState extends State<CollectionsFilterModal> {
 
   Widget _buildMethodPill(String key, String label, IconData icon) {
     final isSelected = _paymentMethod == key;
+    final isDark = AppColors.isDark(context);
     return InkWell(
       onTap: () => setState(() => _paymentMethod = key),
       borderRadius: BorderRadius.circular(10),
@@ -478,10 +497,12 @@ class _CollectionsFilterModalState extends State<CollectionsFilterModal> {
         duration: const Duration(milliseconds: 180),
         padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 6),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFF10B981).withValues(alpha: 0.16) : AppColors.surfaceElevated,
+          color: isSelected
+              ? const Color(0xFF10B981).withValues(alpha: 0.16)
+              : (isDark ? AppColors.surfaceElevated.withValues(alpha: 0.5) : const Color(0xFFF1F5F9)),
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: isSelected ? const Color(0xFF10B981) : AppColors.border,
+            color: isSelected ? const Color(0xFF10B981) : AppColors.getBorder(context),
             width: isSelected ? 1.2 : 1,
           ),
         ),
@@ -490,7 +511,7 @@ class _CollectionsFilterModalState extends State<CollectionsFilterModal> {
             Icon(
               icon,
               size: 14,
-              color: isSelected ? const Color(0xFF10B981) : AppColors.textSecondary,
+              color: isSelected ? const Color(0xFF10B981) : AppColors.getTextSecondary(context),
             ),
             const SizedBox(height: 4),
             Text(
@@ -498,7 +519,7 @@ class _CollectionsFilterModalState extends State<CollectionsFilterModal> {
               style: GoogleFonts.inter(
                 fontSize: 9.5,
                 fontWeight: FontWeight.w800,
-                color: isSelected ? Colors.white : AppColors.textSecondary,
+                color: isSelected ? const Color(0xFF10B981) : AppColors.getTextSecondary(context),
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,

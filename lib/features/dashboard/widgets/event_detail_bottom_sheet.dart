@@ -97,16 +97,17 @@ class EventDetailBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final hasImage = event.imageUrl != null && event.imageUrl!.trim().isNotEmpty;
+    final isDark = AppColors.isDark(context);
 
     return Container(
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.92,
       ),
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      decoration: BoxDecoration(
+        color: AppColors.getSurface(context),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
         border: Border(
-          top: BorderSide(color: AppColors.border, width: 1.5),
+          top: BorderSide(color: AppColors.getBorder(context), width: 1.5),
         ),
       ),
       child: Column(
@@ -119,7 +120,7 @@ class EventDetailBottomSheet extends StatelessWidget {
               width: 38,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.white24,
+                color: isDark ? Colors.white24 : Colors.black12,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -294,7 +295,7 @@ class EventDetailBottomSheet extends StatelessWidget {
                   style: GoogleFonts.inter(
                     fontSize: 17,
                     fontWeight: FontWeight.w900,
-                    color: Colors.white,
+                    color: AppColors.getTextPrimary(context),
                     letterSpacing: -0.3,
                     height: 1.3,
                   ),
@@ -308,7 +309,7 @@ class EventDetailBottomSheet extends StatelessWidget {
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
                     fontStyle: FontStyle.italic,
-                    color: AppColors.textSecondary,
+                    color: AppColors.getTextSecondary(context),
                   ),
                 ),
 
@@ -318,9 +319,9 @@ class EventDetailBottomSheet extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
-                    color: AppColors.surfaceElevated.withValues(alpha: 0.6),
+                    color: isDark ? AppColors.surfaceElevated.withValues(alpha: 0.6) : const Color(0xFFF8FAFC),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: AppColors.border),
+                    border: Border.all(color: AppColors.getBorder(context)),
                   ),
                   child: Column(
                     children: [
@@ -347,7 +348,7 @@ class EventDetailBottomSheet extends StatelessWidget {
                                     fontSize: 9,
                                     fontWeight: FontWeight.w900,
                                     letterSpacing: 0.8,
-                                    color: AppColors.textSecondary,
+                                    color: AppColors.getTextSecondary(context),
                                   ),
                                 ),
                                 const SizedBox(height: 2),
@@ -356,7 +357,7 @@ class EventDetailBottomSheet extends StatelessWidget {
                                   style: GoogleFonts.inter(
                                     fontSize: 12.5,
                                     fontWeight: FontWeight.w700,
-                                    color: Colors.white,
+                                    color: AppColors.getTextPrimary(context),
                                   ),
                                 ),
                               ],
@@ -365,9 +366,9 @@ class EventDetailBottomSheet extends StatelessWidget {
                         ],
                       ),
 
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        child: Divider(color: AppColors.border, height: 1),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Divider(color: AppColors.getBorder(context), height: 1),
                       ),
 
                       // Venue & Address
@@ -393,7 +394,7 @@ class EventDetailBottomSheet extends StatelessWidget {
                                     fontSize: 9,
                                     fontWeight: FontWeight.w900,
                                     letterSpacing: 0.8,
-                                    color: AppColors.textSecondary,
+                                    color: AppColors.getTextSecondary(context),
                                   ),
                                 ),
                                 const SizedBox(height: 2),
@@ -402,7 +403,7 @@ class EventDetailBottomSheet extends StatelessWidget {
                                   style: GoogleFonts.inter(
                                     fontSize: 12.5,
                                     fontWeight: FontWeight.w700,
-                                    color: Colors.white,
+                                    color: AppColors.getTextPrimary(context),
                                   ),
                                 ),
                                 const SizedBox(height: 1),
@@ -410,7 +411,7 @@ class EventDetailBottomSheet extends StatelessWidget {
                                   event.address,
                                   style: GoogleFonts.inter(
                                     fontSize: 11,
-                                    color: AppColors.textSecondary,
+                                    color: AppColors.getTextSecondary(context),
                                   ),
                                 ),
                               ],
@@ -421,9 +422,9 @@ class EventDetailBottomSheet extends StatelessWidget {
 
                       // Contact Phone if present
                       if (event.contactNumber != null && event.contactNumber!.trim().isNotEmpty) ...[
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          child: Divider(color: AppColors.border, height: 1),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Divider(color: AppColors.getBorder(context), height: 1),
                         ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -447,7 +448,7 @@ class EventDetailBottomSheet extends StatelessWidget {
                                       fontSize: 9,
                                       fontWeight: FontWeight.w900,
                                       letterSpacing: 0.8,
-                                      color: AppColors.textSecondary,
+                                      color: AppColors.getTextSecondary(context),
                                     ),
                                   ),
                                   const SizedBox(height: 2),
@@ -456,7 +457,7 @@ class EventDetailBottomSheet extends StatelessWidget {
                                     style: GoogleFonts.inter(
                                       fontSize: 12.5,
                                       fontWeight: FontWeight.w700,
-                                      color: Colors.white,
+                                      color: AppColors.getTextPrimary(context),
                                     ),
                                   ),
                                 ],
@@ -479,22 +480,22 @@ class EventDetailBottomSheet extends StatelessWidget {
                       fontSize: 10,
                       fontWeight: FontWeight.w900,
                       letterSpacing: 1.0,
-                      color: AppColors.textSecondary,
+                      color: AppColors.getTextSecondary(context),
                     ),
                   ),
                   const SizedBox(height: 6),
                   Container(
                     padding: const EdgeInsets.all(14),
                     decoration: BoxDecoration(
-                      color: AppColors.surface,
+                      color: isDark ? AppColors.surface : const Color(0xFFF8FAFC),
                       borderRadius: BorderRadius.circular(14),
-                      border: Border.all(color: AppColors.border),
+                      border: Border.all(color: AppColors.getBorder(context)),
                     ),
                     child: Text(
                       event.description,
                       style: GoogleFonts.inter(
                         fontSize: 12.5,
-                        color: Colors.white.withValues(alpha: 0.9),
+                        color: AppColors.getTextPrimary(context).withValues(alpha: 0.9),
                         height: 1.5,
                       ),
                     ),
@@ -517,7 +518,7 @@ class EventDetailBottomSheet extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(14),
                     decoration: BoxDecoration(
-                      color: AppColors.accentAmber.withValues(alpha: 0.08),
+                      color: AppColors.accentAmber.withValues(alpha: isDark ? 0.08 : 0.05),
                       borderRadius: BorderRadius.circular(14),
                       border: Border.all(color: AppColors.accentAmber.withValues(alpha: 0.25)),
                     ),
@@ -538,7 +539,7 @@ class EventDetailBottomSheet extends StatelessWidget {
                                   reminder,
                                   style: GoogleFonts.inter(
                                     fontSize: 11.5,
-                                    color: Colors.white.withValues(alpha: 0.95),
+                                    color: AppColors.getTextPrimary(context).withValues(alpha: 0.95),
                                     height: 1.35,
                                   ),
                                 ),

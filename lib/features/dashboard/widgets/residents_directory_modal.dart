@@ -264,9 +264,9 @@ class _ResidentsDirectoryModalState
       backgroundColor: Colors.transparent,
       builder: (ctx) => Container(
         padding: const EdgeInsets.fromLTRB(20, 16, 20, 32),
-        decoration: const BoxDecoration(
-          color: AppColors.background,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        decoration: BoxDecoration(
+          color: AppColors.getBackground(context),
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -303,7 +303,7 @@ class _ResidentsDirectoryModalState
                         style: GoogleFonts.inter(
                           fontSize: 16,
                           fontWeight: FontWeight.w900,
-                          color: Colors.white,
+                          color: AppColors.getTextPrimary(context),
                         ),
                       ),
                       Text(
@@ -320,7 +320,7 @@ class _ResidentsDirectoryModalState
               ],
             ),
             const SizedBox(height: 16),
-            const Divider(color: AppColors.border, height: 1),
+            Divider(color: AppColors.getBorder(context), height: 1),
             const SizedBox(height: 16),
 
             // Sector badges
@@ -357,7 +357,7 @@ class _ResidentsDirectoryModalState
               child: ElevatedButton(
                 onPressed: () => Navigator.pop(ctx),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.surfaceElevated,
+                  backgroundColor: AppColors.getSurfaceElevated(context),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   padding: const EdgeInsets.symmetric(vertical: 12),
                 ),
@@ -366,8 +366,7 @@ class _ResidentsDirectoryModalState
                   style: GoogleFonts.inter(
                     fontSize: 12,
                     fontWeight: FontWeight.w800,
-                    color: Colors.white,
-                  ),
+                    color: AppColors.getTextPrimary(context),                  ),
                 ),
               ),
             ),
@@ -402,14 +401,14 @@ class _ResidentsDirectoryModalState
       padding: const EdgeInsets.only(bottom: 10),
       child: Row(
         children: [
-          Icon(icon, size: 14, color: AppColors.textSecondary),
+          Icon(icon, size: 14, color: AppColors.getTextSecondary(context)),
           const SizedBox(width: 10),
           Text(
             "$label: ",
             style: GoogleFonts.inter(
               fontSize: 11.5,
               fontWeight: FontWeight.w600,
-              color: AppColors.textSecondary,
+              color: AppColors.getTextSecondary(context),
             ),
           ),
           Expanded(
@@ -418,8 +417,7 @@ class _ResidentsDirectoryModalState
               style: GoogleFonts.inter(
                 fontSize: 12,
                 fontWeight: FontWeight.w800,
-                color: Colors.white,
-              ),
+                color: AppColors.getTextPrimary(context),              ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
@@ -435,9 +433,9 @@ class _ResidentsDirectoryModalState
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.92,
       ),
-      decoration: const BoxDecoration(
-        color: AppColors.background,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(26)),
+      decoration: BoxDecoration(
+        color: AppColors.getBackground(context),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(26)),
       ),
       child: Column(
         children: [
@@ -509,8 +507,7 @@ class _ResidentsDirectoryModalState
                       fontSize: 12.5,
                       fontWeight: FontWeight.w900,
                       letterSpacing: 0.5,
-                      color: Colors.white,
-                    ),
+                      color: AppColors.getTextPrimary(context),                    ),
                   ),
                   Text(
                     _isLoading
@@ -518,7 +515,7 @@ class _ResidentsDirectoryModalState
                         : "$_totalCount Verified Municipal Residents",
                     style: GoogleFonts.inter(
                       fontSize: 10.5,
-                      color: AppColors.textSecondary,
+                      color: AppColors.getTextSecondary(context),
                     ),
                   ),
                 ],
@@ -527,10 +524,10 @@ class _ResidentsDirectoryModalState
           ),
           IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: const Icon(
+            icon: Icon(
               LucideIcons.x,
               size: 20,
-              color: AppColors.textSecondary,
+              color: AppColors.getTextSecondary(context),
             ),
             splashRadius: 20,
           ),
@@ -555,8 +552,7 @@ class _ResidentsDirectoryModalState
             title: "TOTAL",
             value: "$total",
             icon: LucideIcons.layers,
-            color: Colors.white,
-          ),
+            color: AppColors.getTextPrimary(context),          ),
           const SizedBox(width: 8),
           _buildKpiCard(
             title: "SENIORS",
@@ -602,7 +598,7 @@ class _ResidentsDirectoryModalState
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: AppColors.getBorder(context)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -615,7 +611,7 @@ class _ResidentsDirectoryModalState
                 style: GoogleFonts.inter(
                   fontSize: 8.5,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.textSecondary,
+                  color: AppColors.getTextSecondary(context),
                   letterSpacing: 0.4,
                 ),
               ),
@@ -653,29 +649,29 @@ class _ResidentsDirectoryModalState
                   decoration: BoxDecoration(
                     color: AppColors.surface,
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: AppColors.border),
+                    border: Border.all(color: AppColors.getBorder(context)),
                   ),
                   child: TextField(
                     controller: _searchController,
                     onChanged: _onSearchChanged,
-                    style: GoogleFonts.inter(fontSize: 12, color: Colors.white),
+                    style: GoogleFonts.inter(fontSize: 12, color: AppColors.getTextPrimary(context)),
                     decoration: InputDecoration(
                       hintText: "Search resident name, barangay, or ID...",
                       hintStyle: GoogleFonts.inter(
                         fontSize: 11,
-                        color: AppColors.textSecondary.withValues(alpha: 0.7),
+                        color: AppColors.getTextSecondary(context).withValues(alpha: 0.7),
                       ),
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         LucideIcons.search,
                         size: 15,
-                        color: AppColors.textSecondary,
+                        color: AppColors.getTextSecondary(context),
                       ),
                       suffixIcon: _searchController.text.isNotEmpty
                           ? IconButton(
-                              icon: const Icon(
+                              icon: Icon(
                                 LucideIcons.x,
                                 size: 14,
-                                color: AppColors.textSecondary,
+                                color: AppColors.getTextSecondary(context),
                               ),
                               onPressed: () {
                                 _searchController.clear();
@@ -703,7 +699,7 @@ class _ResidentsDirectoryModalState
                     border: Border.all(
                       color: (_currentFilter.gender != 'ALL' || _currentFilter.civilStatus != 'ALL')
                           ? const Color(0xFF3B82F6)
-                          : AppColors.border,
+                          : AppColors.getBorder(context),
                     ),
                   ),
                   child: Row(
@@ -713,7 +709,7 @@ class _ResidentsDirectoryModalState
                         size: 14,
                         color: (_currentFilter.gender != 'ALL' || _currentFilter.civilStatus != 'ALL')
                             ? const Color(0xFF60A5FA)
-                            : AppColors.textSecondary,
+                            : AppColors.getTextSecondary(context),
                       ),
                       const SizedBox(width: 6),
                       Text(
@@ -723,7 +719,7 @@ class _ResidentsDirectoryModalState
                           fontWeight: FontWeight.w800,
                           color: (_currentFilter.gender != 'ALL' || _currentFilter.civilStatus != 'ALL')
                               ? const Color(0xFF60A5FA)
-                              : AppColors.textSecondary,
+                              : AppColors.getTextSecondary(context),
                         ),
                       ),
                     ],
@@ -773,7 +769,7 @@ class _ResidentsDirectoryModalState
           color: isSelected ? accentColor.withValues(alpha: 0.2) : AppColors.surface,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
-            color: isSelected ? accentColor : AppColors.border,
+            color: isSelected ? accentColor : AppColors.getBorder(context),
           ),
         ),
         child: Row(
@@ -783,7 +779,7 @@ class _ResidentsDirectoryModalState
               width: 6,
               height: 6,
               decoration: BoxDecoration(
-                color: isSelected ? accentColor : AppColors.textSecondary.withValues(alpha: 0.4),
+                color: isSelected ? accentColor : AppColors.getTextSecondary(context).withValues(alpha: 0.4),
                 shape: BoxShape.circle,
               ),
             ),
@@ -793,7 +789,7 @@ class _ResidentsDirectoryModalState
               style: GoogleFonts.inter(
                 fontSize: 10.5,
                 fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-                color: isSelected ? Colors.white : AppColors.textSecondary,
+                color: isSelected ? AppColors.getTextPrimary(context) : AppColors.getTextSecondary(context),
               ),
             ),
           ],
@@ -824,7 +820,7 @@ class _ResidentsDirectoryModalState
         decoration: BoxDecoration(
           color: Colors.white.withValues(alpha: 0.03),
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: AppColors.border.withValues(alpha: 0.5)),
+          border: Border.all(color: AppColors.getBorder(context).withValues(alpha: 0.5)),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -860,10 +856,10 @@ class _ResidentsDirectoryModalState
             ),
             Row(
               children: [
-                const Icon(
+                Icon(
                   LucideIcons.calendar,
                   size: 11,
-                  color: AppColors.textSecondary,
+                  color: AppColors.getTextSecondary(context),
                 ),
                 const SizedBox(width: 5),
                 Text(
@@ -871,7 +867,7 @@ class _ResidentsDirectoryModalState
                   style: GoogleFonts.inter(
                     fontSize: 10,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.textSecondary,
+                    color: AppColors.getTextSecondary(context),
                   ),
                 ),
               ],
@@ -884,15 +880,15 @@ class _ResidentsDirectoryModalState
 
   Widget _buildBody() {
     if (_isLoading) {
-      return const Center(
+      return Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            CircularProgressIndicator(strokeWidth: 2, color: Color(0xFF3B82F6)),
-            SizedBox(height: 12),
+            const CircularProgressIndicator(strokeWidth: 2, color: Color(0xFF3B82F6)),
+            const SizedBox(height: 12),
             Text(
               "Loading municipal resident registry...",
-              style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
+              style: TextStyle(color: AppColors.getTextSecondary(context), fontSize: 12),
             ),
           ],
         ),
@@ -912,7 +908,7 @@ class _ResidentsDirectoryModalState
                 _errorMessage!,
                 textAlign: TextAlign.center,
                 style: GoogleFonts.inter(
-                  color: AppColors.textSecondary,
+                  color: AppColors.getTextSecondary(context),
                   fontSize: 12,
                 ),
               ),
@@ -939,10 +935,10 @@ class _ResidentsDirectoryModalState
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(
+            Icon(
               LucideIcons.userX,
               size: 40,
-              color: AppColors.textSecondary,
+              color: AppColors.getTextSecondary(context),
             ),
             const SizedBox(height: 10),
             Text(
@@ -950,7 +946,7 @@ class _ResidentsDirectoryModalState
               style: GoogleFonts.inter(
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
-                color: Colors.white,
+                color: AppColors.getTextPrimary(context),
               ),
             ),
             const SizedBox(height: 4),
@@ -958,7 +954,7 @@ class _ResidentsDirectoryModalState
               "Try adjusting your search criteria or active filters.",
               style: GoogleFonts.inter(
                 fontSize: 11,
-                color: AppColors.textSecondary,
+                color: AppColors.getTextSecondary(context),
               ),
             ),
           ],
@@ -974,13 +970,13 @@ class _ResidentsDirectoryModalState
       itemBuilder: (context, index) {
         if (index == _residents.length) {
           if (_hasMore) {
-            return const Padding(
-              padding: EdgeInsets.symmetric(vertical: 16),
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
               child: Center(
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 14,
                       height: 14,
                       child: CircularProgressIndicator(
@@ -988,12 +984,12 @@ class _ResidentsDirectoryModalState
                         color: Color(0xFF3B82F6),
                       ),
                     ),
-                    SizedBox(width: 8),
+                    const SizedBox(width: 8),
                     Text(
                       "Loading next 15 residents...",
                       style: TextStyle(
                         fontSize: 11,
-                        color: AppColors.textSecondary,
+                        color: AppColors.getTextSecondary(context),
                       ),
                     ),
                   ],
@@ -1009,7 +1005,7 @@ class _ResidentsDirectoryModalState
                   style: GoogleFonts.inter(
                     fontSize: 10.5,
                     fontStyle: FontStyle.italic,
-                    color: AppColors.textSecondary.withValues(alpha: 0.6),
+                    color: AppColors.getTextSecondary(context).withValues(alpha: 0.6),
                   ),
                 ),
               ),
@@ -1041,7 +1037,7 @@ class _ResidentsDirectoryModalState
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppColors.border),
+          border: Border.all(color: AppColors.getBorder(context)),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1060,7 +1056,7 @@ class _ResidentsDirectoryModalState
                 style: GoogleFonts.inter(
                   fontSize: 10,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.textSecondary,
+                  color: AppColors.getTextSecondary(context),
                 ),
               ),
             ),
@@ -1081,8 +1077,7 @@ class _ResidentsDirectoryModalState
                           style: GoogleFonts.inter(
                             fontSize: 12.5,
                             fontWeight: FontWeight.w900,
-                            color: Colors.white,
-                            letterSpacing: -0.2,
+                            color: AppColors.getTextPrimary(context),                            letterSpacing: -0.2,
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -1125,7 +1120,7 @@ class _ResidentsDirectoryModalState
                           style: GoogleFonts.inter(
                             fontSize: 8.5,
                             fontWeight: FontWeight.w800,
-                            color: AppColors.textSecondary,
+                            color: AppColors.getTextSecondary(context),
                           ),
                         ),
                       ),
@@ -1143,7 +1138,7 @@ class _ResidentsDirectoryModalState
                           style: GoogleFonts.inter(
                             fontSize: 8.5,
                             fontWeight: FontWeight.w800,
-                            color: AppColors.textSecondary,
+                            color: AppColors.getTextSecondary(context),
                           ),
                         ),
                       ),
@@ -1182,14 +1177,14 @@ class _ResidentsDirectoryModalState
                         style: GoogleFonts.inter(
                           fontSize: 9.5,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.textSecondary,
+                          color: AppColors.getTextSecondary(context),
                         ),
                       ),
                       Text(
                         "Onboarded $dateStr",
                         style: GoogleFonts.inter(
                           fontSize: 9.5,
-                          color: AppColors.textSecondary.withValues(alpha: 0.7),
+                          color: AppColors.getTextSecondary(context).withValues(alpha: 0.7),
                         ),
                       ),
                     ],
@@ -1222,3 +1217,6 @@ class _ResidentsDirectoryModalState
     );
   }
 }
+
+
+

@@ -121,13 +121,14 @@ class _AnnouncementFilterModalState extends State<AnnouncementFilterModal> {
   @override
   Widget build(BuildContext context) {
     final isFiltered = _selectedPriority != 'All' || _selectedCategory != 'All';
+    final isDark = AppColors.isDark(context);
 
     return Container(
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      decoration: BoxDecoration(
+        color: AppColors.getSurface(context),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
         border: Border(
-          top: BorderSide(color: AppColors.border, width: 1.5),
+          top: BorderSide(color: AppColors.getBorder(context), width: 1.5),
         ),
       ),
       padding: EdgeInsets.only(
@@ -146,7 +147,7 @@ class _AnnouncementFilterModalState extends State<AnnouncementFilterModal> {
               width: 36,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.white24,
+                color: (AppColors.isDark(context) ? Colors.white : Colors.black).withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -180,14 +181,14 @@ class _AnnouncementFilterModalState extends State<AnnouncementFilterModal> {
                         fontWeight: FontWeight.w900,
                         fontStyle: FontStyle.italic,
                         letterSpacing: -0.2,
-                        color: Colors.white,
+                        color: AppColors.getTextPrimary(context),
                       ),
                     ),
                     Text(
                       "Filter by Category Type and Priority Level",
                       style: GoogleFonts.inter(
                         fontSize: 11,
-                        color: AppColors.textSecondary,
+                        color: AppColors.getTextSecondary(context),
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -196,7 +197,7 @@ class _AnnouncementFilterModalState extends State<AnnouncementFilterModal> {
               ),
               IconButton(
                 onPressed: () => Navigator.of(context).pop(),
-                icon: const Icon(Icons.close_rounded, color: AppColors.textSecondary, size: 20),
+                icon: Icon(Icons.close_rounded, color: AppColors.getTextSecondary(context), size: 20),
                 padding: EdgeInsets.zero,
                 constraints: const BoxConstraints(),
               ),
@@ -215,7 +216,7 @@ class _AnnouncementFilterModalState extends State<AnnouncementFilterModal> {
                   fontSize: 10,
                   fontWeight: FontWeight.w900,
                   letterSpacing: 1.0,
-                  color: AppColors.textSecondary,
+                  color: AppColors.getTextSecondary(context),
                 ),
               ),
               if (_selectedPriority != 'All')
@@ -252,10 +253,10 @@ class _AnnouncementFilterModalState extends State<AnnouncementFilterModal> {
                   decoration: BoxDecoration(
                     color: isSelected
                         ? pColor.withValues(alpha: 0.2)
-                        : AppColors.surfaceElevated.withValues(alpha: 0.5),
+                        : (isDark ? AppColors.surfaceElevated.withValues(alpha: 0.5) : const Color(0xFFF1F5F9)),
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
-                      color: isSelected ? pColor : AppColors.border,
+                      color: isSelected ? pColor : AppColors.getBorder(context),
                       width: isSelected ? 1.5 : 1,
                     ),
                   ),
@@ -278,7 +279,7 @@ class _AnnouncementFilterModalState extends State<AnnouncementFilterModal> {
                         style: GoogleFonts.inter(
                           fontSize: 11,
                           fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-                          color: isSelected ? Colors.white : AppColors.textSecondary,
+                          color: isSelected ? (isDark ? Colors.white : AppColors.lightTextPrimary) : AppColors.getTextSecondary(context),
                         ),
                       ),
                     ],
@@ -300,7 +301,7 @@ class _AnnouncementFilterModalState extends State<AnnouncementFilterModal> {
                   fontSize: 10,
                   fontWeight: FontWeight.w900,
                   letterSpacing: 1.0,
-                  color: AppColors.textSecondary,
+                  color: AppColors.getTextSecondary(context),
                 ),
               ),
               if (_selectedCategory != 'All')
@@ -336,10 +337,10 @@ class _AnnouncementFilterModalState extends State<AnnouncementFilterModal> {
                   decoration: BoxDecoration(
                     color: isSelected
                         ? AppColors.accentAmber.withValues(alpha: 0.2)
-                        : AppColors.surfaceElevated.withValues(alpha: 0.5),
+                        : (isDark ? AppColors.surfaceElevated.withValues(alpha: 0.5) : const Color(0xFFF1F5F9)),
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
-                      color: isSelected ? AppColors.accentAmber : AppColors.border,
+                      color: isSelected ? AppColors.accentAmber : AppColors.getBorder(context),
                       width: isSelected ? 1.5 : 1,
                     ),
                   ),
@@ -348,7 +349,7 @@ class _AnnouncementFilterModalState extends State<AnnouncementFilterModal> {
                     style: GoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-                      color: isSelected ? Colors.white : AppColors.textSecondary,
+                      color: isSelected ? (isDark ? Colors.white : AppColors.lightTextPrimary) : AppColors.getTextSecondary(context),
                     ),
                   ),
                 ),
@@ -367,8 +368,8 @@ class _AnnouncementFilterModalState extends State<AnnouncementFilterModal> {
                   child: OutlinedButton(
                     onPressed: _resetFilters,
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColors.textSecondary,
-                      side: const BorderSide(color: AppColors.border),
+                      foregroundColor: AppColors.getTextSecondary(context),
+                      side: BorderSide(color: AppColors.getBorder(context)),
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),

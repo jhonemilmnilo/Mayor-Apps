@@ -79,14 +79,15 @@ class NewsDetailBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final hasCover = news.imageUrl != null && news.imageUrl!.trim().isNotEmpty;
     final maxSheetHeight = MediaQuery.of(context).size.height * 0.90;
+    final isDark = AppColors.isDark(context);
 
     return Container(
       constraints: BoxConstraints(maxHeight: maxSheetHeight),
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      decoration: BoxDecoration(
+        color: AppColors.getSurface(context),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
         border: Border(
-          top: BorderSide(color: AppColors.border, width: 1.5),
+          top: BorderSide(color: AppColors.getBorder(context), width: 1.5),
         ),
       ),
       child: Column(
@@ -99,7 +100,7 @@ class NewsDetailBottomSheet extends StatelessWidget {
               width: 36,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.white24,
+                color: isDark ? Colors.white24 : Colors.black12,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -226,9 +227,9 @@ class NewsDetailBottomSheet extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                         decoration: BoxDecoration(
-                          color: AppColors.surfaceElevated,
+                          color: isDark ? AppColors.surfaceElevated : const Color(0xFFF1F5F9),
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: AppColors.border),
+                          border: Border.all(color: AppColors.getBorder(context)),
                         ),
                         child: Text(
                           news.barangay.toUpperCase(),
@@ -236,7 +237,7 @@ class NewsDetailBottomSheet extends StatelessWidget {
                             fontSize: 9.5,
                             fontWeight: FontWeight.w800,
                             fontStyle: FontStyle.italic,
-                            color: AppColors.textSecondary,
+                            color: AppColors.getTextSecondary(context),
                           ),
                         ),
                       ),
@@ -254,7 +255,7 @@ class NewsDetailBottomSheet extends StatelessWidget {
                       fontStyle: FontStyle.italic,
                       letterSpacing: -0.3,
                       height: 1.25,
-                      color: Colors.white,
+                      color: AppColors.getTextPrimary(context),
                     ),
                   ),
 
@@ -267,7 +268,7 @@ class NewsDetailBottomSheet extends StatelessWidget {
                       fontSize: 10,
                       fontWeight: FontWeight.w900,
                       letterSpacing: 1.0,
-                      color: AppColors.textSecondary,
+                      color: AppColors.getTextSecondary(context),
                     ),
                   ),
                   const SizedBox(height: 6),
@@ -275,9 +276,9 @@ class NewsDetailBottomSheet extends StatelessWidget {
                     width: double.infinity,
                     padding: const EdgeInsets.all(14),
                     decoration: BoxDecoration(
-                      color: AppColors.surfaceElevated.withValues(alpha: 0.6),
+                      color: isDark ? AppColors.surfaceElevated.withValues(alpha: 0.6) : const Color(0xFFF8FAFC),
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: AppColors.border),
+                      border: Border.all(color: AppColors.getBorder(context)),
                     ),
                     child: Text(
                       news.content.trim().isNotEmpty
@@ -287,7 +288,7 @@ class NewsDetailBottomSheet extends StatelessWidget {
                         fontSize: 12.5,
                         fontWeight: FontWeight.w500,
                         height: 1.6,
-                        color: Colors.white.withValues(alpha: 0.9),
+                        color: AppColors.getTextPrimary(context).withValues(alpha: 0.9),
                       ),
                     ),
                   ),
@@ -304,7 +305,7 @@ class NewsDetailBottomSheet extends StatelessWidget {
                             fontSize: 10,
                             fontWeight: FontWeight.w900,
                             letterSpacing: 1.0,
-                            color: AppColors.textSecondary,
+                            color: AppColors.getTextSecondary(context),
                           ),
                         ),
                         Text(
@@ -358,7 +359,7 @@ class NewsDetailBottomSheet extends StatelessWidget {
                       fontSize: 10,
                       fontWeight: FontWeight.w900,
                       letterSpacing: 1.0,
-                      color: AppColors.textSecondary,
+                      color: AppColors.getTextSecondary(context),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -368,6 +369,7 @@ class NewsDetailBottomSheet extends StatelessWidget {
                       // Target Scope
                       Expanded(
                         child: _buildInfoCard(
+                          context: context,
                           icon: Icons.location_on_rounded,
                           iconColor: const Color(0xFF10B981),
                           label: "TARGET SCOPE",
@@ -378,6 +380,7 @@ class NewsDetailBottomSheet extends StatelessWidget {
                       // Publisher
                       Expanded(
                         child: _buildInfoCard(
+                          context: context,
                           icon: Icons.person_rounded,
                           iconColor: const Color(0xFF3B82F6),
                           label: "AUTHOR / PUBLISHER",
@@ -392,6 +395,7 @@ class NewsDetailBottomSheet extends StatelessWidget {
                       // Published Date
                       Expanded(
                         child: _buildInfoCard(
+                          context: context,
                           icon: Icons.calendar_month_rounded,
                           iconColor: const Color(0xFF8B5CF6),
                           label: "PUBLISH DATE",
@@ -402,6 +406,7 @@ class NewsDetailBottomSheet extends StatelessWidget {
                       // Total Media Count
                       Expanded(
                         child: _buildInfoCard(
+                          context: context,
                           icon: Icons.photo_library_rounded,
                           iconColor: const Color(0xFFF59E0B),
                           label: "MEDIA ATTACHMENTS",
@@ -419,13 +424,13 @@ class NewsDetailBottomSheet extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () => Navigator.of(context).pop(),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.surfaceElevated,
-                        foregroundColor: Colors.white,
+                        backgroundColor: isDark ? AppColors.surfaceElevated : const Color(0xFFF1F5F9),
+                        foregroundColor: AppColors.getTextPrimary(context),
                         padding: const EdgeInsets.symmetric(vertical: 13),
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(14),
-                          side: const BorderSide(color: AppColors.border),
+                          side: BorderSide(color: AppColors.getBorder(context)),
                         ),
                       ),
                       child: Text(
@@ -447,17 +452,19 @@ class NewsDetailBottomSheet extends StatelessWidget {
   }
 
   Widget _buildInfoCard({
+    required BuildContext context,
     required IconData icon,
     required Color iconColor,
     required String label,
     required String value,
   }) {
+    final isDark = AppColors.isDark(context);
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: AppColors.surfaceElevated.withValues(alpha: 0.5),
+        color: isDark ? AppColors.surfaceElevated.withValues(alpha: 0.5) : const Color(0xFFF8FAFC),
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: AppColors.getBorder(context)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -473,7 +480,7 @@ class NewsDetailBottomSheet extends StatelessWidget {
                     fontSize: 9,
                     fontWeight: FontWeight.w900,
                     letterSpacing: 0.6,
-                    color: AppColors.textSecondary,
+                    color: AppColors.getTextSecondary(context),
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -487,7 +494,7 @@ class NewsDetailBottomSheet extends StatelessWidget {
             style: GoogleFonts.inter(
               fontSize: 11.5,
               fontWeight: FontWeight.w700,
-              color: Colors.white,
+              color: AppColors.getTextPrimary(context),
             ),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,

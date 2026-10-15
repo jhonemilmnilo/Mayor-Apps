@@ -137,9 +137,9 @@ class _HotlinesDirectoryModalState extends ConsumerState<HotlinesDirectoryModal>
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.88,
-      decoration: const BoxDecoration(
-        color: AppColors.background,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      decoration: BoxDecoration(
+        color: AppColors.getBackground(context),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: Column(
         children: [
@@ -150,7 +150,7 @@ class _HotlinesDirectoryModalState extends ConsumerState<HotlinesDirectoryModal>
               width: 38,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.white24,
+                color: (AppColors.isDark(context) ? Colors.white : Colors.black).withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -188,7 +188,7 @@ class _HotlinesDirectoryModalState extends ConsumerState<HotlinesDirectoryModal>
                               fontWeight: FontWeight.w900,
                               fontStyle: FontStyle.italic,
                               letterSpacing: -0.2,
-                              color: Colors.white,
+                              color: AppColors.getTextPrimary(context),
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -213,7 +213,7 @@ class _HotlinesDirectoryModalState extends ConsumerState<HotlinesDirectoryModal>
                         "Official 24/7 Police, Fire, Rescue & Public Safety Contacts",
                         style: GoogleFonts.inter(
                           fontSize: 11,
-                          color: AppColors.textSecondary,
+                          color: AppColors.getTextSecondary(context),
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -222,7 +222,7 @@ class _HotlinesDirectoryModalState extends ConsumerState<HotlinesDirectoryModal>
                 ),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(Icons.close_rounded, color: AppColors.textSecondary, size: 20),
+                  icon: Icon(Icons.close_rounded, color: AppColors.getTextSecondary(context), size: 20),
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
                 ),
@@ -236,9 +236,9 @@ class _HotlinesDirectoryModalState extends ConsumerState<HotlinesDirectoryModal>
             child: Container(
               height: 42,
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: AppColors.getSurface(context),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.border),
+                border: Border.all(color: AppColors.getBorder(context)),
               ),
               child: TextField(
                 controller: _searchController,
@@ -246,19 +246,19 @@ class _HotlinesDirectoryModalState extends ConsumerState<HotlinesDirectoryModal>
                 style: GoogleFonts.inter(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
-                  color: Colors.white,
+                  color: AppColors.getTextPrimary(context),
                 ),
                 decoration: InputDecoration(
                   hintText: "Search agency, department or phone...",
                   hintStyle: GoogleFonts.inter(
                     fontSize: 12,
-                    color: AppColors.textSecondary,
+                    color: AppColors.getTextSecondary(context),
                     fontWeight: FontWeight.w500,
                   ),
-                  prefixIcon: const Icon(Icons.search_rounded, color: AppColors.textSecondary, size: 18),
+                  prefixIcon: Icon(Icons.search_rounded, color: AppColors.getTextSecondary(context), size: 18),
                   suffixIcon: _searchController.text.isNotEmpty
                       ? IconButton(
-                          icon: const Icon(Icons.clear_rounded, size: 16, color: AppColors.textSecondary),
+                          icon: Icon(Icons.clear_rounded, size: 16, color: AppColors.getTextSecondary(context)),
                           onPressed: () {
                             _searchController.clear();
                             _fetchHotlines();
@@ -293,10 +293,10 @@ class _HotlinesDirectoryModalState extends ConsumerState<HotlinesDirectoryModal>
                     decoration: BoxDecoration(
                       color: isSelected
                           ? const Color(0xFF8B5CF6).withValues(alpha: 0.2)
-                          : AppColors.surface,
+                          : AppColors.getSurface(context),
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
-                        color: isSelected ? const Color(0xFF8B5CF6) : AppColors.border,
+                        color: isSelected ? const Color(0xFF8B5CF6) : AppColors.getBorder(context),
                         width: isSelected ? 1.5 : 1,
                       ),
                     ),
@@ -305,7 +305,7 @@ class _HotlinesDirectoryModalState extends ConsumerState<HotlinesDirectoryModal>
                       style: GoogleFonts.inter(
                         fontSize: 10.5,
                         fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-                        color: isSelected ? Colors.white : AppColors.textSecondary,
+                        color: isSelected ? AppColors.getTextPrimary(context) : AppColors.getTextSecondary(context),
                       ),
                     ),
                   ),
@@ -341,7 +341,7 @@ class _HotlinesDirectoryModalState extends ConsumerState<HotlinesDirectoryModal>
               const SizedBox(height: 10),
               Text(
                 "Unable to load hotlines",
-                style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white),
+                style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w700, color: AppColors.getTextPrimary(context)),
               ),
               const SizedBox(height: 14),
               ElevatedButton(
@@ -364,7 +364,7 @@ class _HotlinesDirectoryModalState extends ConsumerState<HotlinesDirectoryModal>
             const SizedBox(height: 10),
             Text(
               "No hotlines found",
-              style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white),
+              style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w700, color: AppColors.getTextPrimary(context)),
             ),
           ],
         ),
@@ -380,9 +380,9 @@ class _HotlinesDirectoryModalState extends ConsumerState<HotlinesDirectoryModal>
           margin: const EdgeInsets.only(bottom: 8),
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: AppColors.getSurface(context),
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.border),
+            border: Border.all(color: AppColors.getBorder(context)),
           ),
           child: Row(
             children: [
@@ -407,7 +407,7 @@ class _HotlinesDirectoryModalState extends ConsumerState<HotlinesDirectoryModal>
                             style: GoogleFonts.inter(
                               fontSize: 13,
                               fontWeight: FontWeight.w800,
-                              color: Colors.white,
+                              color: AppColors.getTextPrimary(context),
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -446,7 +446,7 @@ class _HotlinesDirectoryModalState extends ConsumerState<HotlinesDirectoryModal>
                         item.address!,
                         style: GoogleFonts.inter(
                           fontSize: 9.5,
-                          color: AppColors.textSecondary,
+                          color: AppColors.getTextSecondary(context),
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

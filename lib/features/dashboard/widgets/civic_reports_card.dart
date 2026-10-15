@@ -138,6 +138,7 @@ class _CivicReportsCardState extends ConsumerState<CivicReportsCard> {
   Widget build(BuildContext context) {
     final activeReports = _filteredReports ?? widget.reports;
     final totalReportsTracked = _totalCount ?? activeReports.length;
+    final isDark = AppColors.isDark(context);
 
     return Container(
       decoration: BoxDecoration(
@@ -188,7 +189,7 @@ class _CivicReportsCardState extends ConsumerState<CivicReportsCard> {
                       style: GoogleFonts.inter(
                         fontSize: 10,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.textSecondary,
+                        color: AppColors.getTextSecondary(context),
                       ),
                     ),
                   ],
@@ -207,12 +208,12 @@ class _CivicReportsCardState extends ConsumerState<CivicReportsCard> {
               decoration: BoxDecoration(
                 color: _filter.isFiltered
                     ? const Color(0xFFF59E0B).withValues(alpha: 0.12)
-                    : AppColors.surfaceElevated.withValues(alpha: 0.5),
+                    : (isDark ? AppColors.surfaceElevated.withValues(alpha: 0.5) : const Color(0xFFF1F5F9)),
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
                   color: _filter.isFiltered
                       ? const Color(0xFFF59E0B).withValues(alpha: 0.6)
-                      : AppColors.border,
+                      : AppColors.getBorder(context),
                 ),
               ),
               child: Row(
@@ -220,7 +221,7 @@ class _CivicReportsCardState extends ConsumerState<CivicReportsCard> {
                   Icon(
                     LucideIcons.slidersHorizontal,
                     size: 13,
-                    color: _filter.isFiltered ? const Color(0xFFF59E0B) : AppColors.textSecondary,
+                    color: _filter.isFiltered ? const Color(0xFFF59E0B) : AppColors.getTextSecondary(context),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
@@ -232,7 +233,7 @@ class _CivicReportsCardState extends ConsumerState<CivicReportsCard> {
                         fontSize: 10,
                         fontWeight: FontWeight.w800,
                         letterSpacing: 0.5,
-                        color: _filter.isFiltered ? const Color(0xFFF59E0B) : AppColors.textSecondary,
+                        color: _filter.isFiltered ? const Color(0xFFF59E0B) : AppColors.getTextSecondary(context),
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -257,9 +258,9 @@ class _CivicReportsCardState extends ConsumerState<CivicReportsCard> {
                       ),
                     )
                   else
-                    const Icon(
+                    Icon(
                       LucideIcons.chevronDown,
-                      color: AppColors.textSecondary,
+                      color: AppColors.getTextSecondary(context),
                       size: 14,
                     ),
                 ],
@@ -363,7 +364,7 @@ class _CivicReportsCardState extends ConsumerState<CivicReportsCard> {
                                 style: GoogleFonts.inter(
                                   fontSize: 9.5,
                                   fontWeight: FontWeight.w500,
-                                  color: AppColors.textSecondary,
+                                  color: AppColors.getTextSecondary(context),
                                 ),
                               ),
                             ],
@@ -422,10 +423,10 @@ class _CivicReportsCardState extends ConsumerState<CivicReportsCard> {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Icon(
+                              Icon(
                                 LucideIcons.mapPin,
                                 size: 10,
-                                color: AppColors.textSecondary,
+                                color: AppColors.getTextSecondary(context),
                               ),
                               const SizedBox(width: 3),
                               Flexible(
@@ -434,7 +435,7 @@ class _CivicReportsCardState extends ConsumerState<CivicReportsCard> {
                                   style: GoogleFonts.inter(
                                     fontSize: 9,
                                     fontWeight: FontWeight.w600,
-                                    color: AppColors.textSecondary,
+                                    color: AppColors.getTextSecondary(context),
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -452,7 +453,7 @@ class _CivicReportsCardState extends ConsumerState<CivicReportsCard> {
                         desc,
                         style: GoogleFonts.inter(
                           fontSize: 10.5,
-                          color: AppColors.textSecondary,
+                          color: AppColors.getTextSecondary(context),
                           height: 1.3,
                         ),
                         maxLines: 2,

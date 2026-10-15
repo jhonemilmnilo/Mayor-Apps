@@ -55,9 +55,12 @@ class ServiceLegendsModal extends StatelessWidget {
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.50,
       ),
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      decoration: BoxDecoration(
+        color: AppColors.getSurface(context),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        border: const Border(
+          top: BorderSide(color: Color(0x00000000)),
+        ),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -69,7 +72,7 @@ class ServiceLegendsModal extends StatelessWidget {
               width: 34,
               height: 3.5,
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
+                color: (AppColors.isDark(context) ? Colors.white : Colors.black).withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -98,14 +101,14 @@ class ServiceLegendsModal extends StatelessWidget {
                         fontSize: 11.5,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 0.8,
-                        color: Colors.white,
+                        color: AppColors.getTextPrimary(context),
                       ),
                     ),
                   ],
                 ),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(LucideIcons.x, size: 16, color: AppColors.textSecondary),
+                  icon: Icon(LucideIcons.x, size: 16, color: AppColors.getTextSecondary(context)),
                   visualDensity: VisualDensity.compact,
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
@@ -114,7 +117,7 @@ class ServiceLegendsModal extends StatelessWidget {
             ),
           ),
 
-          const Divider(color: AppColors.border, height: 1),
+          Divider(color: AppColors.getBorder(context), height: 1),
 
           // Ultra-Compact 2-Column Grid (Fits exactly 9 items neatly)
           Flexible(
@@ -135,9 +138,9 @@ class ServiceLegendsModal extends StatelessWidget {
                 return Container(
                   padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
                   decoration: BoxDecoration(
-                    color: AppColors.surfaceElevated,
+                    color: AppColors.getSurfaceElevated(context),
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: AppColors.border),
+                    border: Border.all(color: AppColors.getBorder(context)),
                   ),
                   child: Row(
                     children: [
@@ -164,7 +167,7 @@ class ServiceLegendsModal extends StatelessWidget {
                           style: GoogleFonts.inter(
                             fontSize: 10.5,
                             fontWeight: FontWeight.w700,
-                            color: Colors.white,
+                            color: AppColors.getTextPrimary(context),
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,

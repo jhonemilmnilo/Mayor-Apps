@@ -92,14 +92,15 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final statusColor = _getStatusColor(project.status);
+    final isDark = AppColors.isDark(context);
 
     return Container(
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.88,
       ),
-      decoration: const BoxDecoration(
-        color: AppColors.background,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      decoration: BoxDecoration(
+        color: AppColors.getSurface(context),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -111,7 +112,7 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
               width: 38,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
+                color: isDark ? Colors.white.withValues(alpha: 0.2) : Colors.black12,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -143,21 +144,21 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                         fontSize: 11,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 1.0,
-                        color: Colors.white,
+                        color: AppColors.getTextPrimary(context),
                       ),
                     ),
                   ],
                 ),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(LucideIcons.x, size: 18, color: AppColors.textSecondary),
+                  icon: Icon(LucideIcons.x, size: 18, color: AppColors.getTextSecondary(context)),
                   visualDensity: VisualDensity.compact,
                 ),
               ],
             ),
           ),
 
-          const Divider(color: AppColors.border, height: 1),
+          Divider(color: AppColors.getBorder(context), height: 1),
 
           // Scrollable Body
           Flexible(
@@ -212,7 +213,7 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                     style: GoogleFonts.inter(
                       fontSize: 16,
                       fontWeight: FontWeight.w900,
-                      color: Colors.white,
+                      color: AppColors.getTextPrimary(context),
                       height: 1.3,
                     ),
                   ),
@@ -222,9 +223,9 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: AppColors.surface,
+                      color: isDark ? AppColors.surface : const Color(0xFFF8FAFC),
                       borderRadius: BorderRadius.circular(14),
-                      border: Border.all(color: AppColors.border),
+                      border: Border.all(color: AppColors.getBorder(context)),
                     ),
                     child: Column(
                       children: [
@@ -234,7 +235,7 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                             const SizedBox(width: 8),
                             Text(
                               "Location: ",
-                              style: GoogleFonts.inter(fontSize: 11, color: AppColors.textSecondary),
+                              style: GoogleFonts.inter(fontSize: 11, color: AppColors.getTextSecondary(context)),
                             ),
                             Expanded(
                               child: Text(
@@ -242,7 +243,7 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                                 style: GoogleFonts.inter(
                                   fontSize: 11.5,
                                   fontWeight: FontWeight.w700,
-                                  color: Colors.white,
+                                  color: AppColors.getTextPrimary(context),
                                 ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -258,7 +259,7 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                               const SizedBox(width: 8),
                               Text(
                                 "Timeline: ",
-                                style: GoogleFonts.inter(fontSize: 11, color: AppColors.textSecondary),
+                                style: GoogleFonts.inter(fontSize: 11, color: AppColors.getTextSecondary(context)),
                               ),
                               Expanded(
                                 child: Text(
@@ -266,7 +267,7 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                                   style: GoogleFonts.inter(
                                     fontSize: 11.5,
                                     fontWeight: FontWeight.w700,
-                                    color: Colors.white,
+                                    color: AppColors.getTextPrimary(context),
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -283,7 +284,7 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                               const SizedBox(width: 8),
                               Text(
                                 "Contractor: ",
-                                style: GoogleFonts.inter(fontSize: 11, color: AppColors.textSecondary),
+                                style: GoogleFonts.inter(fontSize: 11, color: AppColors.getTextSecondary(context)),
                               ),
                               Expanded(
                                 child: Text(
@@ -291,7 +292,7 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                                   style: GoogleFonts.inter(
                                     fontSize: 11.5,
                                     fontWeight: FontWeight.w700,
-                                    color: Colors.white,
+                                    color: AppColors.getTextPrimary(context),
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -316,7 +317,7 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                           fontSize: 10,
                           fontWeight: FontWeight.w800,
                           letterSpacing: 0.8,
-                          color: AppColors.textSecondary,
+                          color: AppColors.getTextSecondary(context),
                         ),
                       ),
                       Text(
@@ -336,7 +337,7 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                       height: 8,
                       child: LinearProgressIndicator(
                         value: (project.progress / 100).clamp(0.0, 1.0),
-                        backgroundColor: AppColors.surfaceElevated,
+                        backgroundColor: isDark ? AppColors.surfaceElevated : const Color(0xFFE2E8F0),
                         valueColor: AlwaysStoppedAnimation<Color>(statusColor),
                       ),
                     ),
@@ -349,9 +350,9 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                     width: double.infinity,
                     padding: const EdgeInsets.all(14),
                     decoration: BoxDecoration(
-                      color: AppColors.surface,
+                      color: isDark ? AppColors.surface : const Color(0xFFF8FAFC),
                       borderRadius: BorderRadius.circular(14),
-                      border: Border.all(color: AppColors.border),
+                      border: Border.all(color: AppColors.getBorder(context)),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -362,7 +363,7 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                             fontSize: 9.5,
                             fontWeight: FontWeight.w800,
                             letterSpacing: 0.5,
-                            color: AppColors.textSecondary,
+                            color: AppColors.getTextSecondary(context),
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -388,7 +389,7 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                         fontSize: 10,
                         fontWeight: FontWeight.w800,
                         letterSpacing: 0.8,
-                        color: AppColors.textSecondary,
+                        color: AppColors.getTextSecondary(context),
                       ),
                     ),
                     const SizedBox(height: 6),
@@ -396,15 +397,15 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                       width: double.infinity,
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: AppColors.surfaceElevated,
+                        color: isDark ? AppColors.surfaceElevated : const Color(0xFFF1F5F9),
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppColors.border),
+                        border: Border.all(color: AppColors.getBorder(context)),
                       ),
                       child: Text(
                         project.description,
                         style: GoogleFonts.inter(
                           fontSize: 12,
-                          color: Colors.white,
+                          color: AppColors.getTextPrimary(context),
                           height: 1.4,
                         ),
                       ),
@@ -419,7 +420,7 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                         fontSize: 10,
                         fontWeight: FontWeight.w800,
                         letterSpacing: 0.8,
-                        color: AppColors.textSecondary,
+                        color: AppColors.getTextSecondary(context),
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -430,9 +431,9 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                         height: 160,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: AppColors.surface,
+                          color: isDark ? AppColors.surface : const Color(0xFFF8FAFC),
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: AppColors.border),
+                          border: Border.all(color: AppColors.getBorder(context)),
                         ),
                         clipBehavior: Clip.antiAlias,
                         child: Stack(
@@ -442,10 +443,8 @@ class ProjectDetailsBottomSheet extends StatelessWidget {
                               project.imageUrl!,
                               fit: BoxFit.cover,
                               errorBuilder: (ctx, error, stackTrace) => Container(
-                                color: AppColors.surfaceElevated,
-                                child: const Center(
-                                  child: Icon(LucideIcons.imageOff, size: 24, color: AppColors.textSecondary),
-                                ),
+                                color: isDark ? AppColors.surfaceElevated : const Color(0xFFE2E8F0),
+                                child: Icon(LucideIcons.imageOff, size: 24, color: AppColors.getTextSecondary(context)),
                               ),
                             ),
                             Positioned(

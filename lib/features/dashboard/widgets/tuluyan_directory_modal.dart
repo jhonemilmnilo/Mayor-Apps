@@ -161,9 +161,9 @@ class _TuluyanDirectoryModalState extends ConsumerState<TuluyanDirectoryModal> {
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.90,
-      decoration: const BoxDecoration(
-        color: AppColors.background,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      decoration: BoxDecoration(
+        color: AppColors.getBackground(context),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: Column(
         children: [
@@ -172,7 +172,7 @@ class _TuluyanDirectoryModalState extends ConsumerState<TuluyanDirectoryModal> {
               margin: const EdgeInsets.only(top: 12, bottom: 8),
               width: 38,
               height: 4,
-              decoration: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(2)),
+              decoration: BoxDecoration(color: (AppColors.isDark(context) ? Colors.white : Colors.black).withValues(alpha: 0.2), borderRadius: BorderRadius.circular(2)),
             ),
           ),
           Padding(
@@ -202,7 +202,7 @@ class _TuluyanDirectoryModalState extends ConsumerState<TuluyanDirectoryModal> {
                               fontWeight: FontWeight.w900,
                               fontStyle: FontStyle.italic,
                               letterSpacing: -0.2,
-                              color: Colors.white,
+                              color: AppColors.getTextPrimary(context),
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -225,14 +225,14 @@ class _TuluyanDirectoryModalState extends ConsumerState<TuluyanDirectoryModal> {
                       ),
                       Text(
                         "Municipal Lodgings, Staycations & Accommodations",
-                        style: GoogleFonts.inter(fontSize: 11, color: AppColors.textSecondary, fontWeight: FontWeight.w500),
+                        style: GoogleFonts.inter(fontSize: 11, color: AppColors.getTextSecondary(context), fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),
                 ),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(Icons.close_rounded, color: AppColors.textSecondary, size: 20),
+                  icon: Icon(Icons.close_rounded, color: AppColors.getTextSecondary(context), size: 20),
                 ),
               ],
             ),
@@ -244,21 +244,21 @@ class _TuluyanDirectoryModalState extends ConsumerState<TuluyanDirectoryModal> {
             child: Container(
               height: 42,
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: AppColors.getSurface(context),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.border),
+                border: Border.all(color: AppColors.getBorder(context)),
               ),
               child: TextField(
                 controller: _searchController,
                 onChanged: _onSearchChanged,
-                style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.white),
+                style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.getTextPrimary(context)),
                 decoration: InputDecoration(
                   hintText: "Search lodging, resort or location...",
-                  hintStyle: GoogleFonts.inter(fontSize: 12, color: AppColors.textSecondary, fontWeight: FontWeight.w500),
-                  prefixIcon: const Icon(Icons.search_rounded, color: AppColors.textSecondary, size: 18),
+                  hintStyle: GoogleFonts.inter(fontSize: 12, color: AppColors.getTextSecondary(context), fontWeight: FontWeight.w500),
+                  prefixIcon: Icon(Icons.search_rounded, color: AppColors.getTextSecondary(context), size: 18),
                   suffixIcon: _searchController.text.isNotEmpty
                       ? IconButton(
-                          icon: const Icon(Icons.clear_rounded, size: 16, color: AppColors.textSecondary),
+                          icon: Icon(Icons.clear_rounded, size: 16, color: AppColors.getTextSecondary(context)),
                           onPressed: () {
                             _searchController.clear();
                             setState(() {
@@ -299,7 +299,7 @@ class _TuluyanDirectoryModalState extends ConsumerState<TuluyanDirectoryModal> {
             children: [
               const Icon(Icons.error_outline_rounded, color: Color(0xFFEF4444), size: 36),
               const SizedBox(height: 10),
-              Text("Unable to load accommodations", style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white)),
+              Text("Unable to load accommodations", style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w700, color: AppColors.getTextPrimary(context))),
               const SizedBox(height: 14),
               ElevatedButton(
                 onPressed: () => _fetchAccommodations(page: 1),
@@ -319,7 +319,7 @@ class _TuluyanDirectoryModalState extends ConsumerState<TuluyanDirectoryModal> {
           children: [
             const Icon(Icons.hotel_class_rounded, color: Color(0xFF0EA5E9), size: 36),
             const SizedBox(height: 10),
-            Text("No accommodations found", style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white)),
+            Text("No accommodations found", style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w700, color: AppColors.getTextPrimary(context))),
           ],
         ),
       );
@@ -342,7 +342,7 @@ class _TuluyanDirectoryModalState extends ConsumerState<TuluyanDirectoryModal> {
               child: Center(
                 child: Text(
                   "— End of Tuluyan Directory (${_accommodations.length} loaded) —",
-                  style: GoogleFonts.inter(fontSize: 10.5, fontStyle: FontStyle.italic, color: AppColors.textSecondary),
+                  style: GoogleFonts.inter(fontSize: 10.5, fontStyle: FontStyle.italic, color: AppColors.getTextSecondary(context)),
                 ),
               ),
             );
@@ -356,9 +356,9 @@ class _TuluyanDirectoryModalState extends ConsumerState<TuluyanDirectoryModal> {
             margin: const EdgeInsets.only(bottom: 8),
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
             decoration: BoxDecoration(
-              color: AppColors.surface,
+              color: AppColors.getSurface(context),
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: AppColors.border),
+              border: Border.all(color: AppColors.getBorder(context)),
             ),
             child: Row(
               children: [
@@ -367,7 +367,7 @@ class _TuluyanDirectoryModalState extends ConsumerState<TuluyanDirectoryModal> {
                   child: Container(
                     width: 50,
                     height: 50,
-                    color: AppColors.surfaceElevated,
+                    color: AppColors.getSurfaceElevated(context),
                     child: (item.imageUrl != null && item.imageUrl!.isNotEmpty)
                         ? Image.network(
                             item.imageUrl!,
@@ -391,7 +391,7 @@ class _TuluyanDirectoryModalState extends ConsumerState<TuluyanDirectoryModal> {
                           Flexible(
                             child: Text(
                               item.name,
-                              style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w800, color: Colors.white),
+                              style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w800, color: AppColors.getTextPrimary(context)),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -413,7 +413,7 @@ class _TuluyanDirectoryModalState extends ConsumerState<TuluyanDirectoryModal> {
                       const SizedBox(height: 3),
                       Text(
                         "${item.address} • ${item.barangay}",
-                        style: GoogleFonts.inter(fontSize: 10, color: AppColors.textSecondary),
+                        style: GoogleFonts.inter(fontSize: 10, color: AppColors.getTextSecondary(context)),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -428,7 +428,7 @@ class _TuluyanDirectoryModalState extends ConsumerState<TuluyanDirectoryModal> {
                   ),
                 ),
                 const SizedBox(width: 8),
-                const Icon(Icons.arrow_forward_ios_rounded, size: 12, color: AppColors.textSecondary),
+                Icon(Icons.arrow_forward_ios_rounded, size: 12, color: AppColors.getTextSecondary(context)),
               ],
             ),
           ),
@@ -458,9 +458,9 @@ class _TuluyanDetailSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.85),
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      decoration: BoxDecoration(
+        color: AppColors.getSurface(context),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       padding: const EdgeInsets.all(20),
       child: ListView(
@@ -469,7 +469,7 @@ class _TuluyanDetailSheet extends StatelessWidget {
             child: Container(
               width: 36,
               height: 4,
-              decoration: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(2)),
+              decoration: BoxDecoration(color: (AppColors.isDark(context) ? Colors.white : Colors.black).withValues(alpha: 0.2), borderRadius: BorderRadius.circular(2)),
             ),
           ),
           const SizedBox(height: 16),
@@ -479,32 +479,32 @@ class _TuluyanDetailSheet extends StatelessWidget {
               child: Image.network(item.imageUrl!, height: 180, width: double.infinity, fit: BoxFit.cover),
             ),
           const SizedBox(height: 16),
-          Text(item.name, style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.w900, color: Colors.white)),
+          Text(item.name, style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.w900, color: AppColors.getTextPrimary(context))),
           const SizedBox(height: 4),
           Text("${item.type} • ${item.barangay}", style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF0EA5E9), fontWeight: FontWeight.w700)),
           const SizedBox(height: 12),
-          Text(item.description.isNotEmpty ? item.description : "Official lodging and accommodation facility in Mapandan.", style: GoogleFonts.inter(fontSize: 12, color: Colors.white70)),
+          Text(item.description.isNotEmpty ? item.description : "Official lodging and accommodation facility in Mapandan.", style: GoogleFonts.inter(fontSize: 12, color: AppColors.getTextSecondary(context))),
           const SizedBox(height: 16),
           Container(
             padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(color: AppColors.surfaceElevated, borderRadius: BorderRadius.circular(12)),
+            decoration: BoxDecoration(color: AppColors.getSurfaceElevated(context), borderRadius: BorderRadius.circular(12)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("ACCOMMODATION DETAILS", style: GoogleFonts.inter(fontSize: 9.5, fontWeight: FontWeight.w900, color: AppColors.textSecondary)),
+                Text("ACCOMMODATION DETAILS", style: GoogleFonts.inter(fontSize: 9.5, fontWeight: FontWeight.w900, color: AppColors.getTextSecondary(context))),
                 const SizedBox(height: 6),
-                Text(item.address, style: GoogleFonts.inter(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w600)),
+                Text(item.address, style: GoogleFonts.inter(fontSize: 12, color: AppColors.getTextPrimary(context), fontWeight: FontWeight.w600)),
                 if (item.priceRange != null) ...[
                   const SizedBox(height: 4),
                   Text("Estimated Rate: ${item.priceRange}", style: GoogleFonts.inter(fontSize: 11, color: const Color(0xFF10B981))),
                 ],
                 if (item.amenities != null) ...[
                   const SizedBox(height: 4),
-                  Text("Amenities: ${item.amenities}", style: GoogleFonts.inter(fontSize: 11, color: Colors.white70)),
+                  Text("Amenities: ${item.amenities}", style: GoogleFonts.inter(fontSize: 11, color: AppColors.getTextSecondary(context))),
                 ],
                 if (item.contactNumber != null) ...[
                   const SizedBox(height: 4),
-                  Text("Contact: ${item.contactNumber}", style: GoogleFonts.inter(fontSize: 11, color: Colors.white70)),
+                  Text("Contact: ${item.contactNumber}", style: GoogleFonts.inter(fontSize: 11, color: AppColors.getTextSecondary(context))),
                 ],
               ],
             ),
