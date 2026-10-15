@@ -202,10 +202,37 @@ class _MayorDashboardScreenState extends ConsumerState<MayorDashboardScreen> {
     ];
   }
 
+  void _updateActiveSectionForCurrentScroll() {
+    String? currentSectionId;
+    for (final section in _sections) {
+      final context = section.key.currentContext;
+      if (context != null && context.mounted) {
+        final renderBox = context.findRenderObject() as RenderBox?;
+        if (renderBox != null) {
+          final dy = renderBox.localToGlobal(Offset.zero).dy;
+          if (dy <= 240) {
+            currentSectionId = section.id;
+          }
+        }
+      }
+    }
+
+    if (currentSectionId != null && currentSectionId != _activeSectionId) {
+      setState(() {
+        _activeSectionId = currentSectionId;
+      });
+    }
+  }
+
   @override
   void dispose() {
     _scrollController.dispose();
     super.dispose();
+  }
+
+  void _openDrawer() {
+    _updateActiveSectionForCurrentScroll();
+    _scaffoldKey.currentState?.openDrawer();
   }
 
   void _scrollToSection(DashboardSectionItem section) {
@@ -216,15 +243,46 @@ class _MayorDashboardScreenState extends ConsumerState<MayorDashboardScreen> {
     // Close the drawer smoothly
     Navigator.of(context).pop();
 
-    Future.delayed(const Duration(milliseconds: 220), () {
+    final topPadding = MediaQuery.of(context).padding.top;
+
+    Future.delayed(const Duration(milliseconds: 240), () {
+      if (!mounted) return;
       final targetContext = section.key.currentContext;
       if (targetContext != null && targetContext.mounted) {
-        Scrollable.ensureVisible(
-          targetContext,
-          duration: const Duration(milliseconds: 800),
-          curve: Curves.fastOutSlowIn,
-          alignment: 0.04, // Clean breathing room below AppBar
-        );
+        try {
+          final renderBox = targetContext.findRenderObject() as RenderBox?;
+          if (renderBox != null && _scrollController.hasClients) {
+            final position = _scrollController.position;
+            // Get target offset relative to current scroll position
+            final offset = renderBox.localToGlobal(Offset.zero).dy +
+                position.pixels -
+                kToolbarHeight -
+                topPadding -
+                12; // breathing room
+
+            final clampedOffset = offset.clamp(
+              position.minScrollExtent,
+              position.maxScrollExtent,
+            );
+
+            _scrollController.animateTo(
+              clampedOffset,
+              duration: const Duration(milliseconds: 750),
+              curve: Curves.fastOutSlowIn,
+            );
+            return;
+          }
+        } catch (_) {}
+
+        // Fallback to Scrollable.ensureVisible
+        if (targetContext.mounted) {
+          Scrollable.ensureVisible(
+            targetContext,
+            duration: const Duration(milliseconds: 750),
+            curve: Curves.fastOutSlowIn,
+            alignment: 0.04,
+          );
+        }
       }
     });
   }
@@ -265,6 +323,11 @@ class _MayorDashboardScreenState extends ConsumerState<MayorDashboardScreen> {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: AppColors.getBackground(context),
+      onDrawerChanged: (isOpen) {
+        if (isOpen) {
+          _updateActiveSectionForCurrentScroll();
+        }
+      },
       // Left Sidebar Drawer
       drawer: MayorDashboardDrawer(
         sections: _sections,
@@ -290,7 +353,7 @@ class _MayorDashboardScreenState extends ConsumerState<MayorDashboardScreen> {
               color: AppColors.primary,
             ),
           ),
-          onPressed: () => _scaffoldKey.currentState?.openDrawer(),
+          onPressed: _openDrawer,
         ),
         title: Row(
           children: [
