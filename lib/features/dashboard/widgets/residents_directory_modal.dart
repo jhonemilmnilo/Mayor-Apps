@@ -278,7 +278,7 @@ class _ResidentsDirectoryModalState
                 height: 4,
                 margin: const EdgeInsets.only(bottom: 16),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
+                  color: AppColors.isDark(context) ? Colors.white24 : Colors.black12,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -446,7 +446,7 @@ class _ResidentsDirectoryModalState
               width: 42,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
+                color: AppColors.isDark(context) ? Colors.white24 : Colors.black12,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -592,13 +592,15 @@ class _ResidentsDirectoryModalState
     required IconData icon,
     required Color color,
   }) {
+    final isDark = AppColors.isDark(context);
     return Container(
       constraints: const BoxConstraints(minWidth: 95),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: AppColors.getSurface(context),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: AppColors.getBorder(context)),
+        boxShadow: isDark ? [] : AppColors.getCardShadow(context),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -647,7 +649,7 @@ class _ResidentsDirectoryModalState
                 child: Container(
                   height: 38,
                   decoration: BoxDecoration(
-                    color: AppColors.surface,
+                    color: AppColors.getSurface(context),
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: AppColors.getBorder(context)),
                   ),
@@ -694,7 +696,7 @@ class _ResidentsDirectoryModalState
                   height: 38,
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   decoration: BoxDecoration(
-                    color: AppColors.surface,
+                    color: AppColors.getSurface(context),
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                       color: (_currentFilter.gender != 'ALL' || _currentFilter.civilStatus != 'ALL')
@@ -753,6 +755,7 @@ class _ResidentsDirectoryModalState
 
   Widget _buildSectorChip(String sectorKey, String label, Color accentColor) {
     final isSelected = _activeSector == sectorKey;
+    final isDark = AppColors.isDark(context);
     return InkWell(
       onTap: () {
         if (_activeSector != sectorKey) {
@@ -766,7 +769,9 @@ class _ResidentsDirectoryModalState
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
-          color: isSelected ? accentColor.withValues(alpha: 0.2) : AppColors.surface,
+          color: isSelected
+              ? accentColor.withValues(alpha: isDark ? 0.2 : 0.12)
+              : AppColors.getSurface(context),
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
             color: isSelected ? accentColor : AppColors.getBorder(context),
@@ -789,7 +794,7 @@ class _ResidentsDirectoryModalState
               style: GoogleFonts.inter(
                 fontSize: 10.5,
                 fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-                color: isSelected ? AppColors.getTextPrimary(context) : AppColors.getTextSecondary(context),
+                color: isSelected ? accentColor : AppColors.getTextSecondary(context),
               ),
             ),
           ],
@@ -805,6 +810,7 @@ class _ResidentsDirectoryModalState
     final dateRangeStr = _currentFilter.isAllTime
         ? "All-Time Registry"
         : "${DateFormat('MMM d').format(_currentFilter.startDate)} - ${DateFormat('MMM d').format(_currentFilter.endDate)}";
+    final isDark = AppColors.isDark(context);
 
     final hasExtra = _currentFilter.gender != 'ALL' || _currentFilter.civilStatus != 'ALL';
     final extraText = [
@@ -818,9 +824,9 @@ class _ResidentsDirectoryModalState
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.03),
+          color: isDark ? Colors.white.withValues(alpha: 0.03) : Colors.black.withValues(alpha: 0.03),
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: AppColors.getBorder(context).withValues(alpha: 0.5)),
+          border: Border.all(color: AppColors.getBorder(context).withValues(alpha: 0.6)),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1020,6 +1026,7 @@ class _ResidentsDirectoryModalState
   }
 
   Widget _buildResidentTile(ResidentDirectoryItem resident, int indexNumber) {
+    final isDark = AppColors.isDark(context);
     DateTime? parsedDate;
     try {
       parsedDate = DateTime.parse(resident.createdAt).toLocal();
@@ -1035,9 +1042,10 @@ class _ResidentsDirectoryModalState
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: AppColors.getSurface(context),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: AppColors.getBorder(context)),
+          boxShadow: isDark ? [] : AppColors.getCardShadow(context),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1048,7 +1056,7 @@ class _ResidentsDirectoryModalState
               height: 26,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.05),
+                color: isDark ? Colors.white.withValues(alpha: 0.05) : Colors.black.withValues(alpha: 0.05),
                 borderRadius: BorderRadius.circular(6),
               ),
               child: Text(
@@ -1077,7 +1085,8 @@ class _ResidentsDirectoryModalState
                           style: GoogleFonts.inter(
                             fontSize: 12.5,
                             fontWeight: FontWeight.w900,
-                            color: AppColors.getTextPrimary(context),                            letterSpacing: -0.2,
+                            color: AppColors.getTextPrimary(context),
+                            letterSpacing: -0.2,
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -1112,7 +1121,7 @@ class _ResidentsDirectoryModalState
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.05),
+                          color: isDark ? Colors.white.withValues(alpha: 0.05) : Colors.black.withValues(alpha: 0.05),
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(
@@ -1130,7 +1139,7 @@ class _ResidentsDirectoryModalState
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.05),
+                          color: isDark ? Colors.white.withValues(alpha: 0.05) : Colors.black.withValues(alpha: 0.05),
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(
