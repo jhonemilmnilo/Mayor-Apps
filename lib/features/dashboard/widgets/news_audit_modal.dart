@@ -267,11 +267,13 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = AppColors.isDark(context);
+
     return Container(
       height: MediaQuery.of(context).size.height * 0.90,
-      decoration: const BoxDecoration(
-        color: AppColors.background,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      decoration: BoxDecoration(
+        color: AppColors.getBackground(context),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: Column(
         children: [
@@ -282,7 +284,7 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
               width: 38,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.white24,
+                color: isDark ? Colors.white24 : Colors.black12,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -320,7 +322,7 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
                               fontWeight: FontWeight.w900,
                               fontStyle: FontStyle.italic,
                               letterSpacing: -0.2,
-                              color: Colors.white,
+                              color: AppColors.getTextPrimary(context),
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -345,7 +347,7 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
                         "Official Press Releases & Municipal News Feed",
                         style: GoogleFonts.inter(
                           fontSize: 11,
-                          color: AppColors.textSecondary,
+                          color: AppColors.getTextSecondary(context),
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -354,7 +356,7 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
                 ),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(Icons.close_rounded, color: AppColors.textSecondary, size: 20),
+                  icon: Icon(Icons.close_rounded, color: AppColors.getTextSecondary(context), size: 20),
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
                 ),
@@ -408,9 +410,10 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
                   child: Container(
                     height: 42,
                     decoration: BoxDecoration(
-                      color: AppColors.surface,
+                      color: AppColors.getSurface(context),
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: AppColors.border),
+                      border: Border.all(color: AppColors.getBorder(context)),
+                      boxShadow: isDark ? [] : AppColors.getCardShadow(context),
                     ),
                     child: TextField(
                       controller: _searchController,
@@ -418,19 +421,19 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
                       style: GoogleFonts.inter(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                        color: AppColors.getTextPrimary(context),
                       ),
                       decoration: InputDecoration(
                         hintText: "Search title, author or details...",
                         hintStyle: GoogleFonts.inter(
                           fontSize: 12,
-                          color: AppColors.textSecondary,
+                          color: AppColors.getTextSecondary(context),
                           fontWeight: FontWeight.w500,
                         ),
-                        prefixIcon: const Icon(Icons.search_rounded, color: AppColors.textSecondary, size: 18),
+                        prefixIcon: Icon(Icons.search_rounded, color: AppColors.getTextSecondary(context), size: 18),
                         suffixIcon: _searchController.text.isNotEmpty
                             ? IconButton(
-                                icon: const Icon(Icons.clear_rounded, size: 16, color: AppColors.textSecondary),
+                                icon: Icon(Icons.clear_rounded, size: 16, color: AppColors.getTextSecondary(context)),
                                 onPressed: () {
                                   _searchController.clear();
                                   _resetAndReload();
@@ -453,12 +456,13 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
                     decoration: BoxDecoration(
                       color: _filterState.isFiltered
                           ? const Color(0xFF2563EB).withValues(alpha: 0.18)
-                          : AppColors.surface,
+                          : AppColors.getSurface(context),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: _filterState.isFiltered ? const Color(0xFF3B82F6) : AppColors.border,
+                        color: _filterState.isFiltered ? const Color(0xFF3B82F6) : AppColors.getBorder(context),
                         width: _filterState.isFiltered ? 1.5 : 1,
                       ),
+                      boxShadow: (!isDark && !_filterState.isFiltered) ? AppColors.getCardShadow(context) : [],
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -466,7 +470,7 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
                         Icon(
                           Icons.tune_rounded,
                           size: 16,
-                          color: _filterState.isFiltered ? const Color(0xFF3B82F6) : AppColors.textSecondary,
+                          color: _filterState.isFiltered ? const Color(0xFF3B82F6) : AppColors.getTextSecondary(context),
                         ),
                         if (_filterState.isFiltered) ...[
                           const SizedBox(width: 6),
@@ -560,10 +564,10 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
                             });
                             _resetAndReload();
                           },
-                          child: const Icon(
+                          child: Icon(
                             Icons.close_rounded,
                             size: 12,
-                            color: Colors.white70,
+                            color: AppColors.getTextSecondary(context),
                           ),
                         ),
                       ],
@@ -595,12 +599,14 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
     required IconData icon,
     required Color color,
   }) {
+    final isDark = AppColors.isDark(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 9),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: AppColors.getSurface(context),
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: AppColors.getBorder(context)),
+        boxShadow: isDark ? [] : AppColors.getCardShadow(context),
       ),
       child: Row(
         children: [
@@ -614,7 +620,7 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
                     fontSize: 8.5,
                     fontWeight: FontWeight.w900,
                     letterSpacing: 0.5,
-                    color: AppColors.textSecondary,
+                    color: AppColors.getTextSecondary(context),
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -626,7 +632,7 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
                     fontSize: 16,
                     fontWeight: FontWeight.w900,
                     fontStyle: FontStyle.italic,
-                    color: Colors.white,
+                    color: AppColors.getTextPrimary(context),
                   ),
                 ),
               ],
@@ -647,6 +653,7 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
 
   Widget _buildCategoryChip(String value, String label) {
     final isSelected = _filterState.category.toUpperCase() == value.toUpperCase();
+    final isDark = AppColors.isDark(context);
 
     return GestureDetector(
       onTap: () {
@@ -660,20 +667,23 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
           color: isSelected
-              ? const Color(0xFF2563EB).withValues(alpha: 0.2)
-              : AppColors.surface,
+              ? const Color(0xFF2563EB).withValues(alpha: isDark ? 0.2 : 0.15)
+              : AppColors.getSurface(context),
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
-            color: isSelected ? const Color(0xFF3B82F6) : AppColors.border,
+            color: isSelected ? const Color(0xFF3B82F6) : AppColors.getBorder(context),
             width: isSelected ? 1.5 : 1,
           ),
+          boxShadow: (!isSelected && !isDark) ? AppColors.getCardShadow(context) : [],
         ),
         child: Text(
           label,
           style: GoogleFonts.inter(
             fontSize: 10.5,
             fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-            color: isSelected ? Colors.white : AppColors.textSecondary,
+            color: isSelected
+                ? (isDark ? Colors.white : const Color(0xFF2563EB))
+                : AppColors.getTextSecondary(context),
           ),
         ),
       ),
@@ -698,13 +708,13 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
               const SizedBox(height: 10),
               Text(
                 "Unable to load news articles",
-                style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white),
+                style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w700, color: AppColors.getTextPrimary(context)),
               ),
               const SizedBox(height: 6),
               Text(
                 _errorMessage!,
                 textAlign: TextAlign.center,
-                style: GoogleFonts.inter(fontSize: 11, color: AppColors.textSecondary),
+                style: GoogleFonts.inter(fontSize: 11, color: AppColors.getTextSecondary(context)),
               ),
               const SizedBox(height: 14),
               ElevatedButton(
@@ -743,7 +753,7 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
                 style: GoogleFonts.inter(
                   fontSize: 14,
                   fontWeight: FontWeight.w700,
-                  color: Colors.white,
+                  color: AppColors.getTextPrimary(context),
                 ),
               ),
               const SizedBox(height: 6),
@@ -752,7 +762,7 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
                 textAlign: TextAlign.center,
                 style: GoogleFonts.inter(
                   fontSize: 11.5,
-                  color: AppColors.textSecondary,
+                  color: AppColors.getTextSecondary(context),
                 ),
               ),
             ],
@@ -769,13 +779,13 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
       itemBuilder: (context, index) {
         if (index == _news.length) {
           if (_hasMore) {
-            return const Padding(
-              padding: EdgeInsets.symmetric(vertical: 16),
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
               child: Center(
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 14,
                       height: 14,
                       child: CircularProgressIndicator(
@@ -783,12 +793,12 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
                         color: Color(0xFF3B82F6),
                       ),
                     ),
-                    SizedBox(width: 8),
+                    const SizedBox(width: 8),
                     Text(
                       "Loading next 15 articles...",
                       style: TextStyle(
                         fontSize: 11,
-                        color: AppColors.textSecondary,
+                        color: AppColors.getTextSecondary(context),
                       ),
                     ),
                   ],
@@ -804,7 +814,7 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
                   style: GoogleFonts.inter(
                     fontSize: 10.5,
                     fontStyle: FontStyle.italic,
-                    color: AppColors.textSecondary.withValues(alpha: 0.6),
+                    color: AppColors.getTextSecondary(context).withValues(alpha: 0.6),
                   ),
                 ),
               ),
@@ -819,15 +829,17 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
   }
 
   Widget _buildNewsRow(NewsItemModel item) {
+    final isDark = AppColors.isDark(context);
     return GestureDetector(
       onTap: () => NewsDetailBottomSheet.show(context, item),
       child: Container(
         margin: const EdgeInsets.only(bottom: 8),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: AppColors.getSurface(context),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.border),
+          border: Border.all(color: AppColors.getBorder(context)),
+          boxShadow: isDark ? [] : AppColors.getCardShadow(context),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -841,7 +853,7 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
                   child: Container(
                     width: 52,
                     height: 52,
-                    color: AppColors.surfaceElevated,
+                    color: isDark ? AppColors.surfaceElevated : const Color(0xFFE2E8F0),
                     child: (item.imageUrl != null && item.imageUrl!.trim().isNotEmpty)
                         ? Image.network(
                             item.imageUrl!,
@@ -905,10 +917,10 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF2563EB).withValues(alpha: 0.15),
+                          color: const Color(0xFF2563EB).withValues(alpha: isDark ? 0.15 : 0.10),
                           borderRadius: BorderRadius.circular(5),
                           border: Border.all(
-                            color: const Color(0xFF3B82F6).withValues(alpha: 0.25),
+                            color: const Color(0xFF3B82F6).withValues(alpha: isDark ? 0.25 : 0.20),
                           ),
                         ),
                         child: Text(
@@ -930,7 +942,7 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
                             style: GoogleFonts.inter(
                               fontSize: 9,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.textSecondary,
+                              color: AppColors.getTextSecondary(context),
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -945,7 +957,7 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
                     style: GoogleFonts.inter(
                       fontSize: 12.5,
                       fontWeight: FontWeight.w700,
-                      color: Colors.white,
+                      color: AppColors.getTextPrimary(context),
                       height: 1.25,
                     ),
                     maxLines: 2,
@@ -958,7 +970,7 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
                       fontSize: 9.5,
                       fontWeight: FontWeight.w500,
                       fontStyle: FontStyle.italic,
-                      color: AppColors.textSecondary,
+                      color: AppColors.getTextSecondary(context),
                     ),
                   ),
                 ],
@@ -988,16 +1000,16 @@ class _NewsAuditModalState extends ConsumerState<NewsAuditModal> {
                       style: GoogleFonts.inter(
                         fontSize: 9.5,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.textSecondary,
+                        color: AppColors.getTextSecondary(context),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 8),
-                const Icon(
+                Icon(
                   Icons.arrow_forward_ios_rounded,
                   size: 12,
-                  color: AppColors.textSecondary,
+                  color: AppColors.getTextSecondary(context),
                 ),
               ],
             ),
