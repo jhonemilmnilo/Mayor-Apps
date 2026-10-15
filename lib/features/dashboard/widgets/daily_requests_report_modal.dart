@@ -305,13 +305,15 @@ class _DailyRequestsReportModalState
 
   @override
   Widget build(BuildContext context) {
+    final isDark = AppColors.isDark(context);
+
     return Container(
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.92,
       ),
-      decoration: const BoxDecoration(
-        color: AppColors.background,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(26)),
+      decoration: BoxDecoration(
+        color: AppColors.getBackground(context),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(26)),
       ),
       child: Column(
         children: [
@@ -322,7 +324,7 @@ class _DailyRequestsReportModalState
               width: 42,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
+                color: isDark ? Colors.white.withValues(alpha: 0.2) : Colors.black12,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -383,7 +385,7 @@ class _DailyRequestsReportModalState
                       fontSize: 12.5,
                       fontWeight: FontWeight.w900,
                       letterSpacing: 0.5,
-                      color: Colors.white,
+                      color: AppColors.getTextPrimary(context),
                     ),
                   ),
                   Text(
@@ -392,7 +394,7 @@ class _DailyRequestsReportModalState
                         : "$_totalCount Registered Service Records",
                     style: GoogleFonts.inter(
                       fontSize: 10.5,
-                      color: AppColors.textSecondary,
+                      color: AppColors.getTextSecondary(context),
                     ),
                   ),
                 ],
@@ -401,10 +403,10 @@ class _DailyRequestsReportModalState
           ),
           IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: const Icon(
+            icon: Icon(
               LucideIcons.x,
               size: 20,
-              color: AppColors.textSecondary,
+              color: AppColors.getTextSecondary(context),
             ),
             splashRadius: 20,
           ),
@@ -429,7 +431,7 @@ class _DailyRequestsReportModalState
             title: "TOTAL",
             value: "$total",
             icon: LucideIcons.layers,
-            color: Colors.white,
+            color: AppColors.getTextPrimary(context),
           ),
           const SizedBox(width: 8),
           _buildKpiCard(
@@ -470,13 +472,15 @@ class _DailyRequestsReportModalState
     required IconData icon,
     required Color color,
   }) {
+    final isDark = AppColors.isDark(context);
     return Container(
       constraints: const BoxConstraints(minWidth: 95),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: AppColors.getSurface(context),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: AppColors.getBorder(context)),
+        boxShadow: isDark ? [] : AppColors.getCardShadow(context),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -489,7 +493,7 @@ class _DailyRequestsReportModalState
                 style: GoogleFonts.inter(
                   fontSize: 8.5,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.textSecondary,
+                  color: AppColors.getTextSecondary(context),
                   letterSpacing: 0.4,
                 ),
               ),
@@ -522,31 +526,31 @@ class _DailyRequestsReportModalState
           Container(
             height: 38,
             decoration: BoxDecoration(
-              color: AppColors.surface,
+              color: AppColors.getSurface(context),
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: AppColors.border),
+              border: Border.all(color: AppColors.getBorder(context)),
             ),
             child: TextField(
               controller: _searchController,
               onChanged: _onSearchChanged,
-              style: GoogleFonts.inter(fontSize: 12, color: Colors.white),
+              style: GoogleFonts.inter(fontSize: 12, color: AppColors.getTextPrimary(context)),
               decoration: InputDecoration(
                 hintText: "Search resident, service, or ref ID...",
                 hintStyle: GoogleFonts.inter(
                   fontSize: 11,
-                  color: AppColors.textSecondary.withValues(alpha: 0.7),
+                  color: AppColors.getTextSecondary(context).withValues(alpha: 0.7),
                 ),
-                prefixIcon: const Icon(
+                prefixIcon: Icon(
                   LucideIcons.search,
                   size: 15,
-                  color: AppColors.textSecondary,
+                  color: AppColors.getTextSecondary(context),
                 ),
                 suffixIcon: _searchController.text.isNotEmpty
                     ? IconButton(
-                        icon: const Icon(
+                        icon: Icon(
                           LucideIcons.x,
                           size: 14,
-                          color: AppColors.textSecondary,
+                          color: AppColors.getTextSecondary(context),
                         ),
                         onPressed: () {
                           _searchController.clear();
@@ -584,6 +588,7 @@ class _DailyRequestsReportModalState
 
   Widget _buildStatusChip(String statusKey, String label, Color accentColor) {
     final isSelected = _activeStatus == statusKey;
+    final isDark = AppColors.isDark(context);
     return InkWell(
       onTap: () {
         if (_activeStatus != statusKey) {
@@ -597,10 +602,12 @@ class _DailyRequestsReportModalState
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
-          color: isSelected ? accentColor.withValues(alpha: 0.2) : AppColors.surface,
+          color: isSelected
+              ? accentColor.withValues(alpha: isDark ? 0.2 : 0.12)
+              : AppColors.getSurface(context),
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
-            color: isSelected ? accentColor : AppColors.border,
+            color: isSelected ? accentColor : AppColors.getBorder(context),
           ),
         ),
         child: Row(
@@ -610,7 +617,7 @@ class _DailyRequestsReportModalState
               width: 6,
               height: 6,
               decoration: BoxDecoration(
-                color: isSelected ? accentColor : AppColors.textSecondary.withValues(alpha: 0.4),
+                color: isSelected ? accentColor : AppColors.getTextSecondary(context).withValues(alpha: 0.4),
                 shape: BoxShape.circle,
               ),
             ),
@@ -620,7 +627,7 @@ class _DailyRequestsReportModalState
               style: GoogleFonts.inter(
                 fontSize: 10.5,
                 fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-                color: isSelected ? Colors.white : AppColors.textSecondary,
+                color: isSelected ? accentColor : AppColors.getTextSecondary(context),
               ),
             ),
           ],
@@ -635,6 +642,7 @@ class _DailyRequestsReportModalState
         : widget.selectedBarangay;
     final dateRangeStr =
         "${DateFormat('MMM d').format(_startDate)} - ${DateFormat('MMM d').format(_endDate)}";
+    final isDark = AppColors.isDark(context);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -642,9 +650,9 @@ class _DailyRequestsReportModalState
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.03),
+          color: isDark ? Colors.white.withValues(alpha: 0.03) : Colors.black.withValues(alpha: 0.03),
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: AppColors.border.withValues(alpha: 0.5)),
+          border: Border.all(color: AppColors.getBorder(context).withValues(alpha: 0.6)),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -748,10 +756,10 @@ class _DailyRequestsReportModalState
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(
+            Icon(
               LucideIcons.fileSearch,
               size: 40,
-              color: AppColors.textSecondary,
+              color: AppColors.getTextSecondary(context),
             ),
             const SizedBox(height: 10),
             Text(
@@ -759,7 +767,7 @@ class _DailyRequestsReportModalState
               style: GoogleFonts.inter(
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
-                color: Colors.white,
+                color: AppColors.getTextPrimary(context),
               ),
             ),
             const SizedBox(height: 4),
@@ -767,7 +775,7 @@ class _DailyRequestsReportModalState
               "Try adjusting your search or active filter range.",
               style: GoogleFonts.inter(
                 fontSize: 11,
-                color: AppColors.textSecondary,
+                color: AppColors.getTextSecondary(context),
               ),
             ),
           ],
@@ -783,13 +791,13 @@ class _DailyRequestsReportModalState
       itemBuilder: (context, index) {
         if (index == _transactions.length) {
           if (_hasMore) {
-            return const Padding(
-              padding: EdgeInsets.symmetric(vertical: 16),
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
               child: Center(
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 14,
                       height: 14,
                       child: CircularProgressIndicator(
@@ -797,12 +805,12 @@ class _DailyRequestsReportModalState
                         color: Color(0xFF3B82F6),
                       ),
                     ),
-                    SizedBox(width: 8),
+                    const SizedBox(width: 8),
                     Text(
                       "Loading next 15 records...",
                       style: TextStyle(
                         fontSize: 11,
-                        color: AppColors.textSecondary,
+                        color: AppColors.getTextSecondary(context),
                       ),
                     ),
                   ],
@@ -818,7 +826,7 @@ class _DailyRequestsReportModalState
                   style: GoogleFonts.inter(
                     fontSize: 10.5,
                     fontStyle: FontStyle.italic,
-                    color: AppColors.textSecondary.withValues(alpha: 0.6),
+                    color: AppColors.getTextSecondary(context).withValues(alpha: 0.6),
                   ),
                 ),
               ),
@@ -833,6 +841,7 @@ class _DailyRequestsReportModalState
   }
 
   Widget _buildRequestTile(DailyRequestItem item, int indexNumber) {
+    final isDark = AppColors.isDark(context);
     DateTime? parsedDate;
     try {
       parsedDate = DateTime.parse(item.createdAt).toLocal();
@@ -847,9 +856,10 @@ class _DailyRequestsReportModalState
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: AppColors.getSurface(context),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: AppColors.getBorder(context)),
+        boxShadow: isDark ? [] : AppColors.getCardShadow(context),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -860,7 +870,7 @@ class _DailyRequestsReportModalState
             height: 26,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.05),
+              color: isDark ? Colors.white.withValues(alpha: 0.05) : Colors.black.withValues(alpha: 0.05),
               borderRadius: BorderRadius.circular(6),
             ),
             child: Text(
@@ -868,7 +878,7 @@ class _DailyRequestsReportModalState
               style: GoogleFonts.inter(
                 fontSize: 10,
                 fontWeight: FontWeight.w800,
-                color: AppColors.textSecondary,
+                color: AppColors.getTextSecondary(context),
               ),
             ),
           ),
@@ -889,7 +899,7 @@ class _DailyRequestsReportModalState
                         style: GoogleFonts.inter(
                           fontSize: 12.5,
                           fontWeight: FontWeight.w900,
-                          color: Colors.white,
+                          color: AppColors.getTextPrimary(context),
                           letterSpacing: -0.2,
                         ),
                         maxLines: 1,
@@ -906,7 +916,7 @@ class _DailyRequestsReportModalState
                         fontWeight: FontWeight.w900,
                         color: item.amountPaid > 0
                             ? const Color(0xFF10B981)
-                            : AppColors.textSecondary,
+                            : AppColors.getTextSecondary(context),
                       ),
                     ),
                   ],
@@ -924,7 +934,7 @@ class _DailyRequestsReportModalState
                           vertical: 2,
                         ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF3B82F6).withValues(alpha: 0.12),
+                          color: const Color(0xFF3B82F6).withValues(alpha: isDark ? 0.12 : 0.08),
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Text(
@@ -932,7 +942,7 @@ class _DailyRequestsReportModalState
                           style: GoogleFonts.inter(
                             fontSize: 9,
                             fontWeight: FontWeight.w800,
-                            color: const Color(0xFF60A5FA),
+                            color: isDark ? const Color(0xFF60A5FA) : const Color(0xFF2563EB),
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -949,7 +959,7 @@ class _DailyRequestsReportModalState
                           vertical: 2,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.05),
+                          color: isDark ? Colors.white.withValues(alpha: 0.05) : Colors.black.withValues(alpha: 0.05),
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(
@@ -957,7 +967,7 @@ class _DailyRequestsReportModalState
                           style: GoogleFonts.inter(
                             fontSize: 8.5,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.textSecondary,
+                            color: AppColors.getTextSecondary(context),
                           ),
                         ),
                       ),
